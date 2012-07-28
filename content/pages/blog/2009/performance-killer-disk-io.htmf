@@ -1,0 +1,91 @@
+Aliases: /153/performance-killer-disk-io/ /?p=153 /11061_Performance_killer_Disk_I_O
+Atom ID: http://66.29.219.39/?p=153
+Summary: Many people think of "performance tuning" as optimizing loops, algorithms, and memory use. In truth, however, you don't get the huge performance gains from optimizing CPU and memory use (which is good), but from eliminating I/O calls.
+Categories: asp-net, general-programming
+Tags: computerlinguist-com
+Date: Feb 16 2009
+
+<h1>Performance killer: Disk I/O</h1>
+
+Many people think of "performance tuning" as optimizing loops, algorithms, and memory use. In truth, however, you don't get the huge performance gains from optimizing CPU and memory use (which is good), but from eliminating I/O calls.
+
+Disk I/O is responsible for almost all slow websites and desktop applications. It's true. Watch your CPU use next time you open a program, or your server is under load. CPUs aren't the bottleneck anymore - your hard drive is. At the hardware level, the hard drive is the slowest component by an incredibly large factor. Today's memory ranges between <a href="http://en.wikipedia.org/wiki/DDR2_SDRAM"> 3200 and 10400 MB/s</a>. In contrast, today's desktop hard drive speeds average about 50 MB/s (Seagate 500GB), with high-end drives getting 85MB/s (WD 640, Seagate 1TB). If you're looking at bandwidth, hard drives are 200-300 times slower. Bandwidth, though, isn't the killer - it's the latency. Few modern hard drives have latencies under 13 milliseconds - while memory latency is usually about 5 <em>nanoseconds</em> - 2,000 times faster.
+
+You're probably looking at these numbers and thinking, "13ms is quite fast enough for me, and my app is only dealing with small files". However, I have a question: what other applications are using that drive? If you're on a shared server, the odds are high that between 25 and 2500 ASP.NET apps are being run on the same drive.
+
+CPU, bandwidth, and memory throttling is becoming more and more common on shared servers and virtualization systems, but practical disk throttling isn't even on the horizon from what I can tell. Improper I/O usage from <em>any</em> app affects <em>everybody</em>.
+
+Since hard drives are slow, pending operations go into a queue. So even if your app only needs a single byte of data from the hard drive, it still has to wait its turn. It's quite common for disk operations to take several <em>
+  <strong>seconds</strong>
+</em> on a shared server under heavy load. If any application on the server is paging to disk from exessive memory use, it can take several minutes, causing a timeout.
+
+Realistic I/O performance is really hard to simulate in a development environment. On a dedicated development machine, disk queues are short, and response times are usually near the optimal 13ms, which tends to give software developers gravely incrorrect ideas about the performance characteristics of their application.
+<h2>Load test!</h2>
+A good way to acid test your code is to run it on a cheap, overloaded shared server. Webhost4life.com has $10/month plans that are excellent for this purpose. I'm actually using Webhost4life.com for this site, and while I/O calls consistently take around 1 second each, page views are decently quick since everything is in memory. I can't seem to get more than 30-40KB/s bandwidth though, so I'm probably going to switch hosts soon.
+
+Stress testing can also be accomplished with load testing tools like the <a href="http://www.microsoft.com/downloads/details.aspx?familyid=e2c0585a-062a-439e-a67d-75a89aa36495&amp;displaylang=en">Web Application Stress Tool</a>. Getting realistic results often means multiplying user load by a factor of 1000 or more, since I/O speeds can vary by that much on a production server. So, if you want to handle 50 concurrent users gracefully, test with 50,000.
+
+One good way to make sure your app can handle high load is to get your per-request time very low. There is an <a href="http://www.recommendedwebtools.com/index.php/594/test-your-website-loading-speed-with-lori-firefox-extension/">extension for Firefox</a> that provides TTFB (time-to-first-byte) information that will help you measure this. (Trace.axd is an invaluable tool here also). If requests complete in 13 milliseconds, the odds are good that you can handle 100 of those requests per second.
+<h2>Cache smart</h2>
+It's not too hard to cache files in memory. Here's one approach that uses ASP.NET's built in caching system:
+<pre class="brush:c-sharp">namespace fbs.Filesystem
+{
+    /// &lt;summary&gt;
+    /// Provides cached read access to small, frequently used files. Use carefully!
+    //// Uses HostingEnvironment.Cache (same as app cache).
+    /// &lt;/summary&gt;
+    public static class CachedFileAccess
+    {
+        /// &lt;summary&gt;
+        /// Retrieves the file from the cache, or from disk if neccessary. Exceptions from IO.File.ReadAllText are not caught.
+        /// Make sure the file exists and can be accessed before attempting this function.
+        /// &lt;/summary&gt;
+        /// &lt;param name="file"&gt;Standard pathname (C:\..&lt;/param&gt;
+        /// &lt;param name="encoding"&gt;&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        public static string ReadAllText(string file, Encoding encoding)
+        {
+
+            if (HostingEnvironment.Cache == null) throw new InvalidOperationException("HostingEnvironment.Cache is null");
+            string key = "cached_file(" + encoding.EncodingName + ")_" + file.ToLowerInvariant().GetHashCode();
+
+            string value = HostingEnvironment.Cache[key] as string;
+            if (value == null)
+            {
+                value = System.IO.File.ReadAllText(file, encoding);
+                HostingEnvironment.Cache.Add(key, value, new System.Web.Caching.CacheDependency(file),
+                    System.Web.Caching.Cache.NoAbsoluteExpiration, System.Web.Caching.Cache.NoSlidingExpiration, System.Web.Caching.CacheItemPriority.Low,null);
+
+            }
+            return value;
+        }
+    }
+}</pre>
+If you must do I/O, File.Exists and File.GetLastWriteTimeUtc are much faster that actually opening a file. The filesystem 'tables' are <em>often</em> cached in memory, and therefore have much higher <em>average</em> performance.
+
+Don't do memory leaks. In-memory caching is good, but if you have a memory leak the app's memory space will get moved to disk, effectively slowing all memory access down the hard disk speeds. Not good. And you're going to kill everyone else on the same disk. Make sure there is a finite and reasonable limit to what will be cached (especially if you're using static variables instead of the ASP.NET cache object).
+<h3>Asynchronous=good, synchronous=evil.</h3>
+In any application, asynchronous IO calls should be used whenever possible. There's a reason that I/O and web service calls in well-built applcations are async - it is impossible to predict how long I/O operations will take. Any  hard drive operation can take seconds to minutes - and there is no way to insure a responsive experience to users unless you make sure all I/O calls are out-of-band.
+
+One nice thing about the web is that HTTP request are by nature  async - so if you have any I/O calls that *must* be made, you can  do them with AJAX later instead of holding up the entire page while they execute.
+<h2>Databases are a Good Thing</h2>
+Databases are Good. Build the right indexes, and queries will be quick. Most engines cache as much data as possible in memory (usually indexes get priority caching), so a well-designed database will almost alwasy beat standard I/O.
+<h2>Hybrid approaches can get the best of both worlds</h2>
+Being able to edit your files on disk is really nice - it tempts people away from database-driven websites all the time. But - you can have both ease-of-use and performance. nathanaeljones.com can be completely managed through an FTP connection and Notepad, if needed. It's nice to drag-and drop files when I need to upload a bunch. It's nice to use VS when I want to do some tricky coding.
+
+Every few minutes, a ~1.5 second syncronization routine does a quick GetLastWriteTimeUTC check on the .aspx files that start with an ID, and pushes any changes to the database. The database is read only - basically a cache of the filesystem. But it allows instant, flexible querying/searching of all the articles, and provides the best of both worlds.
+
+I don't edit files manually much anymore, although it does come in handy. Right now I'm using the web-based article editor to write this - most of my work occurs through my online ASP.NET markup editor. But for those who like the comfort of Dreamweaver or VS, they can edit their articles in WYSIWYWYG mode all day long :)
+
+It can be difficult to write a filesystem to database synchronization system properly - there are a lot of wrong ways to go about it. Done properly, it can scale up to at least 50,000 articles. The routine must be located on a separate thread, and must use a ReaderWriterLock to prevent reads while database is build batch updated with SqlBulkCopy calls. A single call is used to get the listing of .aspx files: System.IO.Directory.GetFiles(appRoot, "*.aspx", System.IO.SearchOption.AllDirectories); A database call downloads the paths and last-modified dates from the database, and the two are cross-referenced to compile a list of created, moved, changed, and deleted files. These changes are then commited to the database using SqlBulkCopy, as well as being logged. Changed files are compared with the SQL copy to generate a Diff report for the log.
+<h2>Filesystem state</h2>
+Another factor in disk performance is the state of the filesystem. While filesystems are usually built using very smart algorithms, all algorithms slow down as they have to crunch more data. The more files you get on a disk, the slower file lookup and access becomes. I've compared identical 15k disks with no difference except the number of files, and the response time difference would <em>almost</em> make you suspect the one with 500,000 files to be a floppy drive.
+<h2>In conclusion</h2>
+Disk performance slightly increases each year and SSDs are promising, but physical disks never seem to catch up to our need for space and speed. I/O operations on shared or highly-active servers will probably be slow for many years to come.
+
+Think carefully before you use System.IO, and make sure there aren't any alternatives. Pretend you're calling a web service each time you use the File class, and be kind to your users.
+
+Say NO to IO
+
+<!--url: 11061_Performance_killer_Disk_I_O-->
+<!--articlebanner: <a href="~/products/asp&#45;net&#45;image&#45;resizer/" runat="server"><img src="~/ad2.jpg" runat="server" alt="Easy image resizing" /></a>-->

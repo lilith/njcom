@@ -1,0 +1,333 @@
+Aliases: /?p=110 /11051_ToBlog
+Atom ID: http://66.29.219.39/?p=110
+wp_status: pending
+Flags: draft
+Date: May 5 2008
+
+<h1>ToBlog</h1>
+
+	
+Control.ParseControl
+Understands directives
+Web.config include/namespaces
+
+<br/>
+
+http://blogs.msdn.com/tess/archive/2009/02/03/net-memory-leak-to-dispose-or-not-to-dispose-that-s-the-1-gb-question.aspx
+
+
+<pre>
+
+________________________________
+From: Matt Gibbs [Matt.Gibbs@microsoft.com]
+Sent: Tuesday, October 16, 2007 2:11 AM
+To: Nathanael Jones
+Cc: Scott Guthrie; Stefan Schackow
+Subject: RE: Path resolution in .ascx User Controls versus App_Code
+
+Thanks Nathanael.  This feedback is great.  We&#xFFFD;re looking at this overall problem for out next release.  I&#xFFFD;ve included Stefan on my reply as he is working to coordinate the efforts of the team for our next major release.
+
+From: Nathanael Jones [mailto:nathanael@branham.org]
+Sent: Thursday, October 11, 2007 2:37 PM
+To: Matt Gibbs
+Cc: Scott Guthrie
+Subject: RE: Path resolution in .ascx User Controls versus App_Code
+
+Wonderful! I&#xFFFD;m glad future developers will have an easier time of it.
+
+I had to spend about 8 months finding hacks to make ASP.NET 2.0 behave like a good web site framework.
+On the plus side, I got to know the System.Web disassembly by heart :)
+
+I&#xFFFD;ve listed a few of the things I had to &#xFFFD;add&#xFFFD; to make ASP.NET usable for our scenario. From reading lots of blogs, I don&#xFFFD;t think it&#xFFFD;s very unusual.
+Hope this helps you in designing the next version (or the next project template :))
+
+I use:
+
+ 1.  A &#xFFFD;yrl&#xFFFD; class that represents an application-relative virtual path.
+-       It can construct itself from a physical path, absolute path, root relative, or application-relative path.
+-       It can output URLs or URL-Encoded URLs with and without the querystring, and in several forms:
+                                                               i.      NavigateUrl-compatible strings
+                                                              ii.      root-relative
+                                                            iii.      application relative
+                                                            iv.      application relative (without ~/) (default)
+                                                              v.      physical path
+-       It lets me manipulate the query string, extension, and name programmatically.
+-       It has DirExists, FileExists, Parent, and Root properties.
+
+ 1.  A subclass of Page that:
+-       Self-parses LiteralControl instances and transforms literal <meta/>, <link/>, and <script> elements into their proper control instances. This fixes the ContentPlaceHolder inside <head> bug, and allows metadata, stylesheet references, and scripts inside content pages.
+-       Remembers the original referrer across post-backs
+-       Can use a different master page at runtime if the RuntimeMasterPage attribute is specified
+-       Allows meta tags to be manipulated at runtime.
+-       Allows stylesheets to be (easily) added/modified at runtime.
+-       Hides meta tags that are on a &#xFFFD;hidden&#xFFFD; list
+-       Resolves urls in <script/>&#xFFFD;text/javascript&#xFFFD; src=&#xFFFD;&#xFFFD;&#xFFFD; &gt; elements.
+-
+
+ 1.  A CustomDefaultHandler that sends content-disposition: attachment along with any request that has ?download=true in the query string.
+
+
+ 1.  A dynamic image resizing/recompressing handler with disk caching. Ex. Landscape.jpg?thumbnail=jpg=300=300 will return a resized version of Landscape.jpg.
+
+
+ 1.  A xml-based control theming system (I originally used Themes in stylesheet mode, but that stops us from editing anything in Expression Web)
+
+
+ 1.  The UrlRewritingNet module for url rewriting (really nice)
+-       I also have a rewrite simulator so I can translate rewritten referrer paths to true paths. (UrlRewritingNet doesn&#xFFFD;t expose an interface for rewriting a URL arbitrarily)
+
+
+ 1.  HtmlAnchor and Hyperlink control adapters to programmatically  use SEO-friendly versions of URIs (expanded links with titles are cached for performance)
+-       Wish this was a module&#xFFFD;
+
+
+ 1.  I have a custom error handler (NOT the custom errors feature), that allows me to view errors when I am logged in as an admin through the membership database.
+-       It does NOT redirect, like CustomErrors, but uses Server.Transfer. I absolutely hate it when I mistype a URL, and I am redirected to 404.html. I then have to retype the entire thing!
+-
+
+ 1.  I have a Sql layer that lets me copy and paste the current query into Management Studio for debugging.
+-       It combines the command string with Declare and Set statements for each parameter.
+                                                               i.      Wouldn&#xFFFD;t it be nice if SqlCommand.ToString() did this? I could just hover over the instance, and copy the SQL out of the text viewer.
+                                                              ii.      (P.S. keyboard shortcuts CTRL-A and CTRL-C don&#xFFFD;t work in the VS2005 text viewer)
+-       It also times each query and outputs trace statements for it (great for debugging performance issues)
+                                                               i.      Wouldn&#xFFFD;t that be a nice setting?
+
+
+ 1.  A custom event logging/reporting/emailing system that uses similar event rollup to stop inbox flooding. (The standard event logging model is worthless on the web)
+ 2.  I have an XSLT layer that uses the virtual path provider system to translate .xml.aspx files into valid .aspx files ready for the build system.
+
+
+ 1.  The CSS Friendly control adapter for the Login control. (I avoid all the other controls there are CSS adapters for)
+
+Settings
+
+ 1.  compilation batch=&#xFFFD;false&#xFFFD; (To avoid circular dependency issues)
+ 2.  encoding=&#xFFFD;utf-8&#xFFFD; on everything
+ 3.  xhtmlConformance mode="Strict"
+ 4.  customerrors=&#xFFFD;remoteonly&#xFFFD;
+ 5.  * to aspnet_isapi.dll
+ 6.  default documents disabled
+
+Controls
+
+ 1.  A custom Audio file player control
+ 2.  A custom Flash container control
+ 3.  A custom javascript-based tree/grid contro
+-       Data rendered in JSON to cut row size by 800%
+-       Client-side selection and group expansion
+-       Selection persistence.
+
+ 1.  A custom image control wrapping highslide<http:/>//vikjavev.no/highslide/&gt;
+
+I haven&#xFFFD;t solved
+-       Extremely long rendered IDs (often 60+ characters)
+-       what do you think about optionally using the base64 hashcode instead?
+-       And making it optional &#xFFFD; only render an ID if an ID is specified in the .aspx file, or if it is a control that requires an ID.
+-       Getting ClientBuildManager to work on IIS6 &#xFFFD; guess it&#xFFFD;s a priviledge issue.
+-       I have a precompile.aspx page that allows me to remotely compile the site (to eliminate the on-demand compilation hit). However, it only works on by IIS5 dev box.
+-       I don&#xFFFD;t use VJ#, but I get an error identical to http://www.velocityreviews.com/forums/t370413-precompile.html if I don&#xFFFD;t have the J#
+-       VS2005&#xFFFD;s background intellisense population locks up the entire interface periodically when I&#xFFFD;m editing a large web site.
+-       How can I compress WebResource.axd javascript if I don&#xFFFD;t have a hosting service that will enable GZIP?
+
+
+Hope this helps,
+Nathanael Jones
+
+________________________________
+From: Matt Gibbs [mailto:Matt.Gibbs@microsoft.com]
+Sent: Thursday, October 11, 2007 2:42 PM
+To: Nathanael Jones
+Cc: Scott Guthrie
+Subject: RE: Path resolution in .ascx User Controls versus App_Code
+
+Yes, URL re-writing and related issues are a big priority.  And CSS hasn&#xFFFD;t been embraced adequately in the past.  We also recognize the need to make things more lightweight.  You&#xFFFD;ve got some good insight into priorities we have heard voiced from developers.
+
+From: Nathanael Jones [mailto:nathanael@branham.org]
+Sent: Thursday, October 11, 2007 11:39 AM
+To: Matt Gibbs
+Cc: Scott Guthrie
+Subject: RE: Path resolution in .ascx User Controls versus App_Code
+
+At least it is being considered. I really hope that path resolution/modification/rewriting gets a lot more attention in the next version.
+(can we have a VirtualPath class, too? I plead discrimination against external assemblies :))
+
+BTW, are you targeting the next version of ASP.NET more towards intranet web applications or towards internet web sites?  I really have to wrestle with ASP.NET 2.0 to trim down page output and avoid postbacks and viewstate. External CSS really seems like a second-class citizen.
+
+Thanks,
+Nathanael
+
+________________________________
+From: Matt Gibbs [mailto:Matt.Gibbs@microsoft.com]
+Sent: Thursday, October 11, 2007 2:16 PM
+To: Nathanael Jones
+Cc: Scott Guthrie
+Subject: RE: Path resolution in .ascx User Controls versus App_Code
+
+Specifically enabling user controls to be resident-filepath agnostic hasn&#xFFFD;t been a high priority, but is part of larger goal for making user controls and regions of a page addressable and portable.  Sorry I can&#xFFFD;t commit to specifics, we&#xFFFD;re just at the planning stage at this point for v-Next.
+
+From: Nathanael Jones [mailto:nathanael@branham.org]
+Sent: Thursday, October 11, 2007 4:20 AM
+To: Matt Gibbs
+Cc: Scott Guthrie
+Subject: RE: Path resolution in .ascx User Controls versus App_Code
+
+That should work&#xFFFD; We&#xFFFD;ll give it a try.
+
+So, is this &#xFFFD;feature&#xFFFD; on the radar for next version?
+
+Thanks,
+Nathanael
+
+________________________________
+From: Matt Gibbs [mailto:Matt.Gibbs@microsoft.com]
+Sent: Wednesday, October 10, 2007 7:03 PM
+To: Nathanael Jones; Scott Guthrie
+Subject: RE: Path resolution in .ascx User Controls versus App_Code
+
+I guess the control could be a placeholder and contain what was originally in the control as children.
+
+From: Nathanael Jones [mailto:nathanael@branham.org]
+Sent: Wednesday, October 03, 2007 10:19 AM
+To: Matt Gibbs; Scott Guthrie
+Subject: RE: Path resolution in .ascx User Controls versus App_Code
+
+Thank you for taking a look at this issue.
+
+That workaround isn&#xFFFD;t feasible in our scenario &#xFFFD; we have thousands of .aspx files in our project, and adding placeholders around each custom control isn&#xFFFD;t possible. If we did succeed in wrapping every instance of every custom control, the team couldn&#xFFFD;t remember to do it every time in the future.
+
+Do you have any solutions that can be implemented control-side?
+
+Thanks,
+Nathanael
+
+
+________________________________
+From: Matt Gibbs [mailto:Matt.Gibbs@microsoft.com]
+Sent: Tuesday, September 25, 2007 12:55 AM
+To: Nathanael Jones; Scott Guthrie
+Subject: RE: Path resolution in .ascx User Controls versus App_Code
+
+The APIs assume that relative paths are in the context of the location of the user control, which is based on file location.  It is too late in this release to get new functionality like this in but there is a workaround you can use.  If you put the user control inside a placeholder, then AppRelativeTemplateSourceDirectory of the Parent property will resolve in the context of the container as opposed to the user control.
+
+From: Nathanael Jones [mailto:nathanael@branham.org]
+Sent: Thursday, September 20, 2007 12:14 PM
+To: Scott Guthrie
+Cc: Matt Gibbs
+Subject: RE: Path resolution in .ascx User Controls versus App_Code
+
+I&#xFFFD;ve been doing some additional research since I sent the e-mail, and a believe that a little more auto-generated code would be needed for option #2:
+
+System.Web.UI.Control defines this internal method
+
+
+internal virtual TemplateControl<http:/>//www.aisto.com/roeder/dotnet/Default.aspx?Target=code://System.Web:2.0.0.0:b03f5f7f11d50a3a/System.Web.UI.TemplateControl&gt; GetTemplateControl<http:/>//www.aisto.com/roeder/dotnet/Default.aspx?Target=code://System.Web:2.0.0.0:b03f5f7f11d50a3a/System.Web.UI.Control/GetTemplateControl():System.Web.UI.TemplateControl&gt;()
+
+{
+
+    if ((this._templateControl<http:/>//www.aisto.com/roeder/dotnet/Default.aspx?Target=code://System.Web:2.0.0.0:b03f5f7f11d50a3a/System.Web.UI.Control/_templateControl:System.Web.UI.TemplateControl&gt; == null)  (this.Parent<http:/>//www.aisto.com/roeder/dotnet/Default.aspx?Target=code://System.Web:2.0.0.0:b03f5f7f11d50a3a/System.Web.UI.Control/property:Parent:System.Web.UI.Control&gt; != null))
+
+    {
+
+        this._templateControl<http:/>//www.aisto.com/roeder/dotnet/Default.aspx?Target=code://System.Web:2.0.0.0:b03f5f7f11d50a3a/System.Web.UI.Control/_templateControl:System.Web.UI.TemplateControl&gt; = this.Parent<http:/>//www.aisto.com/roeder/dotnet/Default.aspx?Target=code://System.Web:2.0.0.0:b03f5f7f11d50a3a/System.Web.UI.Control/property:Parent:System.Web.UI.Control&gt;.GetTemplateControl<http:/>//www.aisto.com/roeder/dotnet/Default.aspx?Target=code://System.Web:2.0.0.0:b03f5f7f11d50a3a/System.Web.UI.Control/GetTemplateControl():System.Web.UI.TemplateControl&gt;();
+
+    }
+
+    return this._templateControl<http:/>//www.aisto.com/roeder/dotnet/Default.aspx?Target=code://System.Web:2.0.0.0:b03f5f7f11d50a3a/System.Web.UI.Control/_templateControl:System.Web.UI.TemplateControl&gt;;
+
+}
+
+
+
+
+System.Web.UI.TemplateControl overrides it:
+
+
+internal override TemplateControl<http:/>//www.aisto.com/roeder/dotnet/Default.aspx?Target=code://System.Web:2.0.0.0:b03f5f7f11d50a3a/System.Web.UI.TemplateControl&gt; GetTemplateControl<http:/>//www.aisto.com/roeder/dotnet/Default.aspx?Target=code://System.Web:2.0.0.0:b03f5f7f11d50a3a/System.Web.UI.TemplateControl/GetTemplateControl():System.Web.UI.TemplateControl&gt;()
+
+{
+
+    return this;
+
+}
+
+
+
+
+I think that it would need to be overridden once again for everything to work smoothly.
+
+
+internal override TemplateControl<http:/>//www.aisto.com/roeder/dotnet/Default.aspx?Target=code://System.Web:2.0.0.0:b03f5f7f11d50a3a/System.Web.UI.TemplateControl&gt; GetTemplateControl<http:/>//www.aisto.com/roeder/dotnet/Default.aspx?Target=code://System.Web:2.0.0.0:b03f5f7f11d50a3a/System.Web.UI.Control/GetTemplateControl():System.Web.UI.TemplateControl&gt;()
+
+{
+
+    if ((this._templateControl<http:/>//www.aisto.com/roeder/dotnet/Default.aspx?Target=code://System.Web:2.0.0.0:b03f5f7f11d50a3a/System.Web.UI.Control/_templateControl:System.Web.UI.TemplateControl&gt; == null)  (this.Parent<http:/>//www.aisto.com/roeder/dotnet/Default.aspx?Target=code://System.Web:2.0.0.0:b03f5f7f11d50a3a/System.Web.UI.Control/property:Parent:System.Web.UI.Control&gt; != null))
+
+    {
+
+        this._templateControl<http:/>//www.aisto.com/roeder/dotnet/Default.aspx?Target=code://System.Web:2.0.0.0:b03f5f7f11d50a3a/System.Web.UI.Control/_templateControl:System.Web.UI.TemplateControl&gt; = this.Parent<http:/>//www.aisto.com/roeder/dotnet/Default.aspx?Target=code://System.Web:2.0.0.0:b03f5f7f11d50a3a/System.Web.UI.Control/property:Parent:System.Web.UI.Control&gt;.GetTemplateControl<http:/>//www.aisto.com/roeder/dotnet/Default.aspx?Target=code://System.Web:2.0.0.0:b03f5f7f11d50a3a/System.Web.UI.Control/GetTemplateControl():System.Web.UI.TemplateControl&gt;();
+
+    }
+
+    return this._templateControl<http:/>//www.aisto.com/roeder/dotnet/Default.aspx?Target=code://System.Web:2.0.0.0:b03f5f7f11d50a3a/System.Web.UI.Control/_templateControl:System.Web.UI.TemplateControl&gt;;
+}
+
+
+Thanks,
+Nathanael
+
+________________________________
+From: Scott Guthrie [mailto:scottgu@microsoft.com]
+Sent: Thursday, September 20, 2007 2:03 PM
+To: Nathanael Jones; Matt Gibbs
+Subject: RE: Path resolution in .ascx User Controls versus App_Code
+
+Hi Nathanael,
+
+I&#xFFFD;m looping Matt from the ASP.NET team to help comment on this. Matt &#xFFFD; any ideas?
+
+Thanks,
+
+Scott
+
+From: Nathanael Jones [mailto:nathanael@branham.org]
+Sent: Wednesday, September 19, 2007 6:52 AM
+To: Scott Guthrie
+Subject: Path resolution in .ascx User Controls versus App_Code
+
+Reviewing the feedback thread at https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=273688, I believe that my original bug report was misunderstood, as it was classified as "adding functionality". At the time I was a little to busy to pursue the matter.
+
+The following limitations eliminate any way to (inside a UC) resolve paths relative to the parent file (Another UC, Page, or MP).
+This functionality is very important, since UC&#xFFFD;s often need to resolve paths that are assigned as properties. In fact, I have more UCs that receive paths than UCs that don&#xFFFD;t
+
+-       In .ascx files, ResolveClientUrl() assumes that the input path is relative to the .ascx file (that&#xFFFD;s by design)
+-       In .ascx files, Parent.TemplateControl doesn&#xFFFD;t refer to the the parent TemplateControl for the user control. That&#xFFFD;s because master pages mess with the hierarchy, and Content controls somehow think that TemplateControl=MasterPage (it should be Page). So if a user control is placed directly in a Content section on a page, Parent.AppRelativeTemplateSourceDirectory will evaluate to the parent directory of the master page. I spent over a week trying to solve this one issue, and account for MasterPages messing up the hierarchy, but I never found a reliable way to do it.
+-
+
+Application-relative paths can still be used, but are fragile, and sensitive to directory renaming. Most paths (like images, css, slideshows, videos) are best expressed in relative form, because the two files are in the same directory and a relative path is much, much less fragile.
+
+
+It's really easy to solve this problem on your end.
+
+1) Add a new property to System.Web.UI.UserControl: ParentTemplateControl. This will refer to the template control actually hosting the control. We could then call ParentTemplateControl.ResolveUrl() when we need to do resolution on passed-in paths. This is the most flexible solution for the developer, as it allows them to resolve paths relative to the current control AND the parent control. The next solution is easier, though. Both would be nice.
+
+2) Allow users to opt-out of 1 line of auto-generated code.
+
+In the autogenerated constructor,  remove this line if ResolvePathsRelativeToParent=True in the Control directive.
+
+((System.Web.UI.UserControl)(this)).AppRelativeVirtualPath = "~/cms/events/EventTable.ascx";
+
+
+That's it. I think #2 would be the easiest option, and I suspect that it could be implemented in less that 2 hours of work.
+It would save each ASP.NET developer a LOT more time that it would cost Microsoft to implement. How often do you get that sort of ROI?
+
+Please, all we need is one(1) way to resolve paths that are relative to the parent file (UC, Page, or MP) from the child file (UC). I'm not picky...
+
+But right now, .ascx files are NOT AN OPTION for anyone needing to pass paths into the user control.
+It's not that I mind App_Code much, it's that less-experienced developers/designers need to modify my markup in the future. And App_Code isn't practical for them.
+
+Thanks,
+Nathanael Jones
+
+</head></script></pre>
+
+<!--url: 11051_ToBlog-->

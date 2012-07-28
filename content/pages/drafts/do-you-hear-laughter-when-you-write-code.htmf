@@ -1,0 +1,10 @@
+Aliases: /?p=70
+Atom ID: http://computerlinguist.wordpress.com/?p=70
+wp_status: draft
+Flags: draft
+Date: Nov 20 2008
+
+<h1>Do you hear laughter when you write code?</h1>
+
+<span class="Apple-style-span" style="border-collapse:separate;color:#444444;font-family:arial;font-size:15px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:18px;orphans:2;text-indent:0;text-transform:none;widows:2;word-spacing:0;">All languages are easy if you understand the general superset of programming concepts. If you don't 'get' the 5 basic problem-solving approaches (functional, object-oriented, imperative, reflective, dynamic (yes, dynamic is also an approach)), then you are definitely writing ineffective code, because *every* application of even moderate size needs a combination of all of these.  Usually the easiest way to learn these concepts is to learn languages that are focused around each of them. Most programmers already think in object-oriented imperative mode, but few seem to realize that the other approaches are a cleaner, better choice 50% of the time.  To sum up - keep learning languages until it becomes easy. Then you have the basic concepts. After that - continue to languages, because it will make you a better programmer. Trying to work without all 5 in your toolbox is like trying to build a house without a hammer or saw. Yeah, you can do it. But you're not being very effective and all the other builders are laughing at you.</span>
+

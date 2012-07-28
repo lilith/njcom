@@ -1,0 +1,102 @@
+Aliases: /573/combining-jcrop-and-server-side-image-resizing/ /?p=573
+Atom ID: http://nathanaeljones.com/?p=573
+Date: May 30 2011
+
+<h1>jCrop and ASP.NET server-side image resizing combined</h1>
+
+Today, I'm going to show you how to combine <a href="http://jquery.com/">jQuery</a>, <a href="http://deepliquid.com/content/Jcrop.html">jCrop</a>, and <a href="http://imageresizing.net/">ImageResizing.Net</a> to create an AJAX cropping interface - in 11 lines of javascript. This produces true, cropped images that you can use anywhere on the site simply by referencing the generated URL. And all with free, mature, open-source software.
+
+This technique works with .NET 2.0, 3.0, 3.5, 4.0, both MVC and WebForms.
+
+If you're one of those people who reads books backwards, you can skip to the <a href="http://images.imageresizing.net/JCropSample/Basic.htm">basic demo</a>, the <a href="http://images.imageresizing.net/JCropSample/Advanced.aspx">advanced demo</a>, or just <a href="http://downloads.imageresizing.net/examples/JCropExample2.zip">ruin everything and download the sample project :)</a> 
+<p>If you're using NuGet, you can just install the <a href="http://www.nuget.org/List/Packages/ImageResizer.Samples.Jcrop">ImageResizer.Samples.Jcrop package</a> into a Web Application project.</p>
+<h2>Ingredients</h2>
+<ul>
+	<li>jquery.min.js - from the /js/ folder of <a href="http://deepliquid.com/content/Jcrop_Download.html">the jcrop download</a></li>
+	<li>jquery.Jcrop.js - from /js/</li>
+	<li>jquery.Jcrop.css - from /css/ (Provides CSS rules for styling the 'rubber band')</li>
+	<li>Jcrop.gif - from /css</li>
+	<li>ImageResizer.dll  - from the /dlls/release of the <a href="http://imageresizing.net/">ImageResizer download at imageresizing.net (Provides the server-side resizing and cropping).</a></li>
+</ul>
+<h2>Mixing instructions</h2>
+<ol>
+	<li>In Visual Studio, right click your project and choose "Add reference". Browse to ImageResizer.dlll and click "Add".</li>
+	<li>Add <em>ImageResizer.InterceptModule</em> to the &lt;modules&gt; and/or &lt;httpModules&gt; section of web.config. This allows the ImageResizer to handle image requests that have a querystring. 
+<pre class="brush:xml">&lt;configuration&gt;
+  &lt;system.web&gt;   
+    &lt;httpModules&gt;
+      &lt;!-- this is for Classic mode and Cassini --&gt;
+      &lt;add name="ImageResizingModule" type="ImageResizer.InterceptModule"/&gt;
+    &lt;/httpModules&gt;
+  &lt;/system.web&gt;
+  &lt;system.webServer&gt;
+    &lt;validation validateIntegratedModeConfiguration="false"/&gt;
+    &lt;modules&gt;
+      &lt;!-- This is for Integrated mode--&gt;
+      &lt;add name="ImageResizingModule" type="ImageResizer.InterceptModule"/&gt;
+    &lt;/modules&gt;
+  &lt;/system.webServer&gt;
+&lt;/configuration&gt;</pre></li>
+	<li> Add the first 4 ingredients to the project. If you keep the same directory structure, you won't have to modify the sample code below :)</li>
+</ol>
+<h2>The Code</h2>
+This code is just HTML and javascript, so you can use it with WebForms, MVC, Razor - anything.
+<ol>
+	<li>Include the script files &#xA0;<em>jquery.min.js</em>, <em>jquery.Jcrop.js</em>, &#xA0;and the CSS file<em> jquery.Jcrop.js</em> in the head section.
+<pre class="brush:xml">&lt;script src="js/jquery.min.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="js/jquery.Jcrop.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;link href="css/jquery.Jcrop.css" type="text/css" rel="stylesheet" /&gt;</pre>
+</li>
+	<li>In the body, insert a &lt;div&gt; containing an &lt;img&gt; and an &lt;a&gt; element.
+<pre class="brush:xml">&lt;div class="image-cropper"&gt;
+    &lt;img src="fountain-small.jpg?width=400" class="image" /&gt;
+    &lt;a class="result"&gt;View the result&lt;/a&gt;
+&lt;/div&gt;</pre>
+Note the '?width=400' in the image URL. This instructs the ImageResizer to shrink the image before sending it to the client.</li>
+	<li>Now for the fun part. Create a &lt;script  type="text/javascript"&gt;&lt;/script&gt; section inside &lt;head&gt;, below the references we added in step #1.</li>
+	<li>Add the following code inside the &lt;script&gt; tags.
+<pre class="brush:jscript">$(function () { //On DOM ready
+    //Using the 'each' pattern allows multiple cropping image/link pairs per page.
+	$('.image-cropper').each(function(unusedIndex, container) {
+	    container = $(container); //We were passed a DOM reference, convert it to a jquery object
+
+	    //Find the image inside 'container' by class ("image")
+	    var image = container.find("img.image");
+
+	    //Trim the querystring off the image URL.
+	    var path = image.attr('src'); if (path.indexOf('?') &gt; 0) path = path.substr(0, path.indexOf('?'));
+
+	    //Define a function to execute when the cropping rectangle changes.
+	    var update = function (coords) {
+	        if (parseInt(coords.w) &lt;= 0 || parseInt(coords.h) &lt;= 0) return; //Require valid width and height
+
+	        //Build the URL based on the coordiantes. The resizing module will handle everything else.
+	        var url = path + '?crop=(' + coords.x + ',' + coords.y + ',' + coords.x2 + ',' + coords.y2 +
+            ')&amp;cropxunits=' + image.width() + '&amp;cropyunits=' + image.height()
+
+	        //Now, update the link 'href' (you could update a hidden field just as easily)
+	        container.find('a.result').attr('href', url);
+	    }
+
+	    //Start up jCrop on the image, specifying our function be called when the selection rectangle changes,
+        // and that a 60% black shadow should cover the cropped regions.
+	    image.Jcrop({ onChange: update, onSelect: update, bgColor: 'black', bgOpacity: 0.6 });
+	});
+});</pre>
+</li>
+</ol>
+<p>
+The secret is in the ?crop=(x1,y1,x2,y2) querystring that is appended to the image. The ImageResizer HttpModule detects the command, intercepts the image request, crops the image, and sends the result back, all in milliseconds.  
+</p><p>If you're dealing with large images or high traffic volumes, you can <a href="http://imageresizing.net/plugins/diskcache">enable disk caching</a> so that duplicate requests are served from disk instead of wasting CPU and RAM resources. Disk caching eliminates 99% of the overhead associated with dynamic image resizing, making the ImageResizer scalable enough for even social networking sites.
+</p>
+
+
+<h2>Live demo and sample project download</h2>
+
+<p>You can <a href="http://downloads.imageresizing.net/examples/JCropExample2.zip">download the complete sample project here.</a> 
+</p>
+<p>
+Click <a href="http://images.imageresizing.net/JCropSample/Basic.htm">here to view the live demo of what we just did</a>, and <a href="http://images.imageresizing.net/JCropSample/Advanced.aspx">here to see an advanced demo with live preview, width/height resizing, and aspect locking.</a> The advanced demo also contains an example of how to send cropped images URLs to the server for storage in SQL, saving to disk, etc. Perhaps I'll cover building that in a later post. In the meantime, code fun!
+</p>
+<p> Oh, and dont forget to <a href="http://www.dzone.com/links/combine_jcrop_and_serverside_image_resizing_in_11.html?ref=rs">vote this post up on DZone!</a></p>
+

@@ -1,0 +1,88 @@
+Aliases: /30/use-scripting-languages-when-possible/ /?p=30
+Atom ID: http://computerlinguist.wordpress.com/?p=30
+Categories: general-programming
+Tags: computerlinguist-com
+Date: Sep 4 2008
+
+<h1>Use 'scripting' languages when possible</h1>
+
+Are you guilty of subconsciously regarding 'scripting' languages as inferior? Do you think real programming means using C, C++, C#, or Java? Does your conscience accuse you of laziness when you feel tempted to use a truly high-level language for your app?
+
+If so, don't be <em>too</em> hard on yourself. It's unfortunate, but the computer industry is more prone to group-think than any other. The inherent complexity requires us to take other people's word for most things... Besides, it would seem that scripting languages are for scripts...right?
+
+It's true that scripting languages are fantastic at gluing libraries and applications together quickly. But they're not just for scripts. Truthfully, any language can be used for 'scripting'... But sophisticated high-level languages that excel at the job have an tendency to get branded. Ironic, eh?
+<h3>
+  <strong>Javascript, for instance</strong>
+</h3>
+As a language, Javascript is one of the most high-level languages in existence. It was designed from the ground-up for object-oriented development (although with a quirky syntax). Its dynamic, reflective, and functional nature allows excellent code reuse (mix-ins, events, delegation, aspect integration), and the excellent array and dictionary syntax makes the language suitable for representing data and expressing domain-specific logic. It's easy to unit test, and there are great IDEs for it (Aptana, Flex Builder).
+
+Javascript is multi-paradigm. It is imperative, procedural, object-oriented, functional, and dynamic. If you want to write procedural garbage and use global variables, javascript will let you do it.
+
+Javascript code you see on the Internet tends to be poorly written, buggy, and ugly. It's not because the language is bad - it's because few people learn how to use it properly. Developers copy and paste bad javascript, then write more code just like it. Thankfully, this trend is starting to reverse, and we're seeing good javascript on a wide variety of sites. High-quality libraries like jQuery, Mootools, and YUI are showing developers what Javascript *should* look like, and how powerful it can be.
+
+<strong>Javascript doesn't get in your way, even if you're doing something incredibly stupid. <span style="font-weight:normal;">True, the syntax for making namespaces and classes could be improved, but the inherent flexibility lets you change even this - you can write defineNamespace(), defineClass(), and addMembers() functions if you so desire. Sometimes this freedom can get to your head, so remember that discipline is as important as ingenuity when writing code.</span></strong>
+
+<strong>Javascript is a very high-level language, with excellent support for a variety of paradigms. It's built into the JVM, every modern browser, and has over 20 <a href="http://en.wikipedia.org/wiki/Server-side_JavaScript">server-side implementations.</a></strong>
+
+The fact that it is possible to write javascript applications that run on a range of browers (implementations) is really amazing. Try writing an application that can run on Windows, Linux, and OS X without having targeted versions of the executable or the executing framework. Like everything else, javascript is easier in a consistent environment, like an AIR, Mozilla, or HTA app... Don't blame the language for the framework. Don't blame Javascript for the DOM.
+<h4>On the desktop</h4>
+The XML+Javascript combo is very suitable for large applications. Tying libraries together and defining the behavior of an application is definitely a job for a high-level dynamic language.
+
+Here's just a few desktop apps that use the Mozilla (XUL+Javascript) platform: Firefox, Flock, SeaMonkey, Thunderbird, Chatzilla, Nvu, Sunbird, ActiveState Komodo (my Python IDE), Joost, Miro, and Instantbird.
+
+HTA (Microsoft HTML applications) have been around forever (2001?), and are used extensively within Microsoft products. I've written a few also, for windows-only tasks. They're just HTML files with a .hta extension and local filesystem permissions. If only IE had debugging....
+
+Adobe AIR is gaining immense popularity, and there are already thousands of apps out there. Need I say more? Javascript has proven itself a mature, capable language, suitable for big things.
+<h4>Thank you, javascript</h4>
+We have a lot to thank Javascript for. It's a vector for single-paradigm developers to expand their horizons with. It's pushing the performance boundaries of dynamic languages. Every six months a new virtual machine seems to be <a href="http://ejohn.org/blog/tracemonkey/">leapfrogging</a> 50% over the previous leader. Smart just-in-time compilation is bringing incredible speeds to javascript, and with tiny initialization costs.
+<h3>Python, for instance</h3>
+Python is a little less implicit that Javascript, and follows the DRY principle very closely. It is designed to enforce readability, wheras Javascript relies on programmer discipline (which is needed anyway).
+
+Python is used as a scripting language in lots of heavy-duty applications like GIMP, Inkscape, Blender, Maya, PSP, and... Linux. But it's not named PythonScript, thank goodness, so the 'scriptiness percepection index' is much lower than javascript.
+
+Lots of popular stuff is written in Python, like BitTorrent, Trac, Bazaar, Mercurial, TinyERP, ClamWin, Yum (linux package management system), Zope, and Django (my favorite). There are actually some drivers written in python. It's pretty speedy.
+
+Python is probably a good balance between power and guidance. It supports a variety of paradigms, but has great default behavior and tends to guide you towards doing things one way. Python is reflective, object-oriented, dynamic, and functional much like javascript. It's a little stricter, but not enough to really annoy.
+<h3>Ruby, Lisp, and Perl</h3>
+I'm lumping these three together since I don't have much experience with them. I've been studying them, though, and all three seem very powerful and sufficient in their own way. All three are incredibly popular, with hundreds of thousands of apps in the wild.
+<h3>My defintion of high-level</h3>
+At one time C was considered a high-level language. At one time C++ was considered a high-level language. Not too long ago I considered Java a high-level language.
+
+In my opinion, a true high-level language must allow programming with the following paradigms as a minimum
+<ul>
+	<li>dynamic (Any member can be overridden, objects act like dictionaries)</li>
+	<li>reflective (Members are enumerable, executable, and can be referenced by string name)</li>
+	<li>functional (Functions are first-class objects, with members)</li>
+	<li>object-oriented (Functionality can be organized into objects, which can have instances containing state)</li>
+	<li>Imperative</li>
+</ul>
+It must also have these features
+<ul>
+	<li>In-line documentation</li>
+	<li>Built-in list and dictionary syntax.</li>
+	<li><a href="http://en.wikipedia.org/wiki/Variadic_function">Variadic functions</a></li>
+	<li>Easy 'undefined' and null checks</li>
+	<li>Exception management</li>
+	<li><a href="http://en.wikipedia.org/wiki/Duck_typing">Duck typing</a> (optional explicit typing is OK)</li>
+	<li>Automatic memory management</li>
+	<li>Closures, anonymous functions</li>
+	<li>Good list, dictionary, string, math, and date libraries.</li>
+</ul>
+&#xA0;
+
+<strong>
+  <span style="color:#f66c08;">I don't believe the future is in contract-based programming. The contract safety that interfaces and classes provide is shallow and of questionable value. It is behavior, not integration that typically causes problems.
+</span>
+</strong>
+
+<strong>
+  <span style="color:#f66c08;">
+</span>
+</strong>
+
+<span style="color:#00ff00;">
+  <strong>
+    <span style="color:#f66c08;">A far better approach is to use a language that facilitates defensive programming and easy unit testing.</span>
+  </strong>
+</span>
+

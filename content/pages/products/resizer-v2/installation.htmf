@@ -1,0 +1,25 @@
+Aliases: /image-resizer-installation/ /?page_id=91 /?p=91
+Atom ID: http://66.29.219.39/?page_id=91
+Redirect To: http://imageresizing.net/
+
+<h1>Image Resizer Installation</h1>
+
+Installation is quick and simple, provided you follow the steps carefully. 99% of problems users encounter are due to skipping a step.
+
+1) <strong>Copy and paste</strong> ImageResizer.dll and ImageResizer.pdb into the /bin directory of your app. Alternatively, you can copy the inner ImageResizer folder (which contains .cs files) into App_Code. The second approach allows modification of CustomFolders.cs and Watermark.cs.
+
+2) <a href="~/11161">Copy and paste these settings</a> into web.config to configure the module.
+
+Users of 2.1+ who are using the "image.jpg.ashx?width=500" syntax can stop here. You're done!
+
+For versions prior to 2.1, or for users wanting the cleaner "image.jpg?width=500" syntax, some additional IIS configuration is needed.
+
+You will need to <a href="~/11111">configure IIS to pass image requests to ASP.NET</a>. This is default behavior for Cassini and IIS7 integrated mode, but not for IIS5, 6, and 7 classic pipeline.
+<h2>Upgrading?</h2>
+Follow the upgrade instructions instead.
+
+<a href="/11171">v1.0-v1.2 upgrade notes</a>
+<a href="/11181">v1.2 to v2.0 upgrade notes
+</a><a href="/438/version-2-1b-released/">v2.0 to v2.1b upgrade notes
+</a><a href="/489">v2.1b to v2.6 upgrade notes</a>
+

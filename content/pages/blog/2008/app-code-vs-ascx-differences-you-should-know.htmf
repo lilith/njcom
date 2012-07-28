@@ -1,0 +1,223 @@
+Aliases: /132/app_code-vs-ascx-differences-you-should-know/ /?p=132 /11021_App_Code_vs_ascx_Differences_you_should_know
+Atom ID: http://66.29.219.39/?p=132
+Summary: Will you ever need to pass relative paths to your control? Does your control function as a container for markup? If so, you should subclass Control instead of using a .ascx file.
+Categories: asp-net
+Date: Oct 23 2008
+
+<h1>App_Code vs. ascx: Differences you should know</h1>
+
+	
+
+<p>There's an important factor you should consider when deciding whether to implement your control as an .ascx UserControl or as a Control subclass in App_Code.</p>
+
+<p>Will you <em><strong>ever</strong></em> need to pass a relative path to the control, through a method or attribute? Does your control function as a container for markup? <strong>.ascx UserControls believe that all relative paths are relative to <em>them</em></strong>. I've experimented with a lot of different things, and I'm convinced there is no elegant workaround. If your user controls and pages are in the same directory, you may not discover this problem until you reorganize your app files! <del>While it is possible to set the value of AppRelativeTemplateSourceDirectory, it's not possible to reliably figure out what the value should <em>be</em>.</del> <ins>Added 8/8/08: While it is possible to deduce what the right value for AppRelativeTemplateSourceDirectory should be at a certain point in time using the algorithm at the bottom of the page, it isn't possible to keep that value in sync with hierarchy changes.</ins></p>
+
+<p>The instinctive approach is to reach for the <strong>.Parent</strong> property, but that doesn't work in a some common situations. In particular, this approach won't work directly inside &lt;asp:Content&gt; controls, since they incorrectly report themselves as children of the master page instead of the content page. Correcting for this becomes difficult if you plan to support the use of the controls within the master pages themselves, or support nested master pages. I use content pages exclusively, and I like to keep things simple - so at least 95% of my server controls are right inside the root &lt;asp:Content&gt;&lt;/asp:Content&gt; tags. Ouch. <ins>Update 8/8/08: It's complicated, but there is a way to adjust for the bug when looking for the true TemplateControl. Unfortunately, we're prevented from making .ascx act 'transparent' like App_Code controls by some methods marked 'internal'.</ins></p>
+
+<p>If your control is going to contain other arbitrary controls, markup, or accept paths, you definitely need to go with the App_Code approach. Going with an .ascx file will make all child controls (even if built correctly!) rebase paths relative to your user control, not the file containing the markup.</p>
+
+<p>In case you're curious, the TemplateControl class (which UserControl, Page, and MasterPage inherit from), overrides the TemplateControl property from the Control class.</p>
+
+<pre name="code" class="brush:c-sharp">internal override TemplateControl GetTemplateControl()
+{
+    return this;
+}
+</pre>
+
+<p>And when your .ascx file is translated into source code for compilation, the following line is inserted into the Page_Load event handler:</p>
+
+<pre name="code" class="brush:c-sharp">((System.Web.UI.UserControl)(this)).AppRelativeVirtualPath = 
+                      "~/cms/events/EventTable.ascx"; //Or whatever the physical location is
+
+</pre>
+
+<p>Application-relative paths can still be used, but are very fragile and sensitive to movement in the parent folder structure. Most paths (like images, css, slideshows, and videos) are best expressed in relative form. As a rule, use relative paths for related files. </p>
+
+<p>I discovered this problem after I already had a series of controls written in .ascx form, so I e-mailed <a href="http://weblogs.asp.net/scottgu/">Scott Guthrie</a> about the dilemma. He passed my e-mail on to <a href="http://blogs.msdn.com/mattgi/">Matt Gibbs</a>, who was very helpful as always. 
+</p>
+
+<p>The behavior of .ascx files is actually by design - they aren't designed to have a resident filepath-agnostic mode. He also suggested placing an &lt;asp:Placeholder&gt; control right inside the &lt;asp:Content&gt; tags to make <strong>.Parent</strong> work in that situation.</p>
+
+<p>Since I already had several hundred content pages, I ended up rewriting most of my controls in App_Code instead. For a few controls I really wanted to keep in declarative markup, I used a hack to automatically change AppRelativeTemplateSourceDirectory. Even though I can't fix the TemplateControl structure, I can change the AppRelativeTemplateSourceDirectory to mimic the proper behavior in a few common situations.</p>
+<pre name="code" class="brush:c-sharp">        /// &lt;summary&gt;
+        /// Set this to true if you externally set the AppRelativeTemplateSourceDirectory.
+        /// Otherwise, the externally set value will be ignored.
+        /// &lt;/summary&gt;
+        public bool LocationOverriden
+        {
+            get
+            {
+                return _LocationOverriden;
+            }
+            set
+            {
+                if (value)
+                    if (!_LocationOverriden) _LocationOverriden = true;
+            }
+        }
+        protected override void OnLoad(EventArgs e)
+        {
+            if (!LocationOverriden) ImpersonateParentLocation();
+            base.OnLoad(e);
+        }
+        /// &lt;summary&gt;
+        /// Retrieves the correct parent template control of the current template control
+        /// Doesn't support use within .master files, only content pages. Support for master pages 
+        /// could be added with more granular type checks.
+        /// &lt;/summary&gt;
+        public Control ParentTemplateControl
+        {
+            get
+            {
+                //If TemplateControl==Master, return Page instead.
+                if (this.Parent != null)
+                    if (this.Page != null)
+                    {
+                        if (this.Parent.TemplateControl == this.Page.Master)
+                            return this.Page;
+                        else
+                            return this.Parent.TemplateControl;
+                    }
+                return null;
+
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Changes AppRelativeTemplateSourceDirectory to match the parent file, if it 
+        /// hasn't already been overriden.
+        /// Paths 
+        /// &lt;/summary&gt;
+        public void ImpersonateParentLocation()
+        {
+            if (ParentTemplateControl != null)
+                this.AppRelativeTemplateSourceDirectory = 
+               ParentTemplateControl.AppRelativeTemplateSourceDirectory;
+        }
+</pre>
+
+
+
+<p>You are welcome to read (and vote for!) the <a href="https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=273688">Microsoft Connect issue.</a></p>
+
+
+<h3 style="color:red;">Update 8/5/2008</h3>
+<p>I've figured out an algorithm that seems to do a good job of accounting for the ContentPlaceHolder bug. It's a little complicated, but seems to work better than the first hack. I've written a <a href="~/tests/contentplaceholder/" runat="server">live test</a> you can play with. It only tests the algorithm in a few situations, so your mileage may vary. </p>
+<p>Use: To resolve a path relative to the parent of your .ascx file, you could call
+GetAdjustedParentTemplateControl(this).ResolveUrl(path) to resolve it. Much less brittle than Page.ResolveUrl().
+However, that won't work if you have one .ascx file inside another - it only works one level deep.
+You can also plug this into the above hack by using the following code.
+</p>
+<pre name="code" class="brush:c-sharp">
+public Control ParentTemplateControl{
+   get
+   {
+      return GetAdjustedParentTemplateControl(this)
+   }
+}
+</pre>
+<p>We're essentially mirroring the 'real' TemplateControl with that hack - instead of simply being transparent like the Control class. The problem with mirroring is that we can't keep it up-to-date, so a hack that 'clones'   AppRelativeTemplateSource will never be completely reliable.</p>
+<p>If Microsoft hadn't made TemplateControlVirtualDirectory 'internal', it would have been possible to use GetAdjustedParentTemplateControl() to make it act transparent. However, we can't override it, and that's the property ResolveUrl, ResolveClientUrl, MapPath, LoadControl, and everything else uses. Some days I wish the 'internal' keyword had never been invented.</p>
+<p> There is an additional loophole we simply can't patch, too - the class ancestry. System.Web is littered with type comparisons which check for "c is TemplateControl" to determine behavior. We can't fool that code, so our success with these hacks will always be limited.
+</p>
+
+<h3 style="color:red;">Update 8/8/2008</h3>
+<p>Made algorithm to be easier to read and added support for when (c.Parent == null).</p>
+<pre name="code" class="brush:c-sharp">
+/// &lt;summary&gt;
+/// Returns the adjusted TemplateControl property for 'c'. Accounts for the ContentPlaceHolder 
+/// Template Control bug.
+/// 
+/// This bug causes the TemplateControl property of each ContentPlaceHolder to equal the master
+/// page that the ContentPlaceHolder originated from. Unfortunately, the contents of each 
+/// matchingContent control are dumped right into the ContentPlaceHolder. This makes it 
+/// impossible to rely on Parent.TemplateControl, because if the control is right inside 
+/// a Content tag, then it will evaluate to the Master page, instead of the Content page.
+/// 
+/// This function should be useful for .ascx controls wishing to find their true TemplateControl
+/// parent. 
+/// &lt;/summary&gt;
+/// &lt;param name="c"&gt;The control you want to calculate the adjusted parent TemplateControl
+/// property for. If c *is* a TemplateControl, then the function will return the 
+/// parent TemplateControl&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static TemplateControl GetAdjustedParentTemplateControl(Control c)
+{
+    Control p = null;
+
+    if (c is ContentPlaceHolder)
+    {
+        //So this method can find the right value for a ContentPlaceHolder itself.
+        //To make things work right, CPHs should act as members of the content page, 
+        //since the CONTENT tags are replaced by them.
+        p = c;
+    }
+    else
+    {
+        //We can't do anything here - We must have a parent if c isn't a ContentPlaceHolder.
+        if (c.Parent == null) return c.TemplateControl;
+
+        //Start with the parent
+        //We want to skip c, so we can use this function on TemplateControls directly 
+        //as well as on their .Parent attribute.
+        p = c.Parent;
+
+        //Find the first ContentPlaceHolder or TemplateControl in the ancestry. 
+        //We skipped c above (also stops at the root control)
+        while ((p.Parent != null) &amp;&amp; !(p is ContentPlaceHolder) &amp;&amp; !(p is TemplateControl))
+            p = p.Parent;
+
+        //If there aren't any CPHs in the immediate heirarchy, we have nothing to adjust for
+        //(An intermediate TemplateControl (.ascx file, UserControl) makes it safe, since it
+        //overrides the TemplateControl, etc. properties)
+        if (!(p is ContentPlaceHolder)) return c.TemplateControl;
+    }
+
+
+
+    // If the TemplateControl properties match, then we need to fix the child's (The child's 
+    // should reference the child TemplateControl instead). If they're different, we have 
+    // nothing to correct.
+    if (p.TemplateControl != c.TemplateControl)
+    {
+        return c.TemplateControl; //Hey, it's different - maybe an intermediate PlaceHolder is
+        //cleaning things up for us.
+    } else
+    {
+        //At this point we know that 'c' has an invalid TemplateControl value, because
+        //it *must* be different from the value the parent CPH has.
+
+        //At this point, 'c' must be inside a content page or a intermediate 
+        //master page.
+
+        //We also know that the correct value is the child TemplateControl
+        //So we start at 'c' and work our way back through the master page chain. 
+        //We will return the child right before the match.
+
+        //We're starting at the content page and then going through the master pages.
+
+        //Return the content page if the immediate master page is a match
+        if (c.Page.Master == c.TemplateControl) return c.Page;
+
+        //Loop through the nested master pages
+        MasterPage mp = c.Page.Master;
+        while (true)
+        {
+            System.Diagnostics.Debug.Assert(mp.Master != null,
+              "How can the CPH have a TemplateControl reference that's not in the heirarchy?");
+
+            //If the parent is a match, return the child.
+            if (mp.Master == c.TemplateControl) return mp;
+            //No match yet? go deeper
+            mp = mp.Master;
+
+        }
+    }
+}
+
+</pre>
+
+
+
+<!--url: 11021_App_Code_vs_ascx_Differences_you_should_know-->
+<!--articlebanner: <a href="~/products/asp&#45;net&#45;image&#45;resizer/" runat="server"><img src="~/ad2.jpg" runat="server" alt="Easy image resizing" /></a>-->

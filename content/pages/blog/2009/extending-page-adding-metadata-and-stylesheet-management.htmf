@@ -1,0 +1,653 @@
+Aliases: /152/extending-page-adding-metadata-and-stylesheet-management/ /?p=152 /11101_Extending_Page_Adding_Metadata_and_Stylesheet_management
+Atom ID: http://66.29.219.39/?p=152
+Summary: Adding simple metadata and stylesheet management to the Page class.
+Categories: asp-net
+Tags: asp-net, pageclass
+Date: Feb 5 2009
+
+<h1>Extending Page: Adding Metadata and Stylesheet management</h1>
+
+<p>Adding stylesheets or changing meta tags is just <em>slighly</em> clunky with the default Page class provided by ASP.NET. We're going to fix that.</p>
+
+<p>Here's how to add metadata and stylesheet management by making a subclass which we'll call PageBase, since all markup pages will inherit from it.</p>
+
+<h2>Features</h2>
+
+<ul class="normallist">
+<li>One-line method calls for  common operations like adding a stylsheet reference or changing metadata. </li>
+<li>Duplicate stylsheet/meta tag prevention.</li>
+<li>Only 2 instance members will be added to PageBase - .Stylesheets and .Metadata.<br/>
+Stylesheet (HtmlLink) and Metadata (HtmlMeta) management is encapsulated in separate classes to keep things clean, and reduce methods inside the page class.</li>
+<li>Static PageBase.GetControlsOfType&lt;t&gt;(Control parent) method simplifies all kinds of hierarchy querying.</li>
+</ul>
+
+<h2>StylesheetManager methods</h2>
+
+<p>Complete documentation is in the XML comments in the code.</p>
+
+<pre name="code" class="c-sharp">
+Page.Stylesheets.AddLink("~/css/effects/css","stylesheet", "text/css");
+Page.Stylesheets.AddLink("~/css/effects/css"); //Shorter syntax for typcial usage
+Page.Stylesheets.AddLinkIfMissing("~/css/effects/css"); //So User Controls and multi-instance objects can safely include stylesheets without worrying about duplicates.
+Page.Stylesheets.RemoveLinks("~/css/effects/css"); //Removes all links matching this path (ResolveUrl() is called on all paths prior to comparison)
+Page.Stylesheets.GetControls() //returns all HtmlLink controls within the page header.
+Page.Stylesheets.GetHrefs() //Returns a collection of all hrefs from the link tags on the page.
+Page.Stylesheets.FindLinkControl(string href); //Case-insensitive, ResolveURL-cleaned search by href value.
+</pre>
+
+<h2>MetadataManager methods</h2>
+
+<pre name="code" class="c-sharp">
+Page.Metadata["description"] = "Why everybody ends up extending the Page class".
+if (Page.Metadata["description"] == "Why everybody ends up extending the Page class"){}
+
+// Returns a collection of all HtmlMeta controls in the header
+// Calls  PageBase.GetControlsOfType&lt;HtmlMeta&gt;(_page.Header);            
+Page.Metadata.GetControls(); 
+Page.Metadata.GetNameContentPairs(); //Returns a NameValueCollection of the metadata name/content pairs.
+Page.Metadata.GetControl("description") // Returns the first HtmlMeta instance matching the specified name attribute
+Page.Metadata.RemoveControls(List&lt;HtmlMeta&gt;) //Detaches each item in the collection from its parent
+Page.Metadata.HideControls(List&lt;HtmlMeta&gt;) //Sets .Visible and .EnableViewState to "false" on all items.
+Page.Metadata.GetMatches(query) //Returns all HtmlMeta instances with matching Name attributes. Query can be "*" or a comma-delimited list of values like "description,keywords,test"
+Page.Metadata.GetNonMatches(quer) //Returns all non-matching HtmlMeta instances
+</pre>
+
+<h2>Usage</h2>
+
+We can use this base class in any page my making a single change.
+If the page has a code-behind file, just change 
+
+<pre name="code" class="c-sharp">
+public partial class _Default : System.Web.UI.Page
+
+to
+
+public partial class _Default : fbs.PageBase</pre>
+
+If it is a standalone .aspx file, you can set <code>Inherits="fbs.PageBase"</code>.
+
+<h2>Internals</h2>
+
+<p>All of the querying operations performed only affect controls of a certain type. To greatly simplify the code for both StylesheetManager and MetdataManager, we have added GetControlsOfType&lt;t&gt;(Control parent) to the PageBase class.</p>
+
+<p>This method efficiently builds a collection of all controls in the specified hierarchy that are of type T.</p>
+
+
+<pre name="code" class="c-sharp">
+/// &lt;summary&gt;
+/// Iterates over the control structure of the specified object and returns all elements that are
+/// of the specified type
+/// &lt;/summary&gt;
+/// &lt;param name="parent"&gt;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static List&lt;T&gt; GetControlsOfType&lt;T&gt;(Control parent) where T : Control
+{
+	return GetControlsOfType&lt;T&gt;(parent, false,false);
+}
+/// &lt;summary&gt;
+/// Iterates over the control structure of the specified object and returns all elements that are
+/// of the specified type. If there are two items of the specified type, and one is a child of the other, 
+/// the childrenOnly and parentOnly parameters can be used to control which is selected. If both are false, both controls are returned.
+/// &lt;/summary&gt;
+/// &lt;param name="parent"&gt;The control to search&lt;/param&gt;
+/// &lt;param name="childrenOnly"&gt;If true, only the innermost matching children will be returned.&lt;/param&gt;
+/// &lt;param name="parentsOnly"&gt;If true, only the outermost matching parents will be returned.&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static List&lt;T&gt; GetControlsOfType&lt;T&gt;(Control parent, bool childrenOnly, bool parentsOnly) where T : Control
+{
+	if (parent == null) return null;
+	if (childrenOnly &amp;&amp; parentsOnly) throw 
+		new ArgumentException("Only one of childrenOnly and parentsOnly may be true. They are mutually exclusive");
+
+	//We are doing last-minute initialization to minimize the overhead of building one of these.
+	//The List&lt;&gt; constructor should only be called n times, where n is the number of ContentPlaceHolder controls.
+	List&lt;T&gt; temp = null;
+
+	if (parent.Controls != null)
+	{
+		//Loop through all of the child controls
+		foreach (Control child in parent.Controls)
+		{
+			//Recursively search them also.
+			List&lt;T&gt; next = GetControlsOfType&lt;T&gt;(child,childrenOnly,parentsOnly);
+
+			//To save on initialization costs.
+			if (next != null)
+			{
+				if (temp == null)
+				{
+					temp = next; //Use existing collection from recursive call
+				}
+				else
+				{
+					//Merge the collections
+
+					//If a the same object is the child of two different parents, this will
+					//stop it.
+					foreach (T c in next)
+					{
+						if (!temp.Contains(c)) temp.Add(c);
+					}
+
+				}
+			}
+		}
+	}
+
+	//If this item is of the target type, add it 
+	if ((parent is T))
+	{
+		//If there are no children or we are trying to discard children
+		if (parentsOnly || temp == null)
+		{
+			//Clear the list and add the parent
+			T item = (T)parent;
+
+			temp = new List&lt;T&gt;();
+
+			temp.Add(item);
+		}
+		else if (!childrenOnly)
+		{
+			//Append the parent with the children
+			T item = (T)parent;
+
+			if (temp == null) temp = new List&lt;T&gt;();
+
+			temp.Add(item);
+		}
+	}
+
+	return temp;
+}
+</pre>
+
+<p>The remainder of the PageBase class</p>
+
+<pre name="code" class="c-sharp">
+/// <summary>
+/// Extends System.Web.UI.Page
+/// Adds metadata and stylehseet management
+/// </summary>
+public partial class PageBase : Page
+{
+
+
+/// &lt;summary&gt;
+/// Creates a new PageBase instance. 
+/// &lt;/summary&gt;
+public PageBase()
+{
+}
+
+
+protected MetadataManager _metadata = null;
+/// &lt;summary&gt;
+/// Manages page metadata. Add, remove, and query metadata 
+/// (Only meta tags with a name attribute are affected, and only those located in the head section)
+/// &lt;/summary&gt;
+public MetadataManager Metadata { 
+	get {
+		if (_metadata == null) _metadata = new MetadataManager(this);
+		return _metadata; 
+	} 
+}
+
+
+protected LinkManager _Stylesheets = null;
+/// &lt;summary&gt;
+/// Manages all of the HtmlLink controls in the head section of the page.
+/// Register, delete, and enumerate all link tags.
+/// &lt;/summary&gt;
+public LinkManager Stylesheets
+{
+	get
+	{
+		if (_Stylesheets == null) _Stylesheets = new LinkManager(this);
+		return _Stylesheets;
+	}
+}
+</pre>
+
+<h2>LinkManager</h2>
+
+<pre name="code" class="c-sharp">
+
+using System;
+using System.Data;
+using System.Configuration;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
+using System.Collections.Specialized;
+
+namespace fbs
+{
+    public partial class PageBase
+    {
+        /// &lt;summary&gt;
+        /// Manages &amp;lt;link&gt; tags (controls) on the current page.
+        /// &lt;/summary&gt;
+        public class LinkManager
+        {
+            protected Page _page = null;
+            /// &lt;summary&gt;
+            /// Creates a new Link Manager attached to the specified Page instance
+            /// &lt;/summary&gt;
+            /// &lt;param name="parent"&gt;&lt;/param&gt;
+            public LinkManager(Page parent)
+            {
+                _page = parent;
+            }
+            /// &lt;summary&gt;
+            /// Adds a CSS reference. Paths must be 1) relative to the page, 2) application-relative, or 3) absolute
+            /// &lt;/summary&gt;
+            /// &lt;param name="href"&gt;&lt;/param&gt;
+            public void AddLink(string href)
+            {
+                AddLink(href, "stylesheet", "text/css");
+            }
+            /// &lt;summary&gt;
+            /// Adds a CSS stylsheet reference, but only if there isn't one yet for that path.
+            /// Paths must be 1) relative to the page, 2) application-relative, or 3) absolute
+            /// &lt;/summary&gt;
+            /// &lt;param name="href"&gt;&lt;/param&gt;
+            /// &lt;param name="resolveFirst"&gt;If true, compares resolved paths instead of raw paths&lt;/param&gt;
+            public void AddLinkIfMissing(string href)
+            {
+                if (this.FindLinkControl(href) == null)
+                {
+                    AddLink(href);
+                }
+            }
+            /// &lt;summary&gt;
+            /// Adds a link tag with the specified rel and type attributes
+            /// Paths must be 1) relative to the page, 2) application-relative, or 3) absolute
+            /// &lt;/summary&gt;
+            /// &lt;param name="href"&gt;&lt;/param&gt;
+            /// &lt;param name="rel"&gt;&lt;/param&gt;
+            /// &lt;param name="type"&gt;&lt;/param&gt;
+            public void AddLink(string href, string rel, string type)
+            {
+                HtmlLink l = new HtmlLink();
+
+                l.EnableViewState = false;
+                l.Href = href;
+                l.Attributes["type"] = type;
+                l.Attributes["rel"] = rel;
+                l.AppRelativeTemplateSourceDirectory = _page.AppRelativeTemplateSourceDirectory;
+                _page.Header.Controls.Add(l);
+            }
+            /// &lt;summary&gt;
+            /// Removes all meta tags with a matching href.
+            /// Paths must be 1) relative to the page, 2) application-relative, or 3) absolute
+            /// &lt;/summary&gt;
+            /// &lt;param name="href"&gt;&lt;/param&gt;
+            /// &lt;param name="resolveFirst"&gt;If true, compares resolved paths instead of raw paths&lt;/param&gt;
+            public void RemoveLinks(string href)
+            {
+                bool resolveFirst = false;
+                List&lt;HtmlLink&gt; controls = GetControls();
+                string searchfor = href;
+                if (resolveFirst) searchfor = _page.ResolveUrl(searchfor);
+                foreach (HtmlLink hl in controls)
+                {
+                    string thishref = hl.Href;
+
+                    if (resolveFirst) thishref = _page.ResolveUrl(thishref);
+
+                    if (thishref.Equals(searchfor, StringComparison.OrdinalIgnoreCase))
+                    {
+                        hl.Parent.Controls.Remove(hl);
+                    }
+                }
+
+            }
+            /// &lt;summary&gt;
+            /// Returns a collection of all HtmlLink controls in the page header.
+            /// &lt;/summary&gt;
+            /// &lt;returns&gt;&lt;/returns&gt;
+            public List&lt;HtmlLink&gt; GetControls()
+            {
+                return PageBase.GetControlsOfType&lt;HtmlLink&gt;(_page.Header);
+            }
+            /// &lt;summary&gt;
+            /// Returns a collection of the hrefs in each link tag in the head section.
+            /// Paths are 1) relative to the page, 2) application-relative, or 3) absolute
+            /// &lt;/summary&gt;
+            /// &lt;returns&gt;&lt;/returns&gt;
+            public List&lt;string&gt; GetHrefs()
+            {
+                List&lt;HtmlLink&gt; list = GetControls();
+                List&lt;string&gt; hrefs = new List&lt;string&gt;();
+                foreach (HtmlLink l in list)
+                {
+                    hrefs.Add(l.Href);
+                }
+                return hrefs;
+            }
+            /// &lt;summary&gt;
+            /// Case-insensitive. Returns the first HtmlLink control in the heirarchy that matches the href. Only scans inside the head tag.
+            /// returns null if no match is found.
+            /// 
+            /// &lt;/summary&gt;
+            /// &lt;param name="href"&gt;Paths must be 1) relative to the page, 2) application-relative, or 3) absolute&lt;/param&gt;
+            /// &lt;param name="resolveFirst"&gt;If true, compares resolved paths instead of raw paths&lt;/param&gt;
+            /// &lt;returns&gt;&lt;/returns&gt;
+            public HtmlLink FindLinkControl(string href)
+            {
+                bool resolveFirst = false;
+                List&lt;HtmlLink&gt; controls = GetControls();
+                string searchfor = href;
+                if (resolveFirst) searchfor = _page.ResolveUrl(searchfor);
+                foreach (HtmlLink hl in controls)
+                {
+                    string thishref = hl.Href;
+
+                    if (resolveFirst) thishref = _page.ResolveUrl(thishref);
+
+                    if (thishref.Equals(searchfor, StringComparison.OrdinalIgnoreCase)) return hl;
+                }
+                return null;
+            }
+
+
+        }
+    }
+}
+</pre>
+
+<h2>MetadataManager</h2>
+
+<pre class="c-sharp" name="code">
+
+using System;
+using System.Data;
+using System.Configuration;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
+using System.Collections.Specialized;
+
+namespace fbs
+{
+    public partial class PageBase
+    {
+        /// &lt;summary&gt;
+        /// Manages &amp;lt;meta&gt; tags (controls) on the current page. Not designed for HTTP-EQUIV tags - they are ignored and skipped unless they have a name attribute.
+        /// Only deals with meta tags within the Head of the page. The page must have a server-side head tag.
+        /// &lt;/summary&gt;
+        public class MetadataManager
+        {
+            protected Page _page = null;
+            
+            /// &lt;summary&gt;
+            /// Creates a new MetadataManager and attaches it to the current page.
+            /// &lt;/summary&gt;
+            /// &lt;param name="parent"&gt;&lt;/param&gt;
+ 
+            public MetadataManager(Page parent)
+            {
+                _page = parent;
+            }
+            /// &lt;summary&gt;
+            /// Gets or sets the Content attribute for the specified metadata tag.
+            /// Returns null if pair does not exist.
+            /// Creates a new metadata tag if it does not exist.
+            /// &lt;/summary&gt;
+            /// &lt;param name="name"&gt;&lt;/param&gt;
+            /// &lt;returns&gt;&lt;/returns&gt;
+            public string this[string name]
+            {
+
+                get
+                {
+                    HtmlMeta m = FindMetaControl(name, _page.Header);
+                    if (m == null) return null;
+                    return m.Content;
+                }
+                set
+                {
+                    HtmlMeta m = FindMetaControl(name, _page.Header);
+                    if (m != null)
+                    {
+                        m.Content = value;
+                    }
+                    else
+                    {
+                        HtmlMeta newm = new HtmlMeta();
+                        newm.EnableViewState = false;
+                        newm.Name = name;
+                        newm.Content = value;
+                        _page.Header.Controls.Add(newm);
+                    }
+
+                }
+
+            }
+            /// &lt;summary&gt;
+            /// Returns a collection of all HtmlMeta controls in the header
+            /// &lt;/summary&gt;
+            /// &lt;returns&gt;&lt;/returns&gt;
+            public List&lt;HtmlMeta&gt; GetControls()
+            {
+                return PageBase.GetControlsOfType&lt;HtmlMeta&gt;(_page.Header);
+            }
+            /// &lt;summary&gt;
+            /// Returns a name:value collection of meta name:content pairs from the page.
+            /// If there are multiple meta tags with the same name, the contents are comma-delimited (NameValueCollection.Add behavior)
+            /// &lt;/summary&gt;
+            /// &lt;returns&gt;&lt;/returns&gt;
+            public NameValueCollection GetNameContentPairs()
+            {
+                List&lt;HtmlMeta&gt; list = PageBase.GetControlsOfType&lt;HtmlMeta&gt;(_page.Header);
+                NameValueCollection pairs = new NameValueCollection();
+                foreach (HtmlMeta m in list)
+                {
+                    pairs.Add(m.Name, m.Content);
+                }
+                return pairs;
+            }
+            /// &lt;summary&gt;
+            /// Returns the first HtmlMeta control with the specified name
+            /// &lt;/summary&gt;
+            /// &lt;param name="name"&gt;&lt;/param&gt;
+            /// &lt;returns&gt;&lt;/returns&gt;
+            public HtmlMeta GetControl(string name)
+            {
+                return FindMetaControl(name, this._page.Header);
+            }
+            /// &lt;summary&gt;
+            /// Whether to include or exclude matches
+            /// &lt;/summary&gt;
+            public enum FilterType
+            {
+                ReturnMatches = 1,
+                ReturnNonMatches = 2
+            }
+            /// &lt;summary&gt;
+            /// Returns all meta tags that don't match 'pattern' 
+            /// To exclude all, specify "*". Otherwise, specify a list of exclusions: "date,expires,description,flags".
+            /// Not regex, but case-insensitive.
+            /// &lt;/summary&gt;
+            /// &lt;param name="pattern"&gt;To exclude all, specify "*". Otherwise, specify a list of exclusions: "date,expires,description,flags".&lt;/param&gt;
+            /// &lt;returns&gt;&lt;/returns&gt;
+            public List&lt;HtmlMeta&gt; GetNonMatches(string pattern)
+            {
+                return GetMatches(pattern, FilterType.ReturnNonMatches);
+            }
+            /// &lt;summary&gt;
+            /// Returns all meta tags with a name that matches 'pattern' 
+            /// To match all, specify "*". Otherwise, specify a list of possibilities: "date,expires,description,flags".
+            /// Not regex, but case-insensitive.
+            /// &lt;/summary&gt;
+            /// &lt;param name="pattern"&gt;To match all, specify "*". Otherwise, specify a list of possibilities: "date,expires,description,flags".&lt;/param&gt;
+            /// &lt;returns&gt;&lt;/returns&gt;
+            public List&lt;HtmlMeta&gt; GetMatches(string pattern)
+            {
+                return GetMatches(pattern, FilterType.ReturnMatches);
+            }
+
+            /// &lt;summary&gt;
+            /// Removes the specified HtmlMeta controls from their parents.
+            /// &lt;/summary&gt;
+            /// &lt;param name="list"&gt;&lt;/param&gt;
+            public void RemoveControls(List&lt;HtmlMeta&gt; list)
+            {
+                foreach (HtmlMeta m in list)
+                {
+                    if (m.Parent != null)
+                    {
+                        m.Parent.Controls.Remove(m);
+                    }
+                }
+            }
+
+            /// &lt;summary&gt;
+            /// Hides the specified HtmlMeta controls from rendering
+            /// &lt;/summary&gt;
+            /// &lt;param name="list"&gt;&lt;/param&gt;
+            public void HideControls(List&lt;HtmlMeta&gt; list)
+            {
+                foreach (HtmlMeta m in list)
+                {
+                    m.Visible = false;
+                    m.EnableViewState = false;
+                }
+            }
+            /// &lt;summary&gt;
+            /// Returns a collection of HtmlMeta tags that match 'pattern' (or don't match, depending on 'filter').
+            /// Pattern is not a regex, but supports alternations and is case-insensitive. if Pattern="*", then everything matches.
+            /// Pattern can be a single meta name, or a list of meta names (comma or | delimited).
+            /// &lt;/summary&gt;
+            /// &lt;param name="pattern"&gt;To match all, specify "*". Otherwise, specify a list of possibilities: "date,expires,description,flags".&lt;/param&gt;
+            /// &lt;param name="filter"&gt;&lt;/param&gt;
+            /// &lt;returns&gt;&lt;/returns&gt;
+            public List&lt;HtmlMeta&gt; GetMatches(string pattern, FilterType filter)
+            {
+
+                //List of all meta controls in the head
+                List&lt;HtmlMeta&gt; list = PageBase.GetControlsOfType&lt;HtmlMeta&gt;(_page.Header);
+
+                //Parse pattern string
+                bool wildcard = (pattern.Equals("*", StringComparison.OrdinalIgnoreCase));
+
+                string[] parts = pattern.Replace(',', '|').Split('|');
+                for (int i = 0; i &lt; parts.Length; i++)
+                    parts[i] = parts[i].Trim().ToLowerInvariant();
+
+                //Index valid names in a binary tree
+                List&lt;string&gt; names = new List&lt;string&gt;(parts);
+                names.Sort();
+
+                //Create collections to hold matches and non-matches.
+                List&lt;HtmlMeta&gt; matches = new List&lt;HtmlMeta&gt;();
+                List&lt;HtmlMeta&gt; nonmatches = new List&lt;HtmlMeta&gt;();
+
+                //Loop throught controls and distribute to the appropriate collection.
+                foreach (HtmlMeta m in list)
+                {
+                    //Skip meta tags with an no name (probably HTTP-EQIV)
+                    if (m.Name == null) continue;
+
+                    if (wildcard)
+                    {
+                        matches.Add(m);
+                    }
+                    else if ((names.BinarySearch(m.Name.ToLowerInvariant()) &gt; 0))
+                    {
+                        matches.Add(m);
+                    }
+                    else
+                    {
+                        nonmatches.Add(m);
+                    }
+                }
+
+                //Return the correct collection based upon the filter type
+                if (filter == FilterType.ReturnMatches) return matches;
+                else if (filter == FilterType.ReturnNonMatches) return nonmatches;
+                else throw new ArgumentException("filter must be a valid enumeration value", "filter");
+            }
+            /// &lt;summary&gt;
+            /// Recursively searches the hierarchy of 'parent' for the first HtmlMeta instance with the specified Name attribute.
+            /// Case-insensitive. 
+            /// &lt;/summary&gt;
+            /// &lt;param name="name"&gt;Case-insensitive. &lt;/param&gt;
+            /// &lt;param name="parent"&gt;Control tree to search&lt;/param&gt;
+            /// &lt;returns&gt;&lt;/returns&gt;
+            protected static HtmlMeta FindMetaControl(string name, Control parent)
+            {
+                if (parent is HtmlMeta)
+                {
+                    HtmlMeta m = parent as HtmlMeta;
+                    if (m.Name.Equals(name, StringComparison.OrdinalIgnoreCase)) return m;
+                }
+                foreach (Control c in parent.Controls)
+                {
+                    HtmlMeta m = FindMetaControl(name, c);
+                    if (m != null) return m;
+                }
+                return null;
+            }
+
+        }
+    }
+}
+</pre>
+
+<h2>Integrating script support</h2>
+
+<p>If you haven't already read <em><a href="~/11011" runat="server">Referencing stylesheets and scripts from content pages</a></em>, give it a glance. Download the attached code files and combine them with this one. The only file you'll have to merge is PageBase.cs. </p>
+<p>Just add this code to the PageBase.cs included in the article, and make sure ContentPlaceHolderFixes.cs and the ScriptReference.cs files are included also.</p>
+
+<pre class="c-sharp" name="code">
+/// &lt;summary&gt;
+/// Calls the ContentPlaceHolderHeadRepair.Repair method
+/// &lt;/summary&gt;
+/// &lt;param name="e"&gt;&lt;/param&gt;
+protected override void OnLoad(EventArgs e)
+{
+	//Parses link, meta, and script tags that got missed by the Head&gt;CPH bug.
+	ContentPlaceHolderFixes.RepairPageHeader(this);
+
+	//Fire the events later
+	base.OnLoad(e);
+}
+</pre>
+
+<p>This will allow you to use script tags from the head section and get proper ASP.NET URL resolution on them.<p>
+
+
+
+
+
+<p>If you have any questions, please use the comments form below.</p>
+
+<p>Happy coding!</p>
+
+<!--Todo: use IEnumerable instead of List when possible-->
+
+<p>
+<a href="http://nathanaeljones.com/wp-content/uploads/2009/02/MetadataStylesheetManagement.zip">Download files</a>
+</p>
+</p></p>
+
+<!--url: 11101_Extending_Page_Adding_Metadata_and_Stylesheet_management-->
+<!--articlebanner: <a href="~/products/asp&#45;net&#45;image&#45;resizer/" runat="server"><img src="~/ad2.jpg" runat="server" alt="Easy image resizing" /></a>-->

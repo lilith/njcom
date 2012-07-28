@@ -1,0 +1,11 @@
+Aliases: /?p=75
+Atom ID: http://computerlinguist.com/?p=75
+wp_status: draft
+Flags: draft
+Tags: computerlinguist-com
+Date: Oct 19 2009
+
+<h1>Attaching source code to a gumbo beta</h1>
+
+Project Properties -&gt;Flex Build Path &gt;Library Path &gt; Flex 4.0.0.4496&gt; flex4.swc&gt; Attached Source &gt; browse to frameworks/projects/flex4/src
+

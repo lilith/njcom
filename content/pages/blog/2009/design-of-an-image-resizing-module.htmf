@@ -1,0 +1,281 @@
+Aliases: /196/design-of-an-image-resizing-module/ /?p=196 /11241_Design_of_an_Image_Resizing_Module
+Atom ID: http://66.29.219.39/?p=196
+Summary: In this sequel to 20 Image Resizing Pitfalls, I'm outlining the architecture of my image resizing module, and including the source code for the HttpModule (but not the supporting classes).
+Categories: image-resizing
+Date: May 26 2009
+
+<h1>Design of an Image Resizing Module</h1>
+
+<p>In this sequel to  <a href="/11191_20_Image_Resizing_Pitfalls">20 Image Resizing Pitfalls</a>, I'm outlining the version 2 architecture of my image resizing module, and including the source code for the HttpModule. You can download the <a href="http://imagereisizing.net">source code for version 3 at imageresizing.net</a>.
+
+</p>
+<p>Read <a href="/11191_20_Image_Resizing_Pitfalls">20 Image Resizing Pitfalls</a> first (part 1).  It explains why you need an HttpModule instead of an HttpHandler, why disk caching is a requirement, and why you always want to let IIS serve static files.</p>
+
+<p>This article gives an architectural overview of my image resizer (version 2). The design has evolved several times as my needs grew, but I think the design has now matured to be very simple, modular, and extensible.</p>
+
+<h3>Request flow</h3>
+<ol class="normallist">
+<li>Only intercept image requests that include certain querystring commands. Leave other requests intact. </li>
+<li>Check to see if the resized image for the request URL is already cached. If cached and still up-to-date with the source file, goto step 4.</li>
+<li>If not already cached, process the image and cache it. </li>
+<li>Rewrite the request (not redirect) to the cached file. This will allow IIS to serve the file with full HTTP support (range requests, caching, not-modified support, etc).</li>
+</ol>
+
+<h3>A few other goals</h3>
+<ol class="normallist">
+<li>Allow custom syntaxes like /resize(50,50)/image.jpg or ?theme=smallthumb to be easily added without bloating the core module. </li>
+<li>Permit or disable filename rewriting from Web.config. /resize(50,50)/ would be path rewriting, wheras ?theme=smallthumb would be just rewriting the querystring. This configurability is important, since path rewriting could make subfolder-based web.config authorization settings on image files have no effect.</li>
+<li>Allow client caching time to be configurable. This will keep requests down, since clients won't check for updates until the specified amount of time expires.</li>
+<li>Make both server-side memory and disk  caching invalidate when the source file changes.</li>
+<li>Allow a easily extensible and large set of commands, affecting the cropping/sizing, visual effects, color choices/border/padding, and image output format/compression.</li>
+<li>Prevent DOS attacks by limiting the disk cache to a configurable number of images.</li>
+<li>Allow easy watermarking or post-processing of resized images</li>
+
+</ol>
+<p> <span style="font-weight:bold;color:red">This code is outdated by 2+ years. Please reference the <a href="http://imageresizing.net/">source code for version 3 instead.</a></span></p>
+
+<h2>Overview of classes</h2>
+<p>With these goals in mind, I found it optimal to segment the logic into the following classes. While you may question my decision to split querystring parsing into 4 classes, it resulted in much cleaner code, and a much more usable interface for image manipulation from other classes. </p>
+
+<ul class="normallist">
+
+<li><strong>InterceptModule</strong><br/>
+IHttpModule that checks for relevant requests during PostAuthorizeRequest, caches the ImageManger-proccessed images using DiskCache, and rewrites the request to the cached file. It also sets HTTP caching headers later in PreSendRequestHeaders. The disk-cached filename is an SHA256, base16 encoded hash of the request URL. Although the image is coming from a different file, the user never sees the URL of the cached file - the original filename is maintained.</li>
+
+<li><strong>DiskCache</strong><br/>
+
+Completely abstracts away disk caching, cleanup, and the associated threading issues. InterceptModule calls method <em>UpdateCachedVersionIfNeeded(sourceFile,cachedFile, delegate updateMethod, int fileLockTimeout)</em> with   <em>ImageManager.getBestInstance().BuildImage(sourcePath, cachedPath, queryString);</em> as the contents of the delegate. DiskCache performs the modified date checks, cache cleanup, and thread locking to prevent the same image from being resizied by two different threads at the same time (it happens frequently!). The delegate is only executed if the cached file needs to be created or updated.</li>
+
+
+<li><strong>CustomFolders</strong><br/>
+Exposes a single method,  static string processPath(string filePath, NameValueCollection q). This allows both URL rewriting and modifications to the querystring, such as /resize(w,h)/ syntax. InterceptModule simply calls this once prior to checking the querystring for valid commands.</li>
+
+<li><strong>ImageManager</strong><br/>
+
+ exposes several overloads of a method called BuildImage() which allow both querystring and settings class configuration, and both bitmap and filename source and output. While BuildImage performs all the actual GDI calls, the querystring parsing, mathematics, and image writing are handled by other classes below.</li>
+
+<li><strong>ResizeSettings</strong>(querystring)<br/>
+ Accepts a single NameValueCollection (Querystring) as the constructor argument. Stretch, crop, scale, flip, sourceFlip, width, height, maxwidth, and maxheight are parsed into member variables. Exposes a  <em>ImageSizingData CalculateSizingData(SizeF originalImageSize, SizeF maxBounds)</em> method that handles all mathematics. ImageSizingData includes the source rectangle on the image to copy from, the destination polygon for the image data, and a polygon that includes any whitespace.</li>
+
+<li><strong>ImageOutputSettings</strong>(querystring) <br/>
+
+Parses the format, colors, and quality commands. It also exposes a SaveImage(Stream s, Image i) method that handles the writing of the various image types based on the querystring arguments. Static methods for saving images are also available.</li>
+
+<li><strong>ImageSettings</strong>(querystring) <br/>
+Parses the bgcolor, paddingWidth, paddingColor, borderWidth, and borderColor commands. BuildImage() uses this data when drawing the image.</li>
+
+<li><strong>WatermarkSettings</strong>(querystring)<br/> allows for custom drawing on images. It exposes a  <em>ModifySettings(ResizeSettings rs, ImageSettings opts, ImageFilter adjustments, ImageOutputSettings ios)</em> method for adjusting settings prior to resizing, and a <em>Process(Bitmap b, Graphics g)</em> method for post-processing of resized images.</li>
+
+</ul>
+<p> </p>
+
+<h2>InterceptModule code</h2>
+<p>I hope this overview is clear enough - if not, please leave a question below. Understanding the design, the source code for InterceptModule should now make sense. Thankfully, this is one of the shortest classes, but it should help you write your own HttpModule. I've removed the class declaration, imports, and profiling code for clarity. The original source code comments explain everything pretty clearly.</p>
+
+<pre name="code" class="brush:c-sharp">
+/// &lt;summary&gt;
+/// This is where we filter requests and intercet those that want resizing performed.
+/// We first check for image extensions... 
+/// If it is one, then we run it through the CustomFolders method to see if if there is custom resizing for it..
+/// If there still aren't any querystring params after that, then we ignore the request.
+/// If the file doesn't exist, we also ignore the request. They're going to cause a 404 anyway.
+/// 
+/// &lt;/summary&gt;
+
+/// &lt;param name="sender"&gt;&lt;/param&gt;
+/// &lt;param name="e"&gt;&lt;/param&gt;
+protected virtual void CheckRequest_PostAuthorizeRequest(object sender, EventArgs e)
+{
+	//Get the http context, and only intercept requests where the Request object is actually populated
+	HttpApplication app = sender as HttpApplication;
+	if (app != null &amp;&amp; app.Context != null &amp;&amp; app.Context.Request != null)
+	{
+		
+		//Is this an image request? Checks the file extension for .jpg, .png, .tiff, etc.
+		if (ImageOutputSettings.IsAcceptedImageType(app.Context.Request.FilePath))
+		{
+			//Init the caching settings. These only take effect if the image is actually resized
+			//CustomFolders.cs can override these during processPath
+			app.Context.Items["ContentExpires"] = DateTime.Now.AddHours(24); //Default to 24 hours
+			string cacheSetting = ConfigurationManager.AppSettings["ImageResizerClientCacheMinutes"];
+			if (!string.IsNullOrEmpty(cacheSetting)){
+				double f;
+				if (double.TryParse(cacheSetting,out f)){
+					if (f &gt;= 0)
+						app.Context.Items["ContentExpires"] = DateTime.Now.AddMinutes(f);
+					else
+						app.Context.Items["ContentExpires"] = null;
+				}
+			}
+			
+			//Copy the querystring
+			NameValueCollection q = new NameValueCollection(app.Context.Request.QueryString);
+
+			//Call CustomFolders.cs to do resize(w,h,f)/ parsing and any other custom syntax.
+			//The real virtual path should be returned (with the resize() stuff removed)
+			//And q should be populated with the querystring values
+			string basePath = CustomFolders.processPath(app.Context.Request.Path, q);
+
+			
+			//If the path has changed, this will circumvent the URL auth system.
+			//Make sure the user has explicity allowed it through web.config
+			if (!basePath.Equals(app.Context.Request.Path))
+			{
+				//Make sure the resize() notation is allowed.
+				string allow = ConfigurationManager.AppSettings["AllowURLRewriting"];
+				if (string.IsNullOrEmpty(allow)) allow =ConfigurationManager.AppSettings["AllowFolderResizeNotation"];
+				if (string.IsNullOrEmpty(allow) || allow.Equals("false", StringComparison.OrdinalIgnoreCase)){
+					return; //Skip the request
+				}
+				//Prevent access to the /imagecache/ directory (URL auth won't be protecting it now)
+				if (new yrl(basePath).Local.StartsWith(DiskCache.GetCacheDir(), StringComparison.OrdinalIgnoreCase))
+				{
+					throw new HttpException(403, "Access denied to image cache folder.");
+				}
+			}
+			//See if resizing is wanted (i.e. one of the querystring commands is present).
+			//Called after processPath so processPath can add them if needed.
+			//Checks for thumnail, format, width, height, maxwidth, maxheight and a lot more
+			if (ImageManager.getBestInstance().HasResizingDirective(q))
+			{
+				//Build a URL using the new basePath and the new Querystring q
+				yrl current = new yrl(basePath);
+				current.QueryString = q;
+
+				//If the file exists, resize it
+				if (current.FileExists)  
+					ResizeRequest(app.Context,current);
+				
+			}
+		}
+	}
+}
+
+
+
+/// &lt;summary&gt;
+
+/// Builds the physical path for the cached version, using the hashcode of the normalized URL.
+/// &lt;/summary&gt;
+/// &lt;param name="request"&gt;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+protected string getCachedVersionFilename(yrl request)
+{
+	string dir = DiskCache.GetCacheDir();
+	if (dir == null) return null;
+	//Build the physical path of the cached version, using the hashcode of the normalized URL.
+        //We don't use String.GetHashCode(), since it returns a 32-bit integer. Chances of a hash collision are low, but possible.
+        // So, we use a 256-bit hash instead.
+	SHA256 h = System.Security.Cryptography.SHA256.Create();
+	byte[] hash = h.ComputeHash(new System.Text.UTF8Encoding().GetBytes(request.ToString().ToLower()));
+	//Can't use base64 hash... filesystem has case-insensitive lookup.
+	//Would use base32, but too much code to bloat the resizer. Simple base16 encoding is fine
+	return dir.TrimEnd('/', '\\') + "\\" + Base16Encode(hash) + "." + new ImageOutputSettings(request).GetFinalExtension();
+}
+/// &lt;summary&gt;
+
+/// Returns a lowercase hexadecimal encoding of the specified binary data
+/// &lt;/summary&gt;
+protected string Base16Encode(byte[] bytes)
+{
+	StringBuilder sb = new StringBuilder(bytes.Length * 2);
+	foreach (byte b in bytes)
+		sb.Append(b.ToString("x").PadLeft(2, '0'));
+	return sb.ToString();
+}
+
+
+/// &lt;summary&gt;
+/// Generates the resized image to disk (if needed), then rewrites the request to that location.
+/// Perform 404 checking before calling this method. Assumes file exists.
+/// Called during PostAuthorizeRequest
+/// &lt;/summary&gt;
+/// &lt;param name="r"&gt;&lt;/param&gt;
+/// &lt;param name="extension"&gt;&lt;/param&gt;
+
+protected virtual void ResizeRequest(HttpContext context, yrl current)
+{
+	//This is where the cached version goes
+	string cachedFile = getCachedVersionFilename(current);
+
+	//Disk caching is good for images because they change much less often than the application restarts.
+
+	//Make sure the resized image is in the disk cache.
+	bool succeeded = DiskCache.UpdateCachedVersionIfNeeded(current.Local, cachedFile,
+		delegate(){
+
+			//This runs if the update is needed. This delegate is preventing from running in more
+			//than one thread at a time for the specified source file (current.Local)
+			ImageManager.getBestInstance().BuildImage(current.Local, cachedFile, current.QueryString);
+		},30000);
+
+	//If a co-occurring resize has the file locked for more than 30 seconds, quit with an error.
+	if (!succeeded)
+		throw new ApplicationException("Failed to acquire a lock on file \"" + current.Virtual + 
+                                              "\" within 30 seconds. Image resizing failed.");
+	
+
+	//Get domain-relative path of cached file.
+	string virtualPath = yrl.GetAppFolderName().TrimEnd(new char[] { '/' }) + "/" + yrl.FromPhysicalString(cachedFile).ToString();
+
+	//Add content-type headers (they're not added correctly when the source URL extension is wrong)
+	//Determine content-type string;
+	string contentType = new ImageOutputSettings(current).GetContentType();
+	
+	context.Items["FinalContentType"] = contentType;
+	context.Items["FinalCachedFile"] = cachedFile;
+
+	//Rewrite to cached, resized image.
+	context.RewritePath(virtualPath, false);
+}
+/// &lt;summary&gt;
+
+/// We don't actually send the data - but we still want to control the headers on the data.
+/// PreSendRequestHeaders allows us to change the content-type and cache headers at excatly the last
+/// second. We populate the headers from context.Items["FinalContentType"],
+/// context.Items["ContentExpires"], and context.Items["FinalCachedFile"].
+/// This also indirectly enables server-side mem caching. (HttpCacheability.Public does it)
+/// We set the file dependency to FinalCachedFile so changes are update quickly server-side
+/// - however, clients will not check for updates until ContentExpires occurs.
+///  
+/// &lt;/summary&gt;
+/// &lt;param name="sender"&gt;&lt;/param&gt;
+/// &lt;param name="e"&gt;&lt;/param&gt;
+
+protected void context_PreSendRequestHeaders(object sender, EventArgs e)
+{
+	HttpApplication app = sender as HttpApplication;
+	HttpContext context = (app != null) ? app.Context : null;
+	//Check to ensure the context and Response is in good shape (it's needed)
+	if (context != null &amp;&amp; context.Items != null &amp;&amp; context.Items["FinalContentType"] != null 
+                          &amp;&amp; context.Items["FinalCachedFile"] != null)
+	{
+		//Clear previous output
+		//context.Response.Clear();
+		context.Response.ContentType = context.Items["FinalContentType"].ToString();
+		//Add caching headers
+		context.Response.AddFileDependency(context.Items["FinalCachedFile"].ToString());
+
+		//It's not UTC - server time zone.
+		if (context.Items["ContentExpires"] != null)
+			context.Response.Cache.SetExpires((DateTime)context.Items["ContentExpires"]);
+
+		//Enables in-memory caching
+		context.Response.Cache.SetCacheability(HttpCacheability.Public);
+		context.Response.Cache.SetLastModifiedFromFileDependencies();
+		context.Response.Cache.SetValidUntilExpires(false);
+	}
+
+}
+
+</pre>
+
+<p>I'm sure a lot of people will think I'm nuts for posting the source code to the main class of my image resizer, 
+but I know that this will help a lot of people.  </p> 
+<p>Update (May 27, 2011): You can now download the <a href="http://imageresizing.net/">source code for Version 3</a>, and the <a href="http://imageresizing.net/releases/2-8">latest source code for Version 2</a>. 
+<p>Based on the response I get to this article, I may continue with additional parts. I would like to cover the math behind scaling and cropping, the GDI bugs, and maybe even image output/compression. </p>
+
+<p>Hope this helps!<br/>Nathanael</p>
+</p>
+
+<!--url: 11241_Design_of_an_Image_Resizing_Module-->

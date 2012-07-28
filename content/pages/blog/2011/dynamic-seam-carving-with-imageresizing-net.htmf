@@ -1,0 +1,53 @@
+Aliases: /596/dynamic-seam-carving-with-imageresizing-net/ /?p=596
+Atom ID: http://nathanaeljones.com/?p=596
+Date: Aug 2 2011
+
+<h1>Dynamic seam carving with ImageResizing.net</h1>
+
+The <a href="http://imageresizing.net/releases/3-0-11">latest</a> version of <a href="http://imageresizing.net">ImageResizing.Net</a> supports dynamic <a href="http://en.wikipedia.org/wiki/Seam_carving">seam carving</a> (content-aware image resizing) and <a href="http://imageresizing.net/plugins/remotereader">remote image resizing</a>.
+
+
+Seam carving allows low-energy (unimportant) parts of the image to be removed in order to shrink an image.
+
+<strong>Original image</strong>
+
+<p>
+  <img src="http://img.imageresizing.net/mountain.jpg;width=300"/>
+</p>
+
+<strong>Stretched (distorted image) to 300x150</strong>
+
+<p>
+  <img src="http://img.imageresizing.net/mountain.jpg;width=300;height=150;stretch=fill"/>
+</p>
+
+
+<strong>Seam carved to 300x150</strong>
+
+<p>
+  <img src="http://img.imageresizing.net/mountain.jpg;width=300;height=150;carve=true"/>
+</p>
+
+<strong>Original image</strong>
+
+<p>
+  <img src="http://img.imageresizing.net/night-bridge.jpg;width=300"/>
+</p>
+
+<strong>Stretched (distorted image) to 150x300</strong>
+
+<p>
+  <img src="http://img.imageresizing.net/night-bridge.jpg;width=150;height=300;stretch=fill"/>
+</p>
+
+
+<strong>Seam carved to 150x300</strong>
+
+<p>
+  <img src="http://img.imageresizing.net/night-bridge.jpg;width=150;height=300;carve=true"/>
+</p>
+
+While not a panacea, seam carving can be very useful when you need to change the aspect ratio of an image without cropping any features out. 
+
+The Image Resizer's implementation of seam carving is based on  <a href="https://sites.google.com/site/brainrecall/cair">CAIR</a>, which allows for extremely high-performance seam carving.
+

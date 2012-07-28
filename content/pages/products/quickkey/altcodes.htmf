@@ -1,0 +1,80 @@
+Aliases: /products/quickkey/what-are-alt-codes/ /?page_id=194 /?p=194
+Atom ID: http://66.29.219.39/?page_id=194
+wp_template: default
+
+<h1>What are Alt Codes?</h1>
+
+<h3>Other ways to type characters</h3>
+
+<p class="introduction">
+This page explains <a href="#altcodes">Alt Codes</a> and <a href="#layouts">Keyboard Layouts</a>.
+</p>
+
+            <h1 id="altcodes">
+                Alt Codes
+            </h1>
+            <p>
+                Alt codes allow you to enter characters by their code point (Computer do not store
+                text as graphics, but in numerical format). Characters are stored on your computer
+                as numbers; each letter or symbol is assigned to number. To make sure that text
+                looks the same on all computers, there is a standard called 
+                    Unicode that defines this. Due to the number of alphabets in the world,
+                <a href="http://www.unicode.org">Unicode</a> defines tens of thousands of characters.
+            </p>
+            <p>
+                Most English characters are located in the first 128 characters. Everything you
+                see on your keyboard is mashed in there. Uppercase, lowercase, numbers, symbols,
+                and control keys. Originally, it seems, there were only 7 bits available per letter.
+                Then there were 8, and the next 128 characters were used for accents and such. Finally,
+                we got 16, and even 32. For more information, see the <a href="http://en.wikipedia.org/wiki/UTF-8">
+                    Wikipedia article on UTF-8</a>.</p>
+            <p>
+                Anyway, back to the subject: when you hold down an alt key and type a number on
+                the right side of the keyboard, a character appears. Make sure <strong>Num Lock</strong>
+                is turned on, or your efforts will be fruitless. Note that this only works with
+                some Microsoft software. A variant of alt codes are alt-X codes. Unlike alt codes,
+                which require a decimal code point, Alt-X codes work with <a href="http://en.wikipedia.org/wiki/Hexadecimal">
+                    hexadecimal</a> numbers. After you type in the hexadecimal value for a character,
+                press Alt and the X key simultaneously to convert the code into a character, and
+                vice versa.  <br/>
+	More information can be found in the
+	<a href="http://en.wikipedia.org/wiki/Alt_codes">Wikipedia article on Alt Codes</a>.
+            </p>
+	
+            <ul>
+	<li>Cardbox Software <a href="http://www.cardbox.com/quick/download.htm"> has created a 
+                    utility</a> that is supposed to enable alt codes accross all applications.</li>
+	<li>	
+	The Unicode Consortium has created <a href="http://www.unicode.org/charts/">PDF charts of each language 			</a>, 	with the corresponding numeric code and
+		a picture of the letter (Quick Key has a copy of these charts in the <strong>By Language</strong> directory).
+              </li></ul>
+            
+            <h1 id="layouts">
+                Keyboard Layouts
+            </h1>
+            <p>
+                For people who use a different alphabet often enough to justify learning a new typing
+                pattern, keyboard layouts should be used. Keyboard layouts map keys and key combinations
+                to characters. Microsoft Windows includes keyboard layouts for most languages, although
+                they may not be installed by default. Go to <strong>Control Panel</strong>&gt;<strong>Regional
+                    and Language settings</strong>&gt;<strong>Languages Tab</strong>&gt;<strong>Details Button</strong>.
+                You should now see the <strong>Text Services and Input Languages</strong> window.
+                Click Add for more keyboard layouts.
+            </p>
+            <p>
+                For those who need to customize their keyboard layout, try the <a href="http://www.microsoft.com/globaldev/tools/msklc.mspx">
+                    Microsoft Keyboard Layout Creator</a>, or <a href="http://www.tavultesoft.com/keyman/">
+                        Tavueltesoft Keyman</a>.
+            </p>
+
+
+						<h1>
+            Related
+        </h1>
+        <div class="submenu">
+	<a href="http://www.tavultesoft.com/keyman/">Tavultesoft Keyman</a>
+	<a href="http://allchars.zwolnet.com/">AllChars</a>
+	<a href="http://www.microsoft.com/globaldev/tools/msklc.mspx">Microsoft Keyboard Layout Creator</a>
+	<a href="http://www.cardbox.com/quick/download.htm">Quick Unicode Input Tool</a>
+        </div>
+

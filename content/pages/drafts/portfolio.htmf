@@ -1,0 +1,138 @@
+Aliases: /?page_id=416 /?p=416
+Atom ID: http://nathanaeljones.com/?page_id=416
+wp_template: page-full-portfolio.php
+wp_status: draft
+Flags: draft
+
+<h1>Portfolio</h1>
+
+<div class="project&gt; Heuristic audio pattern recognition system in Python  "/>Parses" the waveform data of an audio file using a combination of LMS and probability heuristics to locate beeps within an audio recording.
+
+
+<div>
+Early 2004
+ServerLogger
+MS SQL-backed issue tracker for servers, with searching and streamlined interface.
+Asynchronous event log collection from network servers - allowed easy conversion of a server error into an TODO item. 
+
+Development time: 2 weeks.
+MS SQL, .NET, WinForms
+</div>
+
+<div>
+Nevada Law - Heuristic text processing, information retrieval - Computer assisted repair of OCR errors on a massive text database.
+
+Regular Expressions, 
+</div>
+
+<div>
+ShowYourHome.com
+
+Query parser and search engine.
+
+Google and Microsoft Maps integration
+
+Data feed integration (Streaming XML decompression and import to SQL)
+
+----
+
+
+Folio Integrator - C# wrapper for C API of Folio Integrator. Extremely advanced Interop P/Invoke code.
+
+
+--- 
+
+Zero -day analysis of NMIDAHEMA virus using IDA Pro, Boomerang. Two weeks prior to signature release or any documentation by security companies.
+
+--
+
+DhcpManager
+
+HTA using OOJ, advanced output parsing, WScript, and the YUI library. Allows reservation management and replication across multiple DHCP servers. Turn a lease into a reservation in a couple clicks...
+
+---
+
+Folio Flat File to XML conversion through regular expressions.  99.99% perfect conversion using looped regular expressions. Proccessed several FFF files, totalling over 200MB of ext.
+
+Superseded by the new Java compiler I wrote to allow additional flexibility and fuller support. 
+---
+
+ASP/HTML-&gt;ASP.NET markup translator, reference spider for upgrading to the FBS CMS..
+
+---
+
+Device driver for the X-KEYS foot pedal, .NET interface for application integration.
+
+---
+TagEdit
+
+Command-line MP3 ID3 editor for batch processing of music files (very useful when reformatting of tag data is needed). 
+
+--- 
+
+Programmatically formatted large eBook collection for ETI-1 and ETI-2 eBook readers, with easy navigation headers and indexes.
+
+- 
+
+Character set converter (VB.NET)
+
+Allows conversion between custom 8-bit character sets using simple mapping files.
+
+--
+
+acrobatHtmlImport - Simple HTML parser designed for Acrobat's "Save as HTML" feature. 
+
+Written in Action Script 3.
+
+--
+
+IIS work for State Farm Agents website
+
+--
+
+Integration, modification of Yet Another Forum framework.
+
+--
+
+micomments.com  Embeddable comment widget for your website.
+
+Python/Django.
+
+Yep, intensedebate beat me to release date, with more features, more advertising, and more developers. I'm a good sport. 
+---
+
+Flash-based RSS ticker component
+
+---
+
+Flex-based Music uploading and tagging interface with album art uploading. 
+
+---
+
+SuperCopy
+
+---
+Quick Key
+
+---
+
+FBS - File Based cmS... With a database cache to combine the best of both worlds.
+User has the freedom to use desktop WYSIWYG tools like Expression Web and Dreamweaver to edit articles and pages, while still retaining the ability to make spelling corrections from any iPhone or web browser.
+
+---
+
+sIFR work on NewsWeek
+
+---
+
+Joomla menu plugin modifications  (PHP and advanced javascript/CSS)
+
+
+
+
+
+
+
+
+</div>
+

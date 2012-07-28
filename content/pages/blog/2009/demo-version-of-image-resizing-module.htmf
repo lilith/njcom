@@ -1,0 +1,22 @@
+Aliases: /199/demo-version-of-image-resizing-module/ /?p=199 /11231_demo_version_of_image_resizing_module
+Atom ID: http://66.29.219.39/?p=199
+Summary: I've received many requests for a 'trial' version of the image resizer. This demo version is fully-functional, but watermarks 50% of the generated images with "Unlicensed".
+Categories: image-resizing
+Tags: image-resizer, image-resizing
+Date: May 21 2009
+
+<h1>Demo Version of Image Resizing Module</h1>
+
+<div style="padding:10px; color:red; font-size:11pt; border:1px solid red; margin-bottom:1.5em;">This is regarding a depreciated version. <a href="http://imageresizing.net/">V3 can be downloaded free of charge</a>. <a href="http://imageresizing.net/docs/2to3/">Click here for the migration guide</a></div>
+
+I've received many requests for a 'trial' of the <a href="/products/asp-net-image-resizer/">image resizer</a>. This demo version is fully-functional, but watermarks 50% of the generated images with "Unlicensed". Another note: the trial version includes supports resizing animated GIFs. That plug-in isn't included in the default version; contact me for details.
+
+Installation is the <a href="/11141_Image_Resizer_Installation">same as for the full version</a>.
+
+<a onclick="javascript:pageTracker._trackPageview('/download/resizertrial');" href="/wp-content/uploads/2010/11/ImageResizerTrial2.6-nov-11-20101.zip">Download Trial version and sample project (2.5MB)</a>
+
+
+
+When you upgrade to the full version, remember to delete the <em>imagecache</em> directory, or you will continue to see the word "Unlicensed" on old pictures.
+
+<!--url: 11231_demo_version_of_image_resizing_module-->

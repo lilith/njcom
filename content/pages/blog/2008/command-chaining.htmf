@@ -1,0 +1,33 @@
+Aliases: /22/command-chaining/ /?p=22
+Atom ID: http://computerlinguist.wordpress.com/?p=22
+Categories: general-programming
+Tags: computerlinguist-com
+Date: Aug 20 2008
+
+<h1>Command chaining</h1>
+
+Even if you're still stuck using a non-dynamic language (Java, C#, etc), you can steal a trick or two from the other side. Command chaining is an easy practice that can really simplify your code.
+
+It's easy. Put <strong>return this;</strong><em> </em>before the end of each method in your class. Just say <em>no</em> to <strong>void</strong>!
+
+Of course, you wouldn't do it on <em>functions</em>. They're supposed to return data. But following this practice for 'command' methods makes perfect sense, and allows calling code to be much cleaner.
+
+Compare:
+<pre>Element para = new Element("p");
+para.set("class","song");
+para.append("Hello World");
+para.appendTo(document);</pre>
+to
+<pre>new Element("p") .set("class","song") .append("Hello World") .appendTo(document);</pre>
+or
+<pre>new Element("p") .set("class","song")
+                 .append("Hello World")
+                 .appendTo(document);</pre>
+#2 and #3 are far more readable. If you want to draw attention to the commands (say they aren't transparently obvious, or need inline comments), #3 is a better choice. If you want to focus on the surrounding logic, #2 cuts line usage down tremendously.
+
+Both remove repetition and reduce re-factoring costs. As a bonus, you don't have to clutter the scope with another arbitrarily named variable; you've created and finished with the object all in one statement.
+
+Like all coding practices, there is a short adjustment period while you get used to reading and writing this style; however, I'm confident you'll find it much faster to read and write code without that superfluous, repetitive text. <a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself">DRY</a>.
+
+Just say no to <strong>void. Be nice to your callers.</strong>
+

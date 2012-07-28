@@ -1,0 +1,21 @@
+Template: home
+Menu: home
+Title: Nathanael Jones - Ramblings of a computer linguist
+Libs: uservoice, bxSlider, -comments
+
+%h1 Recent ramblings
+- unless  @page.top_articles(1).empty?
+	%ul
+		- @page.top_articles(10).each do |page|
+			%li
+				%article
+					%header
+						%h3
+							%a(href="#{page.abspath}")= page.heading
+					- if page.summary.nil? || page.summary.empty?
+						~ page.body(self)
+					- else
+						~ page.summary
+						%p.read_more
+							%a(href="#{page.abspath}")= page.read_more
+					= haml :page_meta, :layout => false, :locals => { :page => page }

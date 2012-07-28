@@ -1,0 +1,22 @@
+Aliases: /118/the-query-string/ /?p=118 /10971_The_Query_String
+Atom ID: http://66.29.219.39/?p=118
+Summary: The query string is handled differently from the rest of the virtual path. It is neither URL decoded or case-normalized before it reaches ASP.NET, although each name-value pair is URL decoded before being stored in the Request.QueryString collection.
+Categories: asp-net, general-programming
+Date: May 20 2008
+
+<h1>The Query String</h1>
+
+The query string is handled differently from the rest of the virtual path. It is neither URL decoded or case-normalized before it reaches ASP.NET, although each name-value pair is URL decoded before being stored in the Request.QueryString collection.
+
+For the query string to be parsed correctly, the delimiters ?, &amp;, and = <em>cannot</em> be percent-encoded. Both names and values in the Request.QueryString collection go through exactly one URLDecode pass. Other properties in the Request class include the querystring in its original, URLEncoded form (if they were originally URL (percent) encoded).
+
+Also, any strings that aren't parsed correctly are added to Request.QueryString[null] in comma-delimited format. (You can also access them as a string[] array using Request.QueryString.GetValues(null)). The NameValueCollection class isn't a string-to-string dictionary. It's more like an informal string-to-string[] dictionary. When you set a value like nvc["thiskey"]="thisvalue" , you are in overwrite mode. When you use nvc.add("thiskey","thisvalue"), you are in append mode. Calling nvc.add("thiskey","firstvalue"), then nvc.add("thiskey","lastvalue") will leave nvc["thiskey"] == "firstvalue,lastvalue".
+<h3>Related links</h3>
+<ul class="list">
+	<li><a href="~/10941">URI Design</a></li>
+	<li><a href="http://en.wikipedia.org/wiki/Uniform_Resource_Identifier">Wikipedia: Uniform Resource Identifier</a></li>
+	<li><a href="http://en.wikipedia.org/wiki/URL_normalization">Wikipedia: URL Normalization</a></li>
+	<li><a href="http://en.wikipedia.org/wiki/Percent-encoding ">Wikipedia: Percent encoding</a></li>
+</ul>
+
+<!--url: 10971_The_Query_String-->

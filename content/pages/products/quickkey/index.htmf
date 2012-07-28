@@ -1,0 +1,96 @@
+Aliases: /quickkey/ /products/quickkey/ /?page_id=188 /?p=188
+Atom ID: http://66.29.219.39/?page_id=188
+wp_template: page-full.php
+
+<h1>Quick Key</h1>
+
+<p class="introduction">
+Quick Key extends your keyboard, letting you type the first 65,000 characters defined in the Unicode system. It attempts to do so without cluttering your screen or interfering with your work. 
+To type a character, click it. Quick Key is completely free of charge, and is 
+licensed under the open source <a href="http://www.gnu.org/copyleft/gpl.html">GPL license</a>.
+</p>
+
+<h1>
+            <a  name="intro"></a>Introduction</h1>
+       <img src="http://nathanaeljones.com/wp-content/uploads/2009/10/qksmall.gif" alt="The character grid displaying one of many character sets" title="Quick Key" width="80" height="165" class="alignright size-full wp-image-384"/> 
+	<p>
+	Quick Key is primarily a flexible keyboard extension, although it has dozens of unique features
+	that make it indispensable for developers as well as regular users. Quick Key is an alternative to
+	using Microsoft Character Map or <a href="/products/quickkey/altcodes">Alt Codes</a>, both of which are difficult to use.
+        Quick Key is the ideal solution for people who need to input foreign characters or mathematical
+            symbols quickly, but do not want to spend time learning a new <a href="/products/quickkey/altcodes#layouts">keyboard
+                layout</a>.
+        </p>
+        <h1>
+	    <a id="gettingstarted"></a>Installation
+        </h1>
+        <p>
+            After you have downloaded the Quick Key <a href="http://sourceforge.net/projects/quickkeydotnet/files/QuickKey/QuickKey-5.2.2311.29002/QuickKey-5.2.2311.29002.zip/download">
+                zip file</a> , right click on the file and choose <strong>Extract All</strong>.
+            Now double-click on <strong>setup.exe</strong> and follow the provided instructions.
+            Once the installation is finished, click the <strong>Start Menu</strong>&gt;<strong>Programs</strong>&gt;<strong>Quick
+                Key</strong>&gt;<strong>Quick Key</strong>. A red and black icon should appear
+    in the bottom-right corner of your screen. Click this icon to display the <a href="/products/quickkey/charsets#chargrid">Character Grid</a>.</p>
+     <h1>
+	    <a id="usage"></a>Using Quick Key
+    </h1>
+		<ul>
+			<li><strong>Quick Key</strong> supports drag-and-drop for almost everything. You can move characters
+			around inside Quick Key, out of Quick Key, and into Quick Key using drag-and-drop.
+			</li><li>
+			<strong>Quick Key</strong> also allows you to copy and paste characters, as well as their HTML code.
+			</li><li>
+			<strong>Quick Key</strong> allows you to <a href="/products/quickkey/keystrokes">
+			send characters to a specific application</a> using a program code. For example, <strong>MSN Messenger</strong> is MSBLClass.
+			</li><li>
+			<strong>Quick Key</strong> can function as a reference for <strong>Alt codes</strong>. To see information about a symbol or letter, move your mouse over it.
+			</li><li>
+			<strong>Quick Key</strong> allows you to save <a href="/products/quickkey/charsets">
+			customized groups of characters to disk</a>.
+			</li><li>
+			<strong>Quick Key</strong> <a href="/products/quickkey/charsets#filters">filters your character sets</a>, 
+			displaying only a certain category of characters. 
+			For example, by default, Control and Format characters are hidden.
+   			</li>
+			
+			
+		</ul>
+        <h1 id="bugs">
+            Bugs?</h1>
+        <p>
+            Please help me make Quick Key better by reporting bugs when you find them. All I
+            need is a sentence describing what was clicked when Quick Key crashed, and the contents
+            of the <strong>Error Log</strong>. After you have restarted Quick Key, right click
+            the icon in the system tray and choose <strong>Error Log</strong>. Make sure you
+            select <strong>Last Five Instances</strong> before you copy and paste into the email.
+            My email address is <a href="mailto:support@imageresizing.net">support@imageresizing.net</a></p>
+        <p>
+            <strong>Please don't limit your feedback to bugs</strong> - I'd love to hear your
+            comments, suggestions, and criticisms. If you have any ideas for this website, or
+            know of something that should be included in the documentation, please let me know.
+        </p>
+        <h1>
+            <a id="licensing"></a>Licensing
+        </h1>
+        <p>
+            Quick Key is an Open Source project. That means you can send it to your friends,
+            modify the source code, and put it on every computer you own. Just make sure you
+            don't restrict these rights to anybody else, and you keep the notices attached.
+            Any modifications you make are under the same rules. Please read the <a href="http://www.gnu.org/licenses/gpl.html">
+                GNU General Public License</a>. Quite a bit of Quick Key is located in a separate
+            package called the <strong>JCL</strong> (Jones Control Library). This part is licensed
+            under the <a href="http://www.gnu.org/licenses/lgpl.html">GNU Lesser Public License</a>,
+            which is the same as above, except it can be used in proprietary programs.
+        </p>
+
+
+        <h1>
+            Related
+        </h1>
+        <div class="submenu">
+            <a href="http://people.w3.org/rishida/utilities.html">UniView by Richard Ishida</a>
+		<a href="http://www.ergonis.com/products/popchar/">PopChar</a>
+		<a href="http://www.braser.com/morekeys.html">MoreKeys</a>
+		<a href="http://www.camsoftpartners.co.uk/frkeys.htm">FrKeys</a> 
+		<a href="http://www.diacrit.sandrila.co.uk/">Diacrit</a>
+        </div>

@@ -1,0 +1,19 @@
+Aliases: /?p=460
+Atom ID: http://nathanaeljones.com/?p=460
+wp_status: draft
+Flags: draft
+Date: Nov 17 2009
+
+<h1>Top down or bottom up development? Neither.</h1>
+
+I was recently reading <em>Coders At Work</em> by Peter Seibel. It's an excellent book, definitely on my must read list. Nearly every interview holds useful ideas and different perspectives. Don't judge the book by the first chapter though - the remaining chapters are of much higher quality.
+
+One pattern between the interviews kept popping out at me. All of the interviewees were experienced, veteran programmers. Yet the split between those claiming top/down coding and bottom/up coding seemed nearly 50/50. 
+
+I suggest that none of them truly do either.... They code hard-&gt;easy. The hard and/or uncertain portions are always the most volatile. Volatile pieces can often have far-reaching effects. Low-level pieces that are prove impossible or possible can affect the architecture, rendering it either unusable or bloated. Top-level changes affect what low-level pieces are needed.
+
+My approach is to break any problem down into its hard and easy compoenents. Easy and hard problems exist at both the bottom and top. Certain categories of applications tend to balance the hard problems towards one pole or the other.
+For example, the hard problems within a business application would probably tend to be more frequent at the top, while the the hard problems of an stream-based XML library might be more towards the bottom.
+
+Once the hard problems are solved, the rest is straightforward, and can be implemented in a direct manner. No need for abstractions and layers simply because you have question marks hiding in the dark corners of hard problems.
+

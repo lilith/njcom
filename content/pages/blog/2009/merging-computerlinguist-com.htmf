@@ -1,0 +1,12 @@
+Aliases: /462/merging-computerlinguist-com/ /?p=462
+Atom ID: http://nathanaeljones.com/?p=462
+Date: Nov 17 2009
+
+<h1>Merging ComputerLinguist.com</h1>
+
+In August 2008 I started a separate blog, <a href="http://computerlinguist.com/">ComputerLinguist.com</a>. At the time, I felt that it was best to keep my ASP.NET writings separate from the rest.
+
+Dynamic languages were still heresy among many programming circles, and my articles on general programming were definitely targeted towards a different audience.  However, since Microsoft has released the DLR and publicly embraced dynamic languages, much of the FUD they originally (maybe unintentionally) encouraged has been displaced from people's minds. I don't see any reason to keep the blogs separate anymore.
+
+I plan on merging the content soon, shortly after I get the comment situation worked out. My previous CMS used IntenseDebate for commenting, but I'm having trouble getting the IntenseDebate plugin to run on wordpress, so it make take a while.
+

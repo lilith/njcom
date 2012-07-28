@@ -1,0 +1,156 @@
+Aliases: /products/quickkey/charsets-html/ /?page_id=192 /?p=192
+Atom ID: http://66.29.219.39/?page_id=192
+wp_template: page-full.php
+
+<h1>Character Groups</h1>
+
+<div id="header">
+<h1>Character Sets</h1>
+<h2>Grouping Characters</h2>
+</div>
+
+<p class="introduction">
+Quick Key allows you to group characters into personalized sets, and save them to disk.
+</p>
+
+ <h1>
+                <a id="charsets"/>Usage</h1>
+
+            	<p>
+			Quick Key can't fit all 65,000 characters on your screen at the same time, so they
+		 	are organized in to logical groups called "charsets".	These are saved as .charset
+			files, and are used and modified in the Character Grid.
+		</p>
+		<p>
+			By creating personalized character sets you will save yourself time and screen space.
+			Smaller, more focused groups are easier to manage, and are faster to respond
+		   	Although Quick Key can display charsets with more than a few hundred characters,
+			it can become unresponsive for long periods of time. 
+            </p>
+		
+            <h1>
+                <a id="includedcharsets"></a>Included Charsets</h1>
+	    <p>To load a character set, click <strong>File &gt; Open</strong> on the <a href="#toolbar">Toolbar</a>, and choose
+		a charset. Quick Key includes about 220 charsets.</p>
+		<h3>Directories</h3>
+		<ul>
+			<li><strong>By Language</strong><br/>Character sets by category</li>
+			<li><strong>By Font</strong><br/> Font-specific character sets</li>
+			<li><strong>All</strong><br/> All 65,000 chracters, split into 1024 chraracter groups</li>
+			<li><strong>View Filters</strong><br/> Can be used in conjunction with charsets to apply filters.</li>
+			<li><strong>Text Styles</strong><br/> Similar to View Filters, but these overlay formatting when opened instead.</li>
+            </ul>
+		<h3>Files</h3>
+		<ul>
+			<li><strong>Ascii</strong><br/>The 256 characters that are almost universally supported</li>
+			<li><strong>&lt;Language&gt;</strong><br/>Language-optimized character groups. Contains only
+			the freqently used characters for each language.</li>
+		 </ul>
+
+            <h1>
+                <a id="makecharset"></a>Making your own charsets</h1>
+            <p>
+                Although many charsets are included by default, you may wish to create your own.
+                The recommended procedure for this is to start with a larger character set that
+                already has most of the characters you need, and then delete the unnecessary ones. If
+                you find yourself needing a character that is not in the provided sets, press <strong>
+                    Ctrl-Shift-U</strong> to add characters by decimal or hexadecimal code. Another
+                feature found in the <strong>Tools</strong> menu of the <a href="#toolbar">Toolbar</a>
+                is the <strong>Edit Characters as Text</strong> dialog box, where the list of characters
+                is placed into a normal text box for regular editing. Note, however, that text boxes
+                display characters differently than the character grid does. Some characters (combining
+                marks) are displayed over preceding characters, and some are only visible as squares.</p>
+            <p>
+                <strong>Tips:</strong> To quickly create a charset from an existing one, choose
+                <strong>New Copy of this Charset</strong> from the <strong>File</strong> menu. If
+                you are in possession of a document that already contains the characters you need,
+                use <strong>Import from File</strong>. Use this to drag and drop (right mouse button)
+                text selections to the character grid.</p>
+            <h1>
+                <a id="charsethelp"></a>Help Wanted</h1>
+            <p>
+                Help us out! You can make your donation to the Quick Key project in the form of
+                a charset. The Unicode standard defines tens of thousands of characters, and we
+                are a long way from organizing all those into really useful groups. Please <a href="mailto:support@imageresizing.net">
+                    email us</a> the characters sets you have customized to help you with your job;
+                we will upload them to this page for everyone to enjoy. With each new release these
+                files will be included.</p>
+
+                        <h1>
+                <a id="filters"></a>Filtering Character Categories</h1>
+            <p>
+                Filters may cause some headaches, but I think once you get used to them they will
+                come in handy. Filters are categories of characters, defined by the Unicode standard,
+                which can be used selectively to narrow the number of characters you see in the
+                <a href="#chargrid">Character Grid</a>. For example, by default, characters in the
+                categories <strong>Format, Control, Private Use, Other Not Assigned, Other Number</strong>,
+                and <strong>Surrogate</strong> are hidden. These characters are unlikely to be used
+                by anybody but a software developer or systems administrator. Your filter selections
+                will be saved with your character set, but you can turn this off in the <strong>File</strong>
+                menu. Character set files can contain any combination of <strong>Font Settings</strong>,
+                <strong>Filters</strong>, and <strong>Characters</strong>. When a character set
+                is opened and it does not contain one of these categories of information, the font
+                settings, filters, and even characters are used from the last character set, essentially
+                merging the two. Filter settings are found in the <strong>Filters</strong> menu
+                on the <strong>Toolbar Form</strong>.
+            </p>
+			<h1>
+                <a id="fontrec"></a>Picking a Font</h1>
+            <p>
+                Most <a href="#fonts">fonts</a> only support a small subset of the available characters;
+                 for the rest they display a generic rectangle. <a href="http://en.wikipedia.org/wiki/Arial_Unicode_MS">
+                    Arial Unicode MS</a> supports an amazing selection of the Unicode specification.
+                It contains 51,180 glyphs, and is bundled with Microsoft Word. I recommend that
+                you use this font as much as possible while working with Quick Key, so that you
+                can view the largest number of characters. Keep in mind, however, which font the
+                destination application is using, as this will determine the result.</p>
+			<h1>
+                <a id="fonts"></a>All fonts are different
+            </h1>
+            <p>
+                In Quick Key, all characters will be displayed using whatever font is currently
+                selected in the Toolbar. You may notice that when a character is transferred to
+                another application, the appearance or shape of the character changes. This is because
+                Quick Key and the destination application are using different fonts to render the
+                character. If both fonts are correctly designed, and use the <a href="http://www.unicode.org">
+                    Unicode</a> standard, the only change should be the style of the character.
+                If a completely different character appears, you are using a non-standard font in
+                either Quick Key or the application. Always use a standardized font to ensure
+                sure that the document will be readable in the future. If in doubt, change the
+                font to <strong>Times New Roman</strong> and verify that the letters appear correctly.
+                As Quick Key does not transfer font information along with characters, I recommend that
+                you set the font to <strong>Arial Unicode MS</strong> and leave it there. This eliminates
+                any confusion you may have when opening a charset and seeing <a href="#fontrec">
+                    rectangles</a>.
+            </p>
+			            <h1>
+                <a id="toolbar"></a>The Toolbar
+            </h1>
+            <p>
+                Here you can load a different character set, save one you have modified, or change
+                how characters are displayed. <a href="/products/quickkey/keystrokes">Keywords</a> and <a href="#filters">
+                    Filters</a> are controlled here. To display the toolbar, right click the <a href="#chargrid">
+                        Character Grid</a> title bar or the <strong>system tray icon</strong>, and
+                choose <strong>Toolbar</strong>.
+            </p>
+			            <h1>
+                <a id="chargrid"></a>Character Grid
+            </h1>
+            <p>
+                The character grid is what you will use when sending characters to other applications.
+                Most functions can be accessed by right-clicking objects in this window. The title
+                bar menu allows you to modify appearance, functionality, and open a recently used
+                charset. You will also notice the two icons next to the close button. These enable
+                the auto-hide and lock features respectively. The character grid displays all characters
+                in the current charset that match the currently selected <a href="#filters">filters</a>.
+                To move characters around, click the <strong>Drag</strong> mouse button (left) on
+                a character.</p>
+            <p>
+                Although using right-click menus to deal with characters one-by-one is often sufficient,
+                you may need to make mass deletions or modifications that require a more powerful
+                method. To do this, open the <a href="#toolbar">Toolbar</a>, the click <strong>Tools</strong>&gt;<strong>Edit
+                    Characters as Text</strong>. Now you can perform modifications on selections
+                of characters.</p>
+
+		           
+            

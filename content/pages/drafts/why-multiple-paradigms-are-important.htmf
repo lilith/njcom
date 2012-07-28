@@ -1,0 +1,50 @@
+Aliases: /?p=466
+Atom ID: http://nathanaeljones.com/?p=466
+wp_status: draft
+Flags: draft
+Date: Nov 18 2009
+
+<h1>Why multiple paradigms are important</h1>
+
+A <a href="http://en.wikipedia.org/wiki/Paradigm">paradigm</a>, by modern definition, is a &#xA0;framework of concepts and usage patterns. It's not a word that should really be intimidating to anywone - it is the concept of a group of concepts. OOP is a paradigm, as is functional programming.
+
+Every paradigm has its strengths and weaknesses. OOP is great for solving some problems, but horribly ugly and messy for others. It's a good default paradigm, I suppose, but misapplied the results are terrible. I'm often amazed at the gymnastics people go through to make things 'object-oriented' when the paradigm doesn't even apply, or needs the addition of another paradigm to be clean.
+
+You shouldn't hammer nails with a screwdriver or cook steaks over a candle. You're going to end up with lousy steak and bent nails.
+
+Good programmers write horrible code all the time, simply because they use the same, limited set of techniques with every problem they face. They're intelligent, creative people. But with the Best Practices Inquistors looming at the edge of their vision, they hesitate to take a non-standard approach to anything.
+
+Despite programmers working in the realms of logic, some also apply emotional reasoning to their choice of languages or techniques. That's a mistake that usually ends up costing a lot.
+
+Applied correctly, OOP is great. FP is great. Events are great. AOP is great. But used wrongly, they're all terrible.
+
+I just finished reading&#xA0;<em>Coders At Work</em>. It's a fantastic book which interviews 15 top-notch software engineers, developers, and architects. Joshua Bloch, Donald Knuth, Brendan Eich, Douglas Crockford, etc. Go read it. It's good.
+
+One of the many things that solidified in my head as I read it was:
+
+<em>There is no silver bullet paradigm.</em>
+
+A phrase you don't hear a lot. Most commercial languages are centered around a single paradigm; what company wants customers to think their product only solves <em>part</em> of their problem?
+
+But sofware engineers face different problems than they faced 20 years ago. Our constraints aren't execution speed, memory, or I/O use as in the past. Our biggest constraint is <em>complexity</em>.
+
+To achieve goals like security, reliability, maintainability, and readabilty (which is required for any of the three), we need to a wide range of problems all in a direct manner.
+
+For all but the smallest projects, a combination of paradigms are needed to solve the problem set in a direct and obvious manner.
+
+I learned some
+
+It is, however, a great improvement on the imperative/procedural/structured paradigms, the three of which have become nearly synonymous over the last 3 decades.
+
+A few examples of popular programming paradigms are imperative, functional, object-oriented, aspect-oriented, and declarative.
+
+Programming is hard in different ways than it was 10 or 20 years ago. The days of writing an operating system to run your word processor are long gone. Modern software engineering is based on trust - We hunt for reliable and well-tested libraries and build upon them. We use open-source software, but only have time to read the code we are directly interfacing with.
+
+Mainstream application developers are being presented with an ever diversifying set of problems. As tools and libraries improve, we are called upon to accomplish more in less time. We have a wider range of problems; some
+
+As the number of layers in modern software increases, the more types of problems
+
+Procedural and structural programming are both supersets of the imperative paradigm. Very, very few languages lack support for prodecural or structural programming, so the three paradigms have become nearly synonmous in the context of modern languages.
+
+Software engineering has had many different paradigms for some time. Often, these paradigms were popularly defined by the languages that supported them.
+

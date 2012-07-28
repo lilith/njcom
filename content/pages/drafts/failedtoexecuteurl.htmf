@@ -1,0 +1,92 @@
+Aliases: /?p=108 /11041_FailedToExecuteUrl
+Atom ID: http://66.29.219.39/?p=108
+wp_status: pending
+Flags: draft
+Date: May 16 2008
+
+<h1>FailedToExecuteUrl</h1>
+
+http://forums.iis.net/t/1146755.aspx?PageIndex=2
+
+Event code: 3005 
+Event message: An unhandled exception has occurred. 
+Event time: 5/16/2008 9:31:50 AM 
+Event time (UTC): 5/16/2008 1:31:50 PM 
+Event ID: 77522ab73ae94d31a8688e4f6bc95739 
+Event sequence: 24 
+Event occurrence: 1 
+Event detail code: 0 
+ 
+Application information: 
+    Application domain: /LM/W3SVC/1/ROOT-2-128554183105358000 
+    Trust level: Full 
+    Application Virtual Path: / 
+    Application Path: C:\inetpub\wwwroot\ 
+    Machine name: NATHANAELJ 
+ 
+Process information: 
+    Process ID: 5020 
+    Process name: w3wp.exe 
+    Account name: NT AUTHORITY\NETWORK SERVICE 
+ 
+Exception information: 
+    Exception type: HttpException 
+    Exception message: Failed to Execute URL. 
+ 
+Request information: 
+    Request URL: http://localhost/favicon.ico 
+    Request path: /favicon.ico 
+    User host address: ::1 
+    User:  
+    Is authenticated: False 
+    Authentication Type:  
+    Thread account name: NT AUTHORITY\NETWORK SERVICE 
+ 
+Thread information: 
+    Thread ID: 5 
+    Thread account name: NT AUTHORITY\NETWORK SERVICE 
+    Is impersonating: False 
+    Stack trace:    at System.Web.Hosting.ISAPIWorkerRequestInProcForIIS6.BeginExecuteUrl(String url, String method, String childHeaders, Boolean sendHeaders, Boolean addUserIndo, IntPtr token, String name, String authType, Byte[] entity, AsyncCallback cb, Object state)
+   at System.Web.HttpResponse.BeginExecuteUrlForEntireResponse(String pathOverride, NameValueCollection requestHeaders, AsyncCallback cb, Object state)
+   at System.Web.DefaultHttpHandler.BeginProcessRequest(HttpContext context, AsyncCallback callback, Object state)
+   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean completedSynchronously)
+ 
+ 
+Custom event details: 
+
+
+
+
+
+
+
+
+Server Error in '/UrlTests' Application.
+--------------------------------------------------------------------------------
+
+Failed to Execute URL. 
+Description: An unhandled exception occurred during the execution of the current web request. Please review the stack trace for more information about the error and where it originated in the code. 
+
+Exception Details: System.Web.HttpException: Failed to Execute URL.
+
+Source Error: 
+
+An unhandled exception was generated during the execution of the current web request. Information regarding the origin and location of the exception can be identified using the exception stack trace below.  
+
+Stack Trace: 
+
+
+[HttpException (0x80004005): Failed to Execute URL.]
+   System.Web.Hosting.ISAPIWorkerRequestInProcForIIS6.BeginExecuteUrl(String url, String method, String childHeaders, Boolean sendHeaders, Boolean addUserIndo, IntPtr token, String name, String authType, Byte[] entity, AsyncCallback cb, Object state) +2488428
+   System.Web.HttpResponse.BeginExecuteUrlForEntireResponse(String pathOverride, NameValueCollection requestHeaders, AsyncCallback cb, Object state) +415
+   System.Web.DefaultHttpHandler.BeginProcessRequest(HttpContext context, AsyncCallback callback, Object state) +252
+   System.Web.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute() +3391004
+   System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean completedSynchronously) +161
+
+ 
+
+
+--------------------------------------------------------------------------------
+
+<!--url: 11041_FailedToExecuteUrl-->

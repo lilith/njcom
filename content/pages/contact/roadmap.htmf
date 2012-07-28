@@ -1,0 +1,46 @@
+Aliases: /contact/roadmap-and-architecture-design/ /?page_id=302 /?p=302
+Atom ID: http://nathanaeljones.com/?page_id=302
+
+<h1>Roadmap and Architecture Design</h1>
+
+<div style=" font-family: Georgia; line-height: 1.8em;"><span style="font-size: 400%; font-weight: bold; float: left; line-height: .8em; padding-right: 5px; padding-top: 4px;">I</span>f you are embarking on a new project or looking to refactor an existing one, I can help you design a better architecture and roadmap for your project. I can help you choose the right frameworks and libraries to give your project a head start and a maintainable future.
+<div style="width: 200px; float: right; padding: 10px; margin: 10px; border: 1px solid #aaaaaa; font-family: Verdana; color: #444444; font-size: 9pt;">Are you looking to improve the workflow of your software team? Want advice on choosing and configuring a server? Need a network designed? Building a business website? Intranet? A compiler for a new language? A revolutionary CMS? The next killer app? An iTunes alternative? A web browser? A better software deployment system? Need graphical design advice? Confused by a licensing issue?E-mail me with any problem, big or small. I don't have a problem with saying "I don't know". But I do have trouble resisting the urge to find the answer.
+
+<strong>computer.linguist@gmail.com</strong>
+
+</div>
+Using existing, <em>quality</em> source code is <em>always cost effective</em>. If you are skeptical that code exists for your needs - what can you lose by sending me an e-mail? If I can't improve upon your plan, I'll tell you. <strong>What if I suggest a library that does everything you need, and is free? With over 3.3 billion lines of open source software, I suggest hiring a guide.</strong>
+
+If you are considering outsourcing a project, it is even more critical that you get a report to base your project requirements on. Many outsourced projects turn into nightmares, not due to lack of coder intelligence, but architectural experience and unclear communication. With a solid plan for your project, you are much better prepared to face the ordeal of using vWorker, GetAFreeLancer, or any other outsourcing site.
+
+<strong>Don't reinvent the wheel. Send me an e-mail. And find out how little code you actually have to write to accomplish your goals.</strong>
+
+And, best of all - the dogfood guarantee. If you run into trouble using one of my designs, I'll support it at my normal hourly rate, no strings attached. I won't suggest a plan I can't code or troubleshoot.
+<h3>I need to know</h3>
+<ol>
+	<li>What are your goals?</li>
+	<li>What is your current plan?</li>
+	<li>What is the state of the project now?</li>
+</ol>
+Once you have your goals set and ready to communicate them&#xA0;- <strong>send me an e-mail at computer.linguist@gmail.com</strong>.
+
+I'll take some time, think about your project for a few days, and get back to you with a suggested roadmap and a&#xA0;list of suggested software, libraries, frameworks, and languages best suited for the job.
+<h3>Why are you doing this for free?</h3>
+I realized that my most loyal clients were those I'd given architecture advice to. By saving them tens of thousands of dollars (often more) in development costs, I'd secured their loyalty. I'm not sure how long I'll do this for free, but I invite you to be a part of the experiment.
+<h3>What if I want more?</h3>
+If you're working for a business and want a faster turn-around time and a very detailed report, specify that in your e-mail and I can give you a price quote. It's $150 for all but the largest projects.
+
+The full report includes the following where applicable:
+<ol>
+	<li>The simplest, most flexible architecture for your needs</li>
+	<li>A sample roadmap for development</li>
+	<li>A list and explanation of available frameworks, libraries, and components that will help minimize the amount of new code needed.</li>
+	<li>Optimal tools for the project (such as development environments, version control systems, and unit testing)</li>
+	<li>Best language(s) for the project. No language, tool, framework, library, or component is sutiable for every project.</li>
+	<li>An explanation of the tradeoffs between the choices presented.</li>
+	<li>Existing relevant or similar projects to draw from</li>
+	<li>The licensing restrictions of the suggested components, if any.</li>
+</ol>
+</div>
+
+<!--articlebanner: <img src="/wp&#45;content/uploads/2009/10/roadmap&#45;louisville.jpg" alt="Louisville, KY" />-->

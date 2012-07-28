@@ -1,0 +1,42 @@
+Aliases: /159/image-resizer-2-0-upgrade-notes/ /?p=159 /11181_Image_Resizer_2_0_Upgrade_notes
+Atom ID: http://66.29.219.39/?p=159
+Summary: Version 2.0 includes dozens of new features and performance enhancements. Upgrading is simple, but there are a few things you should know.
+Categories: image-resizing
+Tags: image-resizer, image-resizing
+Date: May 17 2009
+
+<h1>Image Resizer 2.0 - Upgrade notes</h1>
+
+<h2>Behavior changes</h2>
+<ul class="normallist">
+	<li>When both <strong>?width=x&amp;height=y</strong> are specified, the default behavior has changed. Instead of stretching the image and losing aspect ratio, whitespace is added (controlled with <strong>&amp;bgcolor=color name|code</strong>). You can reinstate the original behavor by adding <strong>&amp;stretch=fill</strong>. Based on customer feedback.</li>
+	<li>ICC profiles are now read on source images, but changes are merged into the image before output. Since most browsers (including Firefox) do not read ICC profiles, this should produce consistent cross-browser behavior. If you want to ignore the original ICC profile for an image, add <strong>&amp;ignoreicc=true</strong>.</li>
+	<li>The CustomFolders.cs format has changed, and is now much, much more powerful. All querystring commands can be used, and URL rewriting can be performed. (AllowURLRewriting must be true).</li>
+</ul>
+<h2>New features</h2>
+Check out the <a href="~/11201">samples page</a> to see these features in action.
+<ul class="normallist">
+	<li>Automatic cropping and centering can be performed with <strong>?crop=auto&amp;width=x&amp;height=y</strong>. You can also choose a crop rectangle from the source image manually with <strong>&amp;crop=(x1,y1,x2,y2)</strong>. Negative values indicate distances relative to the bottom-right corner. (10,10,-10,-10) would crop a 10-pixel border off the source image.</li>
+	<li>Support for 8-bit PNG file output with <strong>&amp;colors=2-255</strong>. Sets the palette size for both PNG and GIF images.</li>
+	<li>GIF and 8-bit PNG files are now much, much better. Instead of using the GDI default palette, octree quantization is used to calculate the optimal color palette for each image.</li>
+	<li>Upscaling can be enabled using &amp;scale=both. The default is &amp;scale=downscaleonly. &amp;scale=upscaleonly is also available for certain zooming situations.</li>
+	<li> Image rotation is supported in degrees. Ex. &amp;rotate=45. Image sizing is performed before rotation, so rotation will cause the final image size to be larger than the size specified in the querystring.</li>
+	<li>Image flipping can be performed using <strong>&amp;flip=h|v|both.</strong> To flip the source image before other commands occur, use <strong>&amp;sourceFlip=h|v|both</strong>.</li>
+	<li>BMP and TIFF source files are now supported.</li>
+	<li>You can add padding around the image with <strong>&amp;paddingWidth=px&amp;paddingColor=color|hex</strong>. paddingColor defaults to bgcolor, which defaults to white.</li>
+	<li> You can add a border around the image with <strong>&amp;borderWidth=px&amp;borderColor=color|hex</strong>.</li>
+	<li>Transparency is maintained while resizng PNG files, and when converting from PNG to GIF.</li>
+	<li>DisableCacheCleanup=true|false is now supported in Web.config. If you have plenty of disk space and wish to manually purge old files from the cache, this setting will allow it. Leave the default value to false unless you have a very good reason.</li>
+	<li> DiskCacheAlwaysInvalid=true|false is a new Web.config setting for debugging. It forces every request to update the disk cache before responding. Very, very slow, so make *sure* this is false before you launch.</li>
+	<li>Websites located on UNC paths are now supported. (Ex. \\server\share\website).</li>
+</ul>
+<h2>Installation</h2>
+<ol class="normallist">
+	<li>Replace the old files with the new files from the ImageResizer folder. If you are using the .DLL, replace the DLL in the bin folder.  Keep a copy of your old CustomFolders.cs if you have modified it.</li>
+	<li>Delete the /imagecache directory.</li>
+	<li>If you use both width and height to stretch any images, add <strong>&amp;stretch=fill</strong> to those URLs to maintain the same behavior.</li>
+	<li>Migrate CustomFolders.cs if you have modified it. The new file includes source comments explaining the process.</li>
+</ol>
+If you haven't upgraded to 1.2, follow <a href="~/11171"> these instructions first</a>
+
+<!--url: 11181_Image_Resizer_2_0_Upgrade_notes-->

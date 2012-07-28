@@ -1,0 +1,113 @@
+Aliases: /?p=126 /11091_ASP_NET_Path_Rebasing
+Atom ID: http://66.29.219.39/?p=126
+wp_status: pending
+Flags: draft
+Date: Jun 6 2008
+
+<h1>ASP.NET Path Rebasing</h1>
+
+	
+
+<h2>
+Path resolution in ASP.NET</h2>
+
+<p>ASP.NET is very inconsistent about where it applies the path resolution mentioned above.</p>
+
+<ul>
+
+     <li> &lt;link&gt; tags in the head section get resolved &#x2013; but only if they are in a master page or a stand-alone .aspx page. Content pages are out of luck. The HtmlHead control is in charge of doing the custom parsing needed by the <head> section, and it can&#x2019;t cross the ContentPlaceHolder boundary. Fortunately, that problem can be fixed with a good dose of regular expressions and control tree manipulation. I'll be posting the fix soon.
+         </head><ul> <li>You can add CSS references in the code-behind. Create a new instance of HtmlLink, configure it, and add it to the Page.Header.Controls collection.</li></ul></li>
+    <li>
+
+      &lt;script&gt; tags don&#x2019;t. Thanks to Microsoft, the &lt;script&gt; tag is also used to embed server-side scripts. If you add runat=&#x201D;server&#x201D; to your javascript reference, ASP.NET will try to compile it as C# or VB.Net.
+          <ul><li> Use the Page.ClientScript class to add JavaScript includes and inline scripts. Watch out, though &#x2013; JavaScript dependencies can&#x2019;t be out of order, and they&#x2019;re placed in the <body> of the page.
+          </body></li><li>
+
+            You can also create an HtmlGenericControl with a tag name of &#x201C;script&#x201D;, and assign the appropriate attributes. You will need to ResolveClientUrl() your path, though.</li>
+          <li>An asp:Literal control is often the solution for inline scripts. I like using a StringBuilder or StringWriter to concatenate the data.</li>
+</ul></li>
+    <li> Certain attributes on server-side controls are resolved:
+          <ul><li>
+
+            Asp:Image: ImageUrl
+          </li><li>
+
+            img (runat=&#x201D;server&#x201D;): src
+          </li><li>
+            asp:Hyperlink: NavigateUrl
+          </li><li>
+
+            a (runat=&#x201D;server&#x201D;): href
+          </li><li>
+
+            Most other server-side control attributes that are supposed to contain paths
+</li>
+</ul>
+</li>
+</ul>
+<p>
+If you want to control or modify the output of href and src tags, Control Adaptors are your best choice. I use this technique to programmatically expand links like ~/10300 to ~/10300_The_False_Light. This makes maintenance much easier.</p>
+
+<p>Many blogs recommend using inline ASP.NET code like &lt;% ResolveClientUrl (&#x201C;~/scripts/javascript.js&#x201D;) %&gt;. I don&#x2019;t recommend this, because inline code puts your page into a mode that restricts control hierarchy modifications. I recommend using a Literal, a HtmlGenericControl, or the Attributes collection instead, in your code-behind.</p>
+
+How path resolution is performed:
+
+Paths matching the above criteria are assumed to specify a physical location relative to the current TemlateControl.
+
+Example files:
+
+    *
+
+      ~/MasterPages/Main.master
+         1.
+
+            References &#x201C;../img/logo.gif&#x201D;
+         2.
+
+            References &#x201C;~/css/universal.css&#x201D;
+    *
+
+      ~/img/logo.gif
+    *
+
+      ~/img/rounded-corner.gif
+    *
+
+      ~/css/universal.css
+         1.
+
+            References ../img/rounded-corner.gif
+    *
+
+      ~/ContentPage1.aspx
+         1.
+
+            Refereneces &#x201C;MasterPages/Main.master&#x201D;
+         2.
+
+            References &#x201C;~/mods/UserControl1.ascx&#x201D;
+    *
+
+      ~/mods/UserControl1.ascx
+         1.
+
+            References &#x201C;images/bg_pattern.png&#x201D;
+    *
+
+      ~/mods/images/bg_pattern.png
+
+In this scenario, ContentPage1.aspx is the real container. Both .master and .ascx files are actually types of user controls.
+
+Main.master, UserControl1.ascx, and ContentPage1.aspx are all TemplateControls. When a path is resolved within them, the AppRelativeTemplateSourceDirectory property is used to determine the original base path that URIs are based on. The AppRelativeTemplateSource directory is different for each of Main.master, UserControl1.ascx, and ContentPage1.aspx. After each path is expanded to a virtual path, it is made relative again, but this time it is made relative to ContentPage1.aspx.
+
+The output from ContentPage1.aspx would include the paths in this form:
+
+Css/universal.css
+
+Img/logo.gif
+
+Mods/images/bg_pattern.png
+
+Paths in universal.css would remain unchanged. No translation is needed anyway, as the browser will resolve those paths relative to the CSS file itself.
+
+<!--url: 11091_ASP_NET_Path_Rebasing-->

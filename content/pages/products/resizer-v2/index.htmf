@@ -1,0 +1,271 @@
+Aliases: /products/asp-net-image-resizer-v2/ /?page_id=234 /?p=234
+Redirect To: http://imageresizing.net/
+
+<h1>Server-side Image Resizing Module for ASP.NET, ASP, & PHP/IIS</h1>
+
+<div style="padding:10px; color:red; font-size:11pt; border:1px solid red; margin-bottom:1.5em;">This is regarding a depreciated version. <a href="http://imageresizing.net/">Visit the V3 website for the latest information</a>. <a href="http://imageresizing.net/docs/2to3/">Click here for the migration guide</a></div>
+<div id="tabs">
+<ul>
+	<li><a href="#why">Why</a></li>
+	<li><a href="#opensource">Open Source</a></li>
+	<li><a href="#features">Features</a></li>
+	<li><a href="#quality">Quality</a></li>
+	<li><a href="#performance">Performance</a></li>
+	<li><a href="#requirements">Requirements</a></li>
+	<li><a href="#faq">FAQ</a></li>
+</ul>
+<div id="why">
+<div class="rightbox" style="line-height:1em;"><a class="download" href="http://imageresizing.net/download">Download Source</a>
+
+
+<p style="margin-bottom: 0; padding-top: 0; font-size: 7.5pt; color: #909090;">Includes v2.6 - Nov. 11 2010</p>
+<p style="margin-bottom: 0; padding-top: 0; font-size: 7.5pt; color: #909090;">Purchase securely using Paypal, Visa, MasterCard, Discover, or American Express.</p>
+<a href="/products/asp-net-image-resizer-v2/changelog/">Changelog</a><a href="../../11151_Image_Resizer_License">License</a><a href="../../11201_Image_Resizer_v2_Examples">Samples</a><a href="/11141_Image_Resizer_Installation">Installation</a>
+
+If you have any questions after reading the documentation, leave a comment or e-mail <strong>support@imageresizing.net</strong>.
+
+</div>
+<h3>You need this module if you work with images.</h3>
+Once installed, you can size, crop, and change the format of images from anywhere... HTML, ASP.NET, ASP, PHP, Flex, or Flash ... Just add the desired behavior to the URL with "?width=100" or "?format=jpg". It supports scaling, cropping, rotating, flipping, stretching, padding, borders, transparency, jpeg, png, and gif formats. Aspect ratio is <em>always</em> maintained unless &amp;stretch=fill is specified.
+
+Server-side image resizing is one of those little features that can have incredible ROI. It can save webmasters several hours each day, and gives you the ability to change the resolution of an image without having to hunt up the original.
+
+I first developed this image resizing system in early 2007. I needed something very intuitive, simple, secure, and efficient. Hundreds of customers, millions of images, three years of traffic, and zero memory leaks have been discovered. Less than 4 stability or security related bugs have slipped through the testing process, and all were in alpha or beta versions.
+
+.NET 2.0 through 4.0 are supported, along with IIS5, IIS6, IIS7, and IIS7.5.
+
+No code is required, but a full API is present if you want to integrate resizing and cropping into your upload process, or even hook it into a database. All .NET languages are supported.
+<p class="rightbox">The difference between the actual size and wanted size  of an uploaded image is inversely proportional to the quantiy of time available and the sluggishness of Photoshop.</p>
+Check out the <a href="../../11201_Image_Resizer_v2_Examples">samples page</a> to see what it can do. The <a href="../../11151_Image_Resizer_License">license</a> is much like the GPL, and allows you to redistribute the source code as part of a larger project. You'll find the source code very clean, organized, and well commented.
+
+Although I typically release my components for free, I decided to charge a 'download fee' for this one to help support my other open-source projects. Don't worry, this component is still open-source, and the license permits source redistribution as part of a larger system. However, I'm asking that people who want to integrate this component purchase the download instead of ripping it out of another open-source project. My free to non-free LOC (lines of code) ratio is still over 40 to 1, and I plan on keeping it that way.  I trust this will keep everybody happy.
+
+Your donations are the reason Version 2 exists.
+<h2>A few user comments...</h2>
+<div class="smallcomments">
+<blockquote>To anyone thinking of using this module, it worked great and saved me lots of custom-coding time for a client project. On top of that, Nathanael reworked some of the code to my needs for a very reasonable rate, so I have the custom solution I needed.
+
+If you're working on an image display project in asp.net, just use this code and enjoy. It's bullet proof!
+
+Jason
+
+<a href="http://webmanufactory.blogspot.com/">http://webmanufactory.blogspot.com/</a></blockquote>
+<blockquote>Nathanael, I downloaded your code this weekend to use in our portal code base. I was tired of writing code to pick between icon/medium/large/original sizes of the images for different pickers / viewers etc. I was skeptical as to whether the component would be fast enough for the performance we are after in our software, but I am glad to report that your code is super fast and does exactly what you say it does. It was easy to install, and works perfectly. Thank you so much for building this tool, it is going to come in handy!
+
+I do have one question though, which is why the tool will not resize an image to be larger than the original source image. I have a few images that are 800X600 jpegs, and when I tried ?width=1024 the code returned the original image size of 800X600? Is this by design? How hard would it be to make the code upsize and image? <em>[v2 allows this with &amp;scale=both]</em>
+
+Again, thank you for the tool, and to other skeptic developers, Nathan's code rocks out of the box.
+
+Thanks,
+
+Steve</blockquote>
+<blockquote>By Dave
+just like to say, since using the code (and getting working and donating in next to no time) we have moved three or four of our sites over to using this technique. Previously we had manually run batch resizes initially and then made clients create multiple sizes of the image... very time consuming and some clients weren't technically up to the task. Having been after such a solution for so long, i was really worried that the time to generate images on the fly and the resultant quality would be a problem, but WOW..... this code nails it entirely...i can only say if you are reading these comments, worry not and get this code straight away.... so much work seems to have gone into this solution, i can't rate it too highly... my find of the year....... thanks Nathanael....</blockquote>
+</div>
+</div>
+<div id="features">
+
+Querystring-based resizing is super-simple and can be used from any language (HTML, ASP.NET, PHP, Flash, Flex, etc).
+
+Supports scaling, cropping, rotating, flipping, stretching, padding, borders, transparency, and the 4 main image formats. Aspect ratio is maintained unless <strong>&amp;stretch=fill</strong> is specified.
+
+For example, to make an image 400px or less wide, just add <strong>?width=400</strong>. If you want to set both the maximum height and width, use <strong>?maxwidth=400&amp;maxheight=400</strong>.
+
+Sometimes you need all your images to be exactly the same size, regardless of the original aspect ratio. There are several solutions to this. If you specify both <strong>width</strong> and <strong>height</strong>, whitespace will be automatically added to two sides to make up the difference. Set whitespace color with <strong>&amp;bgcolor</strong>. If you don't want whitespace, you can try <strong>&amp;crop=auto</strong>. This "smart cropping" will figure out the minimal amount of cropping needed to center the image in the box without changing the aspect ratio or leaving whitespace. And, of course, you could stretch your images with <strong>&amp;stretch=fill</strong>... if you really wanted to.
+
+Convert between jpg, png, gif, tiff, and bmp images with <strong>&amp;format=jpg|png|gif</strong>. Adjust the quality/size tradeoff of Jpegs with <strong>&amp;quality=1-100</strong>, and the palette size of GIFs and PNGs with <strong>&amp;colors=2-255</strong>
+
+Not just for thumbnails - useful for resizing entire slideshows in real-time as the user changes the window size.
+
+You can select any frame of an animated GIF with <strong>?frame=x</strong>, and any page from a TIFF file with <strong>?page=x</strong>.
+
+Manually crop out parts of an image with <strong>?crop=(x1,y1,x2,y2).</strong> Rotate with <strong>?rotate=degrees</strong>. Flip with <strong>?flip=h|v|both</strong>.
+And the best part - add borders and paddings without causing CSS layout bugs!
+
+Check out the <a href="/11201_Image_Resizer_v2_Examples">samples page</a> to see all the features in action.
+<ul class="normallist">
+	<li>Supported input formats: BMP, GIF, JPG, PNG and TIFF</li>
+	<li>Supported output formats: <strong>JPG, PNG, and GIF</strong></li>
+</ul>
+<h3>Command Reference</h3>
+<ul class="normallist">
+	<li>width, height - force the width and/or height to certain dimensions. Whitespace will be added if the aspect ratio is different.</li>
+	<li>maxwidth, maxheight - fit the image within the specified bounds. (Most often used)</li>
+	<li>crop=auto - Crop the image the the size specified by width and height. Centers and minimally crops to preserve aspect ratio.</li>
+	<li>crop=(x1,y1,x2,y2) - Crop the image to the specified rectangle on the source image. You can use negative coordinates to specifiy bottom-right relative locations.</li>
+	<li>rotate=degress - Rotate the image.</li>
+	<li>bgcolor=color name| hex code (6-char). Sets the background/whitespace color.</li>
+	<li>stretch=fill - Stretches the image to width and height if both are specified. This is the only way to lose aspect ratio.</li>
+	<li>scale=both|upscaleonly|downscaleonly|upscalecanvas - By default, images are never upscaled. Use &amp;scale=both to grow an image.</li>
+	<li>flip=h|v|both - Flips the image after resizing.</li>
+	<li>sourceFlip=h|v|both - Flips the source image before resizing/rotation.</li>
+	<li>paddingWidth=px &amp; paddingColor=color|hex. paddingColor defaults to bgcolor, which defaults to white.</li>
+	<li>borderWidth=px, borderColor=color|hex.</li>
+	<li>format=jpg|png|gif</li>
+	<li>colors=2-255 - Control the palette size of PNG and GIF images. If omitted, PNGs will be 24-bit.</li>
+	<li>frame=x - Choose which frame of an animated GIF to display.</li>
+	<li>page=x - Choose which page of a multi-page TIFF document to display.</li>
+</ul>
+</div>
+<div id="quality">
+
+Bicubic resampling is used exclusively, resulting in very high-quality output. Jpeg compression is excellent, and uses the native windows JPEG encoder. Version 2.0 adds octree quantization for GIF and 8-bit PNG output, providing excellent palette generation for those also.
+
+In my tests, the native windows JPEG encoder and Photoshop have the same visual quality and file size results. Expect photoshop-quality results for both JPEG and PNG output.
+
+GIF and 8-bit PNG output is drastically improved in version 2.0 due to the addition of octree quantization. The primary difference you will notice between Photoshop and module output is the lack of dithering. In most scenarios this doesn't affect visual quality much and actually makes the image look 'cleaner'. Very gentle gradients do benefit from dithering, as do gradients against transparency.
+
+File sizes are excellent - don't expect a measurable improvement when you use Photoshop or ImageReady to compress your images with the same quality settings.
+
+</div>
+<div id="performance">
+
+The key to the excellent performance of this module is the disk caching system. This allows even a relatively low-end server to handle the same number of dynamic requests as static file requests. Each image only has to be resized once; subsequent requests are served directly from disk.
+<ul class="normallist">
+	<li>Caching doesn't get in your way - if you modify the source file, the resized versions are also updated.</li>
+	<li>You can resize the same image to several different sizes, and the different versions are cached separately.</li>
+	<li><strong>Managed disk cache</strong>. If the number of cached files exceeds the configured threshold, a cleanup pass is made on the directory, and a block of the least recently used files are removed.</li>
+	<li>Client-side caching directives are sent, minimizing repetitive requests from the same client.</li>
+	<li>Thumbnail generation in <strong>under 20 milliseconds</strong> for most images.</li>
+	<li>Suitable for slideshows and lists of images. Even the initial resizing of 50 images concurrently isn't noticeably slow.</li>
+	<li>Good with large source files (1-5MB)</li>
+</ul>
+</div>
+<div id="requirements">
+<ul class="normallist">
+	<li>Runs on any of the following following: Windows 2000,  Server 2000, XP, Server 2003, Vista, or Server 2008.</li>
+	<li>Requires .NET 2.0 or higher to be installed on the server and enabled on the website. .NET 4 is suported</li>
+	<li>Users of version 1.0 should get the free upgrade to 1.2 if they wish to use IIS7 Integrated Mode.</li>
+</ul>
+</div>
+<div id="opensource" style="padding-left: 25px;">
+
+While I do charge a download fee, the license allows you to redistribute the source as part of another open-source project. I'm trying to achieve several objectives: 1) Remove the need for users to track licenses, 2) Promote use in open-source projects, 3) Still provide financial support so the project can continue to evolve rapidly.
+<ul class="normallist">
+	<li>Complete source code and an example project is included</li>
+	<li>Clean, well documented, well designed code.</li>
+	<li>Great platform to build your own image processing systems on. You can use the disk caching system or image processing code independently from each other.</li>
+	<li>Very extensible, easy to add new features.</li>
+</ul>
+CustomFolders.cs can be *easily* modified to do all kinds of work:
+<ul class="normallist">
+	<li>Build rules to automatically resize images based on folder name or other criteria.</li>
+	<li>Add a new syntax for abbreviating or simplifying common resizing operations. Like /resize(w,h)/.</li>
+	<li>Easily perform URL rewriting for your images with String.Replace calls. (Regexes work too, if you like them).</li>
+</ul>
+By purchasing the download, you are permitted to
+<ol>
+	<li>Modify and use the component in all of your projects.</li>
+	<li>Redistribute the source code as part of another project, provided the component
+is less than 5% of the project (in lines of code), and you keep this information attached.</li>
+	<li>If you received the source code as part of another open source project,
+you cannot extract it (by itself) for use in another project without purchasing a download
+from http://nathanaeljones.com/. If nathanaeljones.com is no longer running, and a download
+cannot be purchased, then you may extract the code.</li>
+</ol>
+This is basically a developer license - if you aren't a developer (i.e., a hosting company wanting a site or server license), please e-mail me (nathanael.jones@gmail.com).
+
+</div>
+<div id="faq"><dl class="faq"> <dt>Q: Is it possible to specify the width and height, and have your resize and crop to fit the aspect ratio, losing as little image area as possible? </dt> <dd>A: Yes, and it is easy. Use ?width=x&amp;height=y&amp;crop=auto.
+
+</dd> <dt>Q: Are animated GIFs supported? </dt> <dd>A: Only one frame is resized. You can choose the frame using &amp;frame=x. Animated GIFs are not supported by .NET, and require lots of extra code.
+I've developed a custom add-on to the resizer that supports them, but it costs extra. Send me an e-mail if you wish to purchase it.
+
+</dd> <dt>Q: Are multi-page .TIFFs supported? </dt> <dd>A: Yes - you can convert any page of a multi-page .TIFF to .jpg, .png, or .gif. Use ?page=x&amp;format=jpg
+
+</dd> <dt>Q: Can I resize the same image to different sizes? </dt> <dd>A: Yes - there is no limit on how many sizes of an image can be cached.
+
+</dd> <dt>Q: Is load balancing across multiple servers supported? </dt> <dd>A: Each server needs its own /imagecache directory. If you disable file system synchronization for /imagecache, it should work fine.
+
+</dd> <dt>Q: Do the image names change when they are resized? Is SEO affected? </dt> <dd>A: No, image names are retained - SEO isn't affected.
+
+</dd> <dt>Q: If I resize a photo to its original size, will a new photo be returned, or the original? </dt> <dd>A: All photos are re-compressed, even if the original photo is the same size. This allows ICC correction, file size improvement, and metadata removal.
+
+</dd> <dt>Q: Can the resizer both crop, then resize at the same time? </dt> <dd>A: Yes, you can specify a crop rectangle with ?crop=(x1,y1,x2,y2) or ?crop=auto, and add &amp;width=x or any of the resizing commands to resizing the resulting crop.
+All commands can be combined.
+
+</dd> <dt>Q: Can I use this on images not located on the server? </dt> <dd>A: No - it only works for local images. Resizing remote images requires a different architecture, and a different syntax.
+Speedy performance is more difficult.
+If you are interested in funding this feature, e-mail me. If enough people are interested, they can split the cost of development.
+
+</dd> <dt>Q: Do the image names change when they are resized? Is SEO affected? </dt> <dd>A: No, image names are retained - SEO isn't affected.
+
+</dd> <dt>Q: When I resize a small image to larger dimensions, it stays at the original size. </dt> <dd>A: This is by design - add &amp;scale=both to allow images to be upscaled. You might want to consider up-scaling client-side to save bandwidth... Just set both width and height on the &lt;img&gt; tag.
+
+</dd> <dt>Q: Can I use this with images stored in a database? </dt> <dd>A: Sure, but you'll have to do a little work. The hard part is done for you, but you'll need to write the SQL code and call
+ImageManager.getBestInstance().BuildImage(). You can pass in a Bitmap object - which can be created from a SQL blob field. The Bitmap that is returned
+can be written to disk easily using the ImageOutputSettings class.
+
+</dd> <dt>Q: Can I use this to resize images as users upload them? </dt> <dd>A: Sure! I suggest keeping the original images around, and using the resizer normally (in case you later want larger images).
+However, it's easy to resize and overwrite an image - 1 line of code.
+
+ImageManager.getBestInstance().BuildImage(sourceFile, destFile, new yrl("?maxwidth=80&amp;maxheight=80&amp;format=png").QueryString);
+
+</dd> <dt>Q: Is in neccessary to wildcard map everything to ASP.NET when using IIS6? </dt> <dd>A: No - you can map .jpg, .png, and .gif individually, but I've had numerous reports of IIS issues when using this configuration. I suggest you avoid it.
+
+</dd> <dt>Q: I'm seeing a username and password dialog when resizing some images. What is causing this? </dt> <dd>A: You are probably using IIS6, and have inserted individual mappings for .jpg, .gif, and .png instead of using the wildcard mapping as suggested.
+The best solution is to add the wildcard mapping.
+
+</dd> <dt>Q: I asked my hosting company to add the wildcard mapping, but images don't resize when I add ?width=x; they appear in their original size. I've verified that the HttpModule entry is in Web.Config </dt> <dd>A: The tech support person didn't add the wildcard mapping correctly. Sorry. You can prove it to them by enabling tracing and verifying that the
+image requests never reach asp.net.
+Add
+to your web.config temporarily (never leave it in long on a production site - slows things down).
+Visit mysite.com/anyimage.jpg
+Visit mysite.com/trace.axd. If the JPG URL isn't in here, it is impossible that the wildcard mapping is installed correctly.
+
+</dd> <dt>Q: I'm getting OutOfMemory exceptions when I try to resize certain large images for the first time (subsequent requests are fine). They're only 15MB in jpeg form, and I have 100MB of free RAM. </dt> <dd>A:
+A 15MB JPG uncompresses to about 80MB in bitmap form (depending upon the compression level). If you are resizing to a 2MB jpeg (15MB BMP), memory requirements for the
+operation are roughly 110MB (15 + 80 + 15). If you plan on using the resizer for very high-resolution photos (above 8MP), I suggest making sure you have ample amounts of RAM.
+
+</dd> <dt>Q: I've upgraded from the trial version, but I'm still seeing watermarks on my images. </dt> <dd>A: You need to delete the contents of the /imagecache folder, which still contains some cached images generated by the trial version.
+
+</dd> <dt>Q: My website is hosted on a UNC share, and it's not working. I have 2.0a or earlier. </dt> <dd>A: Upgrade. It works in 2.0b.
+
+</dd> <dt>Q: I'm getting a .NET security error when resizing GIF images, and when using ?format=png&amp;colors=255. All other image types work fine.
+
+</dt> <dd>A: Your hosting provider has messed with the machine.config on the server, and
+has prohibited the Marshal class from being used. Upgrade to 2.1+ and set DisableCustomQuantization=true in web.config. GIF quality will be noticeably lower,
+but errors should go away. Alternatively, find yourself a better hosting provider.
+
+</dd> <dt>Q: Image resizing is slow. The number of files in /imagecache/ is constantly hovering around the MaxCachedImages value. </dt> <dd>A: If MaxCachedImages is too low, images will be constantly deleted, then resized again as the get requested next.
+
+</dd> <dt>Q: When I resize a dark image, I noticed that there is a 1 pixel border around the image that is slightly brighter than the rest - like a dark gray. What causes this? </dt> <dd>A: This is a bug in Microsoft's GDI code. I've tried over 8 different workarounds, and I don't think any exist.
+I may switch to a different image processing library for this reason, but I've had very, very few complaints about the issue.
+
+</dd> <dt>Q: I've written my own code that uses your classes. I'm getting "A generic error occurred in GDI+" with PNGs. </dt> <dd>A: PNGs can only be written to seekable streams (such as files). Response.OutputStream is not seekable.
+Use the ImageOutputSettings.SaveImageToNonSeekableStream() method to fix this. Make sure you are using 2.0rc2 or later.
+
+</dd> <dt>Q: My problem isn't listed here. What do I do? </dt> <dd>A: First, make sure you are using wildcard mapping instead of individual mappings. And that you are using the latest version.
+This is the #1 problem (other than forgetting mappings entirely).
+Next, go through the instructions again and double-check your settings.
+If that doesn't help, leave a comment on the main page with
+your problem, complete error message (you may have to enable debug=true),
+version of IIS, and the URLs you are using.
+
+</dd> </dl></div>
+</div>
+Looking for the 60+ comments that used to be here? They're on the <a href="../../11131_Image_Resizer_v1_2_Product_Page">old (v1.2) product page</a>.
+
+<!--articlebanner:         
+    <div class="resizerDemo">
+<img src="/wp&#45;content/themes/overeasy&#45;ndj/images&#45;custom/product&#45;top2.png" class="product&#45;top&#45;image" />
+<div class="imageSelection">
+
+<div id="imageList"></div>
+
+<p class="liveDemo">Live Demo!</p>
+ <p class="chooseImage">Click an image</p>
+</div>
+
+<div class="imageBackground">
+
+<div class="interface">
+<ul class="sizes">
+ 
+
+</ul>
+<p class="command"><a target="_tab" id="demo_openInNewTab">Modify the query string directly</a>.</p>
+
+</div>
+  </div>
+</div>-->

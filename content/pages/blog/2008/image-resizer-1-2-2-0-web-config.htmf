@@ -1,0 +1,30 @@
+Aliases: /149/image-resizer-1-2-2-0-web-config/ /?p=149 /11161_Image_Resizer_1_2_2_0_Web_config
+Atom ID: http://66.29.219.39/?p=149
+Summary: Adding web.config settings
+Categories: image-resizing
+Tags: image-resizer, image-resizing
+Date: Nov 21 2008
+
+<h1>Image Resizer - Web.config</h1>
+
+The image resizer is implemented as an HttpModule. URL authorization is performed by .NET prior to any URL rewriting, and also by the image resizer afterwards. This ensures no holes in URL authorization are created.
+
+For best performance,&#xA0;&#xA0;*all* file serving work is done by IIS. The cached image is first written to disk, allowing a simple RewritePath call to pass the work to IIS. This eliminates all the threads that would otherwise be hanging around, using memory.
+
+The same code can now be used for both IIS5, 6, 7 classic and 7 integrated. The httpModules section handles IIS5/6/7c, and the modules section handles IIS7 integrated mode.
+<pre class="brush:xml">&lt;system.web&gt;
+  ...
+  &lt;httpModules&gt;
+    &lt;add name="ImageResizer" type="fbs.ImageResizer.InterceptModule"/&gt;
+  &lt;/httpModules&gt;
+  ...
+&lt;/system.web&gt;
+&lt;system.webServer&gt;
+  &lt;validation validateIntegratedModeConfiguration="false"/&gt;
+  ...
+  &lt;modules&gt;
+    &lt;add name="ImageResizer" type="fbs.ImageResizer.InterceptModule"/&gt;
+  &lt;/modules&gt;
+&lt;/system.webServer&gt;</pre>
+
+<!--url: 11161_Image_Resizer_1_2_2_0_Web_config-->

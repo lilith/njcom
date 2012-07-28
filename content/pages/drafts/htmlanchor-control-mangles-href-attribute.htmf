@@ -1,0 +1,48 @@
+Aliases: /?p=100 /10991_HtmlAnchor_control_mangles_href_attribute
+Atom ID: http://66.29.219.39/?p=100
+wp_status: pending
+Flags: draft
+Date: May 9 2008
+
+<h1>HtmlAnchor control mangles href attribute</h1>
+
+I am running into an issue with the HtmlAnchor class. I have &lt;xhtmlConformance mode="Strict"/&gt;, but it is not helping.
+
+ 
+
+In my .aspx page, I have the following literal code, which is valid X/HTML:
+
+ 
+
+&lt;a href="http://branham.org/BranhamDefault.asp?Home=VGR&amp;LoadPageDetail=VGR.htm" &gt;
+
+ 
+
+When I add the runat=&#x201D;server&#x201D; attribute, an HtmlAnchor object is created, and the attribute values are decoded.
+
+ 
+
+&lt;a href="http://branham.org/BranhamDefault.asp?Home=VGR&amp;LoadPageDetail=VGR.htm" runat="server"&gt;
+
+ 
+
+When this HtmlAnchor object is rendered, it generates the following invalid markup.
+
+ 
+
+&lt;a href="http://branham.org/BranhamDefault.asp?Home=VGR=VGR.htm"&gt;
+
+ 
+
+The parsing code HtmlDecodes the  entity, but the HtmlAnchor failes to re-encode (HtmlAttributeEncode) the href attribute when it is rendered.
+
+ 
+
+I can patch this with a control adapter, but I&#x2019;m wondering why this behavior is default? The Hyperlink control handles this situation correctly (and renders  regardless of input).
+
+ 
+
+Best Regards,
+Nathanael Jones
+
+<!--url: 10991_HtmlAnchor_control_mangles_href_attribute-->

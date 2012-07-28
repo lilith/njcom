@@ -1,0 +1,83 @@
+Aliases: /135/image-resizer-1-0-web-config/ /?p=135 /11121_Image_Resizer_1_0_Web_config
+Atom ID: http://66.29.219.39/?p=135
+Summary: Making required changes in web.config
+Categories: image-resizing
+Tags: image-resizer, image-resizing
+Date: Aug 6 2008
+
+<h1>Image Resizer 1.0 - Web.config</h1>
+
+The image resizer integrates with ASP.NET's URL authorization system quite well. It can't be exploited to access protected files, because it is simply a normal Jpeg/Png/Gif handler. However, we only want the handler to execute for files that actually need resizing - if possible we want control to pass back to IIS6 for performance gains.
+
+Since we only want some .jpg requests to go to the handler, we need to do some logic before we assign a handler. In IIS 6 and IIS7 Classic Pipeline mode, we need to drop in a CustomDefaultHandler at the bottom of the httpHandlers list.
+<pre class="brush:xml">&lt;httpHandlers&gt;
+      &lt;clear/&gt;
+      &lt;add path="trace.axd" verb="*" type="System.Web.Handlers.TraceHandler" validate="true"/&gt;
+      &lt;add path="WebResource.axd" verb="GET" type="System.Web.Handlers.AssemblyResourceLoader" validate="true"/&gt;
+      &lt;add path="*.axd" verb="*" type="System.Web.HttpNotFoundHandler" validate="true"/&gt;
+      &lt;add path="*.aspx" verb="*" type="System.Web.UI.PageHandlerFactory" validate="true"/&gt;
+      &lt;add path="*.ashx" verb="*" type="System.Web.UI.SimpleHandlerFactory" validate="true"/&gt;
+      &lt;add path="*.asmx" verb="*" type="System.Web.Services.Protocols.WebServiceHandlerFactory, System.Web.Services, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" validate="false"/&gt;
+      &lt;add path="*.rem" verb="*" type="System.Runtime.Remoting.Channels.Http.HttpRemotingHandlerFactory, System.Runtime.Remoting, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" validate="false"/&gt;
+      &lt;add path="*.soap" verb="*" type="System.Runtime.Remoting.Channels.Http.HttpRemotingHandlerFactory, System.Runtime.Remoting, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" validate="false"/&gt;
+     &lt;add path="*.svc" verb="*" type="System.ServiceModel.Activation.HttpHandler, System.ServiceModel, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" validate="false"/&gt;
+
+&lt;!-- These are forbidden extensions. I've added a lot here, such as .swp, .sln, .suo, .bak, and .db --&gt;
+
+&lt;add path="*.asax" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.ascx" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.master" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.skin" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.browser" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.sitemap" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.dll.config" verb="GET,HEAD" type="System.Web.StaticFileHandler" validate="true"/&gt;
+      &lt;add path="*.exe.config" verb="GET,HEAD" type="System.Web.StaticFileHandler" validate="true"/&gt;
+      &lt;add path="*.config" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.cs" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.csproj" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.vb" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.vbproj" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.webinfo" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.licx" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.resx" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.resources" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.mdb" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.vjsproj" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.java" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.jsl" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.ldb" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.ad" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.dd" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.ldd" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.sd" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.cd" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.adprototype" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.lddprototype" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.sdm" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.sdmDocument" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.mdf" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.ldf" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.exclude" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.refresh" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.db" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+      &lt;add path="*.bak" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+		&lt;add path="*.swp" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+		&lt;add path="*.sln" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+		&lt;add path="*.suo" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+
+		&lt;add path="robots.txt" verb="*" type="System.Web.StaticFileHandler" validate="true"/&gt;
+&lt;!-- I've also added .txt to prevent my todo files and readme files from being accessible. If you want to serve .txt files, remove this line --&gt;
+		&lt;add path="*.txt" verb="*" type="System.Web.HttpForbiddenHandler" validate="true"/&gt;
+
+      &lt;add path="*" verb="GET,HEAD,POST" type="fbs.Handlers.CustomDefaultHandler" validate="true"/&gt;
+      &lt;add path="*" verb="*" type="System.Web.HttpMethodNotAllowedHandler" validate="true"/&gt;
+    &lt;/httpHandlers&gt;</pre>
+<script src="/scripts/syntaxhighlighter/shCore.js" type="text/javascript"/>
+ <script src="/scripts/syntaxhighlighter/shBrushCSharp.js" type="text/javascript"/>
+<script src="/scripts/syntaxhighlighter/shBrushXml.js" type="text/javascript"/>
+ <script type="text/javascript">// <![CDATA[
+dp.SyntaxHighlighter.ClipboardSwf = '/scripts/syntaxhighlighter/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('code');
+// ]]></script>
+
+<!--url: 11121_Image_Resizer_1_0_Web_config-->

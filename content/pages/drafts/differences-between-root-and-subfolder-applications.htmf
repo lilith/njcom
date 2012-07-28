@@ -1,0 +1,97 @@
+Aliases: /?p=121 /11071_Differences_between_root_and_subfolder_applications
+Atom ID: http://66.29.219.39/?p=121
+Summary: IIS allows websites to be hosted in virtual folders that do not correspond to the on-disk organization.
+wp_status: pending
+Flags: draft
+Date: Jun 3 2008
+
+<h1>Differences between root and subfolder applications</h1>
+
+	
+
+<style type="text/css">
+dt { float:left; display:inline; padding-right:25px; font-weight:bold;}
+dd {  }
+h3 {margin-top:2em;}
+
+dl{
+border:1px solid #eaeaea;
+padding:15px;
+margin-top:15px;
+font-size:8pt;
+overflow:scroll;
+}
+span.querystring {
+color:red;
+}
+
+span.pathinfo{
+color:green;
+}
+
+span.filepath{
+color:blue
+}
+
+table.rootVsSubfolder{
+font-size:7.5pt;
+color:black;
+
+}
+table.rootVsSubfolder td{
+border-top: 1px solid gray;
+padding:5px;
+text-align:center;
+}
+table.rootVsSubfolder thead td{
+
+font-weight:bold;
+}
+td.property{
+border-right: 1px solid gray;
+padding-left:0px;
+}
+td.root{
+border-right: 1px solid gray;
+}
+td.subfolder{
+padding-right:0px;
+}
+</style>
+
+
+<p>IIS allows websites to be hosted in virtual folders that do not correspond to the on-disk organization. For example, if you publish a website located in C:\Websites\MyWebsite2\ on virtual folder /Web1/Test/, The URI to access it would be http://mycomputer/Web1/Test/.</p>
+
+<p>The following table contains data from single web site being accessed from two different locations. One channel is the virtual folder /URLTests on port 80, and the other is the root website on port 87.</p>
+
+
+
+<table class="rootVsSubfolder" cellpadding="0" cellspacing="0">
+<thead>
+<tr><td class="property">
+Property</td>
+<td class="root" width="100px">http://localhost:87/content/pages/ test.aspx/pathinfo?query=value</td>
+<td class="subfolder">http://localhost/UrlTests/content/pages/ test.aspx/pathinfo?query=value</td>
+</tr>
+</thead>
+<tbody>
+<tr><td class="property">	Request. ApplicationPath	</td><td class="root">	/	</td><td class="subfolder">	/UrlTests	</td></tr>
+<tr><td class="property">	Request. RawUrl	</td><td class="root">	/content/Pages/test.aspx/pathinfo?query=value	</td><td class="subfolder">	/UrlTests/content/Pages/test.aspx/pathinfo?query=value	</td></tr>
+<tr><td class="property">	Request. AppRelativeCurrent ExecutionFilePath	</td><td class="root">	~/content/Pages/test.aspx	</td><td class="subfolder">	~/content/Pages/test.aspx	</td></tr>
+<tr><td class="property">	Request.Current ExecutionFilePath	</td><td class="root">	/content/Pages/test.aspx	</td><td class="subfolder">	/UrlTests/content/Pages/test.aspx	</td></tr>
+<tr><td class="property">	Request. FilePath	</td><td class="root">	/content/Pages/test.aspx	</td><td class="subfolder">	/UrlTests/content/Pages/test.aspx	</td></tr>
+<tr><td class="property">	Request. Path	</td><td class="root">	/content/Pages/test.aspx/pathinfo	</td><td class="subfolder">	/UrlTests/content/Pages/test.aspx/pathinfo	</td></tr>
+<tr><td class="property">	Request. PathInfo	</td><td class="root">	/pathinfo	</td><td class="subfolder">	/pathinfo	</td></tr>
+<tr><td class="property">	Request. PhysicalApplicationPath	</td><td class="root">	C:\Users\Nathanael\Desktop\WebApplication2\	</td><td class="subfolder">	C:\Users\Nathanael\Desktop\WebApplication2\	</td></tr>
+<tr><td class="property">	Request. PhysicalPath	</td><td class="root">	C:\Users\Nathanael\Desktop\WebApplication2 \content\Pages\test.aspx	</td><td class="subfolder">	C:\Users\Nathanael\Desktop\WebApplication2 \content\Pages\test.aspx	</td></tr>
+<tr><td class="property">	Request. Url.OriginalString	</td><td class="root">	http://localhost:87/content/Pages/ test.aspx/pathinfo?query=value	</td><td class="subfolder">	http://localhost:80/UrlTests/content/Pages/ test.aspx/pathinfo?query=value	</td></tr>
+</tbody>
+</table>
+<p>
+Note: CurrentExecutionFilePath (and the AppRelative version) both differ from FilePath with Server.Execute or Server.Transfer is used. CurrentExecutionFilePath changes to reflect the executing file, while FilePath remains unchanged. Spaces in the table above were inserted to allow wrapping of the text - the actual data contains no whitespace.
+</p>
+
+<p>This should illustrate why application-relative paths (~/file.aspx) should be used wherever possible - they permit the site to be hosted in virtual folder as well as in a site root. Can you imaging the maintenance costs if you needed to move your site, and were using absolute paths, such as (/vdir/file.aspx)? You may not currently need to host the site on a virtual folder for dev purposes, but what about 5 years from now when you want to keep the old system online in a subfolder of the new site?</p>
+
+
+<!--url: 11071_Differences_between_root_and_subfolder_applications-->

@@ -1,0 +1,103 @@
+Aliases: /117/pathinfo-woes/ /?p=117 /10961_PathInfo_Woes
+Atom ID: http://66.29.219.39/?p=117
+Summary: "ASP.NET introduces a new URI component to the equation: PathInfo. It's not very well known, possibly due to poor implementation and consequent lack of usefulness. However, it is important that you understand how it can affect you."
+Categories: asp-net
+Date: May 19 2008
+
+<h1>PathInfo Woes</h1>
+
+<!-- div.scrollArea{ overflow:scroll; } td{ border-top:1px solid #eaeaea; padding:5px; } thead td{ font-weight:bold;
+
+} span.pathinfo{ color:red; } -->
+
+ASP.NET introduces a new URI component to the equation: PathInfo. It's not very well known, possibly due to poor implementation and consequent lack of usefulness. However, it is important that you understand how it can affect you.
+
+Browsers (and the System.Uri class) only split paths into two pieces: the path and the query string. ASP.NET, however, splits the path once again, into the Request.FilePath and the Request.PathInfo properties. In the following three urls, the page test.aspx is always successfully executed, even though <strong>test.aspx</strong> is not immediately followed by a question mark. The string between "test.aspx" and "?" is stored in the Request.PathInfo property, and is <strong>
+  <em>not</em>
+</strong> used when trying to find the appropriate .aspx file to execute.
+<div class="scrollArea">
+<table border="0">
+<thead>
+<tr>
+<td class="property">Request.RawUrl</td>
+<td class="c1">/UrlTests/content/pages/test.aspx<span class="pathinfo">/folder/file</span>?querystring</td>
+<td class="c2">/UrlTests/content/pages/test.aspx<span class="pathinfo">/</span>?querystring</td>
+<td class="c3">/UrlTests/content/pages/test.aspx?querystring</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="property">Request.FilePath</td>
+<td class="c1">/UrlTests/content/pages/test.aspx</td>
+<td class="c2">/UrlTests/content/pages/test.aspx</td>
+<td class="c3">/UrlTests/content/pages/test.aspx</td>
+</tr>
+<tr>
+<td class="property">Request.Path</td>
+<td class="c1">/UrlTests/content/pages/test.aspx<span class="pathinfo">/folder/file</span></td>
+<td class="c2">/UrlTests/content/pages/test.aspx<span class="pathinfo">/</span></td>
+<td class="c3">/UrlTests/content/pages/test.aspx</td>
+</tr>
+<tr>
+<td class="property">Request.PathInfo</td>
+<td class="c1"><span class="pathinfo">/folder/file</span></td>
+<td class="c2"><span class="pathinfo">/</span></td>
+<td class="c3">(empty string)</td>
+</tr>
+<tr>
+<td class="property">Control.ResolveClientUrl("test.jpg")</td>
+<td class="c1">/UrlTests/content/pages/test.jpg</td>
+<td class="c2">/UrlTests/content/pages/test.jpg</td>
+<td class="c3">/UrlTests/content/pages/test.jpg</td>
+</tr>
+<tr>
+<td class="property">Control.ResolveUrl("test.jpg")(Improper path resolution)</td>
+<td class="c1">test.jpg</td>
+<td class="c2">test.jpg</td>
+<td class="c3">test.jpg</td>
+</tr>
+<tr>
+<td class="property">Relative path <em>needed</em> by browser</td>
+<td class="c1">../../test.jpg</td>
+<td class="c2">../test/jpg</td>
+<td class="c3">test.jpg</td>
+</tr>
+</tbody></table>
+</div>
+Note: If you name a folder <strong>folder.aspx</strong> and try to access a file inside it, ASP.NET will try to find the file folder.aspx, and a <strong>404</strong> will occur. From what I can tell (on IIS7), only the .aspx extension will cause this to occur. The actual parsing is done in native code (UnsafeIISMethods.MgdGetUriPath(this._context, out ptr, out num, includePathInfo)), so I can only guess by trial and error.
+
+PathInfo <strong>
+  <em>would</em>
+</strong> be a wonderful way to do simple URL rewriting, since it allows basic query strings to be easily reformatted as "virtual" folders and files. The first set of paths both cleaner and more SEO-friendly than the second.
+<h3>Using Reqeust.PathInfo</h3>
+<ul>
+	<li>http://www.site.com/products.aspx/Wireless</li>
+	<li>http://www.site.com/products.aspx/Bluetooth</li>
+	<li>http://www.site.com/products.aspx/Cat6</li>
+	<li>http://www.site.com/blog.aspx/5020/Firebug_Rated_Web_Developer_Tool_Of_The_Year</li>
+</ul>
+<h3>Using Request.QueryString</h3>
+<ul>
+	<li>http://www.site.com/products.aspx?category=Wireless</li>
+	<li>http://www.site.com/products.aspx?category=Bluetooth</li>
+	<li>http://www.site.com/products.aspx?category=Cat6</li>
+	<li>http://www.site.com/blog.aspx?id=5020&amp;title=Firebug_Rated_Web_Developer_Tool_Of_The_Year</li>
+</ul>
+<strong>Don't get your hopes up, though. </strong>ASP.NET rebases all paths relative to Request.FilePath, while the browser is expecting paths relative to Request.Path. Hyperlinks, CSS files, images, and script files will all be broken.
+<h2>Side effects</h2>
+Since PathInfo allows requests like <strong>/UrlTests/content/pages/test.aspx/folder/file</strong> to still reach <strong>test.aspx</strong>, most ASP.NET sites can be linked to in a manner that will cause all file references to break. In fact, if a user accidentally types or adds a "/" after any URL ending in .aspx, your site will fall apart. I want my web sites to look and act professional in all situations, so I'm not too fond of Request.PathInfo. However, you can circumvent this issue by using a good URL rewriting library and configuring it correctly.
+
+Here are a few sites which break when accessed in this manner
+<ul>
+	<li><a href="http://asp.net/default.aspx">http://asp.net/default.aspx</a> versus <a href="http://asp.net/default.aspx/">http://asp.net/default.aspx/</a></li>
+	<li><a href="http://silverlight.net/default.aspx">http://silverlight.net/default.aspx</a> versus <a href="http://silverlight.net/default.aspx/">http://silverlight.net/default.aspx/</a></li>
+</ul>
+<span style="color:red;">Update Feb 9, 09: The following sites have been 'fixed' since the posting of this article</span>
+<ul>
+	<li><a href="http://codeplex.com/default.aspx">http://codeplex.com/default.aspx</a> versus <a href="http://codeplex.com/default.aspx/path/info/link">http://codeplex.com/default.aspx/path/info/link</a>.</li>
+	<li><a href="http://www.microsoft.com/expression/default.aspx">http://www.microsoft.com/expression/default.aspx</a> versus <a href="http://www.microsoft.com/expression/default.aspx/">http://www.microsoft.com/expression/default.aspx/</a></li>
+	<li><a href="http://www.microsoft.com/en/us/default.aspx">http://www.microsoft.com/en/us/default.aspx</a> versus <a href="http://www.microsoft.com/en/us/default.aspx/">http://www.microsoft.com/en/us/default.aspx/</a></li>
+</ul>
+
+<!--url: 10961_PathInfo_Woes-->
+<!--articlebanner: <a href="~/products/asp&#45;net&#45;image&#45;resizer/" runat="server"><img src="/content/00011131_ServersideImageResizingModuleforASPNET/ad2.jpg" runat="server" alt="Easy image resizing" /></a>-->

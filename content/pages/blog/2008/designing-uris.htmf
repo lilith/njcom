@@ -1,0 +1,231 @@
+Aliases: /99/designing-uris/ /?p=99 /10941_Designing_URIs
+Atom ID: http://66.29.219.39/?p=99
+Summary: One of the most critical steps in designing a web site is choosing your URI structure for the site. Clean, friendly URIs make visitors more comfortable and help them keep track of where they are on the site,
+Categories: asp-net, general-programming
+Date: May 9 2008
+
+<h1>Designing URIs</h1>
+
+<!-- #content ul{ list-style-type:disc; padding-left:25px; } span.path{color:red;} h2{ margin-bottom:1.5em; margin-top:2em; } h3{ margin-bottom:.4em; margin-top:1.2em; } div.note{ padding:15px; border:1px solid #94A83F;
+
+color:#505050; background-color:#e4e4e4; margin-top:.8em; margin-bottom:.8em; } .noteBoxRight{ width:200px; padding:10px; float:right; } .pathPart{ color:red; } h1.spaced{ margin-top:4em; margin-bottom:2em; } .codeBox{ line-height:1.1em; }
+
+-->
+
+ASP.NET is essentially an advanced request-processing framework.
+Naturally, the URI is the most important part of any request (or should be).
+URIs should be well designed, and should <strong>represent the requested content accurately and succinctly</strong>.
+Unfortunately, they are frequently misused, which causes browsers, users,
+and search engines no end of trouble.
+<div class="noteBoxRight">Although you can't change the main portion of the URI without reloading the page, you can modify the <a href="http://en.wikipedia.org/wiki/Fragment_identifier">fragment</a> to your heart's content with Javascript. Adobe has released a <a href="http://labs.adobe.com/wiki/index.php/Flex_3:Feature_Introductions:_Deep_Linking">BrowserManager class that makes "deep linking" easier</a>, and vastly improves the <em>user</em>'s experience on all-flash sites.</div>
+Some misuse URIs by making them too generic;
+some sites have everything on the home page.
+Flash, AJAX, and frames are the biggest culprits here,
+as they are capable of making big changes to the current content of the page without affecting the address bar.
+Users of this type of site are frustrated because if they bookmark a buried page in the site,
+it only records the address of the home page.
+The back button also betrays them - it doesn't undo their actions anymore,
+but plops them completely off the site.
+
+Search engines dislike these sites because either (1) they can't access buried content due to its form
+(JavaScript or Flash) or (2) they can access it, but all keywords are diluted from the massive amount
+of content available on one page.
+
+Some developers take the misuse to the opposite end.
+The feel that the address bar is the <em>perfect</em> place to store all variables, interface state data,
+and user preferences. They, too, cause problems for both users and search engines.
+Users bookmarking or e-mailing such links often find that they no longer work after their session has expired,
+or after a change was made on the site.
+Their length and lack of simplicity also makes them hard to understand,
+as many users depend on the address bar to understand where they are located on the site. URLs longer than 80 characters are also a pain to e-mail. Many e-mail clients will break the URL in half, making it unusable.
+
+Search engines find these type confusing, because they see (and rank) each unique URI as a separate page, and dilute ranking accordingly.
+<h2>So, you ask, what makes a good URI?</h2>
+<ul>
+	<li>It should be as short as possible. Don't sacrifice consistency or obviousness, but be brief.</li>
+	<li>Organize and name things logically. ASP.NET isn't always helpful in keeping a clean structure,
+so I highly recommend that you use a URL rewriting module. <a href="http://www.useit.com/alertbox/990321.html">URIs should be 'hackable'</a>.</li>
+	<li>URIs should be deterministic.
+<ul>
+	<li>No two URIs should ever display the same page</li>
+	<li>The same URI should always display the same content.</li>
+</ul>
+</li>
+	<li>The query string should only contain data that AFFECTS THE QUERY.
+If it doesn't describe the content, it doesn't belong. Keep the <em>query string</em> for queries, please.</li>
+	<li>
+<div class="noteBoxRight">Tip: Don't try to spam URLs with keywords.
+Density algorithms are applied here, also. As with page titles, pick 1 keyword and stick with it.</div>
+The URI path should not rely on cryptic or numerical identifiers.
+If it does, it should also provide a human-readable title.
+It's really nice to be able to look at a URL and guess what it contains -
+especially when you have a long list of them.
+As a bonus, search engines absolutely love URIs that match keywords.</li>
+</ul>
+Further reading (by Tim Berners-Lee):
+<a href="http://www.w3.org/Provider/Style/URI">http://www.w3.org/Provider/Style/URI</a>.
+
+I strongly suggest that all ASP.NET projects use some kind of URL rewriting library, such as <a href="http://www.urlrewriting.net/149/en/home.html">UrlRewritingNet</a>. Even if you only need a single rewrite, I still recommend using a library instead of trying to do it yourself. UrlRewritingNet helps you overcome the bugs in the framework seamlessly.
+<h3>Bad examples:</h3>
+<ul>
+	<li>/Default.aspx?tabid=3</li>
+	<li>/Products/ShowProduct.aspx?prodid=4982</li>
+	<li>/showblog.aspx?articleid=98</li>
+</ul>
+<h3>Better examples:</h3>
+<ul>
+	<li>/Default.aspx?tabid=3&amp;title=ContactUs</li>
+	<li>/Products/ShowProduct.aspx?id=4982&amp;product=Nokia_Wall_Adpater_12V</li>
+	<li>/showblog.aspx?articleid=98&amp;title= Why_you_should_never_concatenate_SQL_commands</li>
+</ul>
+<h3>Even better:</h3>
+<ul>
+	<li>/contact/</li>
+	<li>/products/4982_Nokia_Wall_Adapter_12v</li>
+	<li>/blog/98_Why_you_should_never_concatenate_SQL_commands</li>
+</ul>
+<h2>WWW</h2>
+The famous "www" prefix is actually pointless. You can still have <strong>ftp</strong>, <strong>mail</strong>, and <strong>smtp</strong> subdomains without forcing your website to use <strong>www</strong>. The <strong>www</strong> convention came into being since servers were typically named after their role, and HTTP was just starting out.
+
+Since web browsers only speak HTTP, you should really point your second-level domain (example.com) directly to your web server. Realize that some search engines will index <strong>www.example.com</strong> and <strong>example.com</strong> separately, since they are different locations. To prevent SSL cert and cross-domain flakiness in Flash, you should standardize on one or the other. You can force this by checking for www in Global.asax, and calling Response.Redirect() with the "fixed" version of the requested URI.
+<h1 class="spaced">URIs in the HTTP  protocol</h1>
+<strong>Let's look at how URI is sent to the server using HTTP</strong> Here is a basic GET request. The first line consists of the <strong>HTTP method,
+followed by a root-relative path, then the protocol version</strong>. The subsequent lines contain the header collection,
+in the form of simple <strong>name-colon-value pairs</strong>.
+<strong>The two parts of the URI here are the path (/blog?page=2), and the HOST-header (youngfoundations.org).</strong>
+We know that the scheme is probably "http" since we are communication using the HTTP protocol.
+IIS tells us which port the request arrived on, so between the pieces we can reconstruct the original URI somewhat accurately.
+<div class="noteBoxRight">Note: there are LOTS of schemes out there that use the HTTP protocol, like firefoxurl://, etc.</div>
+<div class="noteBoxRight">Note: The HOST header is important, since some servers host dozens of domains,
+and this allows IIS to forward the request to the appropriate application in shared hosting situations.
+Multiple domains (hostnames) can be pointed to a single application.</div>
+The path and the query are divided by the first question mark.
+<h2>GET Request</h2>
+<div class="codeBox prewrap">GET <strong>/blog?page=2</strong> HTTP/1.1[CRLF]
+Host: <strong>youngfoundations.org</strong>[CRLF]
+Connection: close[CRLF]
+Accept-Encoding: gzip[CRLF]
+
+Accept: text/xml,application/xml,application/xhtml+xml,text/html; q=0.9,text/plain; q=0.8,image/png,*/*;q=0.5[CRLF]
+Accept-Language: en-us,en;q=0.5[CRLF]
+Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7[CRLF]
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.8.1.5; .NET CLR 2.0.50727) Gecko/20070713 Firefox/2.0.0.5 Web-Sniffer/1.0.24[CRLF]
+Referer: http://web-sniffer.net/[CRLF]</div>
+The client can send content with <em>any</em> request, although it is typically sent with the POST method.
+The header collection is separated from the request body by the character sequence [CRLF][CRLF] (2 newlines).
+The content in the request body is described by the <strong>content-type</strong> and <strong>content-length</strong> HTTP headers.
+<h2>POST Request</h2>
+<div class="codeBox prewrap">POST <strong>/blog</strong> HTTP/1.1[CRLF]
+Host: <strong>youngfoundations.org</strong>[CRLF]
+Connection: close[CRLF]
+Accept-Encoding: gzip[CRLF]
+Accept: text/xml,application/xml,application/xhtml+xml,text/html; q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5[CRLF]
+Accept-Language: en-us,en;q=0.5[CRLF]
+Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7[CRLF]
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.8.1.5; .NET CLR 2.0.50727) Gecko/20070713 Firefox/2.0.0.5 Web-Sniffer/1.0.24[CRLF]
+Referer: http://web-sniffer.net/[CRLF]
+Content-type: <strong>text/html; charset=utf-8</strong> [CRLF]
+Content-length: <strong>19</strong>[CRLF]
+[CRLF]
+Sample content body</div>
+<h2>Response</h2>
+The HTTP response generated by your ASP.NET application looks slightly different that the request that prompted it.
+The general format remains, but the first line is now [HTTP Version]   [Status-code] [Status code description].
+<a href="http://en.wikipedia.org/wiki/List_of_HTTP_status_codes">Http status codes</a> are very important, but are beyond the scope of this article.
+<div class="codeBox prewrap">HTTP/1.1 301 Moved Permanently [CRLF]
+Connection: close [CRLF]
+Date:Fri, 03 Aug 2007 00:36:57 GMT [CRLF]
+Server:Microsoft-IIS/6.0 [CRLF]
+X-Powered-By:ASP.NET [CRLF]
+Location:http://www.microsoft.com [CRLF]
+Content-Length:31 [CRLF]
+Content-Type:text/html [CRLF]
+Set-Cookie:ASPSESSIONIDSSSBDQAT=PIJAGJDBFFLFAALAJDCGBAMI; path=/CRLFCache-control:private [CRLF]
+[crlf]
+[Content-body]</div>
+Important note: If you have multiple domains pointing to one website,
+make sure they are all 301 redirected to precisely one host name.
+Otherwise you will sabotage your search engine placement by (1) diluting your page rank, and
+(2) being penalized for duplicate content.
+<h1 class="spaced">URIs versus URLs</h1>
+The term URL (Uniform Resource Locator) has been considered obsolete by w3c for a long time.
+In its place stands the URI (the Uniform Resource Identifier).
+Strictly speaking, a URL must  provide <em>all</em> of the information required to located and retrieve a resource,
+while a URI is only required to identify it in relation to the current context.
+Thus, a URL is a URI that "in addition to identifying a resource, [provides] a means of locating the resource
+by describing its primary access mechanism (e.g., its network 'location').". Most people aren't aware of the difference, and use them interchangeably.
+
+<dl> <dt><strong>For example, the following URI is also a URL:</strong></dt> <dd>
+<ul>
+	<li>http://www.mysite.com:54321/ folder/virtualfolder/default.aspx? param1=thisisatest&amp;param2=test2</li>
+</ul>
+</dd> <dt><strong>However, these are not:</strong></dt> <dd>
+<ul>
+	<li>../css/shared.css  [URI relative to the location of the parent document]</li>
+	<li>/images/banner.jpg [URI relative to the current network location (usually termed 'absolute')]</li>
+	<li>Logo.gif [URI relative to the location of the parent document.]</li>
+	<li> #requirements [URI fragment relative to current document.]</li>
+</ul>
+</dd> </dl>
+<h3>Fragments</h3>
+Fragments describe a section, place, or entity in the current document.
+In HTML, they usually refer to a certain anchor tag (by name or ID).
+The window is usually scrolled to the location of the anchor tag.
+Fragments are never sent to the server computer, and only function as a display instruction to the client.
+If a fragment isn't understood, it is ignored.
+Fragments are pretty much free-form.
+
+If the current document is <strong>http://mysite.com/home.html</strong> and a link to
+<strong>http://mysite.com/home.html#part3</strong> is clicked, the browser (or user-agent),
+is not supposed to ask the server for http://mysite.com/home.html again, but older clients may.
+Relative fragments like <strong>#part3</strong> are handled more reliably.
+
+<strong>Now let us dissect the following URL:</strong>
+
+http://www.mysite.com:54321/folder/virtualfolder/default.aspx? param1=thisisatest&amp;param2=test2
+
+http  The scheme (protocol).  The protocol determines how the client should talk to the server (basically the language, or grammar).
+
+www.mysite.com The computer the resource is located on (DNS, WINS, or IP Address)
+
+:54321 The port number to communicate with on the computer.
+
+Instead of trying to sort out incoming packets and route them to the right application on the server computer, ports are used.
+Certain default ports are assumed for some protocols.
+Http requests are sent to port 80 by default.
+Https requests are sent to port 443, and FTP requests are sent to port 21.
+If an application is not listening on that port (or the request packets are blocked by a firewall), no response will be given.
+
+Additional sorting is sometimes performed, as in the case of WCF (.NET 3.0) port sharing,
+or when multiple sites are hosted on a single server. When an HTTP request is sent to a server,
+it is accompanied by the original hostname from the address bar. An unlimited number of DNS (Domain Name System)
+addresses can point to a single computer, which is convenient for web hosting providers. IIS (Internet Information Services)
+can be configured to look at this host header, and forward the request to whichever site is configured to receive requests for
+that particular hostname (DNS address).
+
+For information about DNS, read <a href="http://en.wikipedia.org/wiki/Domain_name_system">http://en.wikipedia.org/wiki/Domain_name_system</a>.
+<h1 class="spaced">Super-simplified view of DNS</h1>
+DNS addresses are hierarchical, and levels (domains) are separated by a period.
+Domains progress from most specific to least specific.
+
+For example, in resolving www.mysite.com, the following steps would be taken:
+<ul class="list">
+	<li>Ask computer 'COM' where computer 'MYSITE' is at (what its IP address is).</li>
+	<li>Ask computer MYSITE where computer 'WWW' is at.</li>
+</ul>
+DNS is used for a whole lot more that just web browsing,
+so the company at mysite.com might have a whole bunch of computers, such as ftp.mysite.com, mail.mysite.com, pop.mysite.com,
+telnet.mysite.com, as well as www.mysite.com.
+WWW usually points to the web server for the company.
+Please note, however that the WWW part is completely unnecessary,
+and is just a commonly followed convention.
+
+Note: In www.mysite.com, "com" is a TLD (Top-level domain),
+and "mysite" is a SLD (Second-level domain)
+
+SLDs usually cost a registration fee, as the poor owner of the "COM" computer has tremendous bandwidth bills.
+Third-level domains can be freely created if the parent SLD is under your control.
+
+One of the most critical steps in designing a web site is choosing your URI structure for the site. Clean, friendly URIs make visitors more comfortable and help them keep track of where they are on the site. Short URLs don't get wrapped as badly, are easier to type, and just look nicer.
+
+<!--url: 10941_Designing_URIs-->

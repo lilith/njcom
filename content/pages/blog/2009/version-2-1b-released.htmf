@@ -1,0 +1,38 @@
+Aliases: /438/version-2-1b-released/ /?p=438
+Atom ID: http://nathanaeljones.com/?p=438
+Summary: Better performance, better installation, better samples, more features! Installation has been simplified to copying and pasting.
+Categories: asp-net, image-resizing
+Date: Nov 13 2009
+
+<h1>Version 2.1b released!</h1>
+
+<strong>Better performance, better installation, better samples, more features!</strong>
+<h2 style="font-size: 1.8em; margin-top: 0px; margin-right: 0px; margin-bottom: 0.8em; margin-left: 0px; color: #262625; letter-spacing: -1px; padding: 0px;">Fixed</h2>
+<ul>
+	<li>I finally tracked down a simple, yet elusive performance bug &#xA0;that was particularly problematic for users with many thousands of images. Performance should be much better for everyone now, so upgrading is highly suggested. &#xA0;This bug was introduced with version 2.0., and caused a filesystem listing hit for each request.</li>
+	<li>All requests are now forced to pass through the UrlAuthorizationModule now. Previously, any URL rewriting (like customfolders.cs) caused URL auth rules to be circumvented. This was documented behavior, but a secure solution has now been found.</li>
+</ul>
+<h2 style="font-size: 1.8em; margin-top: 0px; margin-right: 0px; margin-bottom: 0.8em; margin-left: 0px; color: #262625; letter-spacing: -1px; padding: 0px;">Added</h2>
+<ul>
+	<li>New users will find it much easier to get things working - <strong>Messing with IIS is now completely optional! :D :D</strong>
+Instead of writing &#xA0;<em>"image.jpg?width=500"</em> as you normally would, type <em>"image.jpg</em><strong><em>.axd</em></strong><em>?width=500"</em>. If you use the new syntax, you won't be forced to configure wildcard mapping on IIS6/IIS7 classic.
+<strong>Both syntaxes will be supported in the future.
+<span style="font-weight: normal;">The suggested extension is .axd, but that can be changed or disabled using the ResizeExtension application setting.</span>
+</strong></li>
+	<li>Dithering support added! You can dither an 8-bit image using the <strong>?dither=</strong> command. You can specify a dither percent, "true", or "4pass".</li>
+	<li>UploadSample &#xA0;project (in VB). Resizing images as they are uploaded is now trivally easy. ImageManager.BuildImage now accepts an HttpPostedFile instance for resizing.</li>
+	<li>DisableCustomQuantization setting to allow GIFs to be generated on servers where the Marshal class is prohibited.</li>
+	<li>PerfTests project to run benchmarks on the image resizing and encoding code.</li>
+</ul>
+<h2 style="margin-top: 0px; margin-right: 0px; margin-bottom: 0.8em; margin-left: 0px; color: #262625; font-size: 1.8em; letter-spacing: -1px; padding: 0px; border: 0px initial initial;">Upgrade proccess</h2>
+<ol style="padding-top: 0px; padding-right: 0px; padding-bottom: 1.2em; padding-left: 2em; margin: 0px; border: 0px initial initial;">
+	<li style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 20px; list-style-type: decimal; list-style-position: initial; list-style-image: initial; padding: 0px; border: 0px initial initial;">Replace the old files with the new files from the ImageResizer folder. If you are using the .DLL, replace the DLL in the bin folder. Keep your old CustomFolders.cs and WatermarkSettings.cs files if you have modified them.</li>
+	<li style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 20px; list-style-type: decimal; list-style-position: initial; list-style-image: initial; padding: 0px; border: 0px initial initial;">Delete the /imagecache directory.</li>
+	<li style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 20px; list-style-type: decimal; list-style-position: initial; list-style-image: initial; padding: 0px; border: 0px initial initial;">Insert/change the following application settings in web.config if you want to use the new syntax.</li>
+</ol>
+<blockquote>
+<pre>&lt;add key="ResizeExtension" value=".axd"/&gt;</pre>
+<pre>&lt;add key="AllowURLRewriting" value="true"/&gt;</pre>
+</blockquote>
+If you are upgrading from 1.2, <a href="http://nathanaeljones.com/159/image-resizer-2-0-upgrade-notes/">follow the 1.2-&gt;2.0 upgrade instructions first.</a>
+

@@ -1,0 +1,148 @@
+Aliases: /142/image-resizer-documentation/ /?p=142 /11141_Image_Resizer_Documentation
+Atom ID: http://66.29.219.39/?p=142
+Summary: Installation and configuration instructions for the Image Resizer
+Categories: image-resizing
+Tags: image-resizer, image-resizing
+Date: Aug 8 2008
+
+<h1>Image Resizer Documentation</h1>
+
+<div style="padding:10px; color:red; font-size:11pt; border:1px solid red; margin-bottom:1.5em;">This is regarding a depreciated version. <a href="http://imageresizing.net/">Visit the V3 website for the latest documentation.</a></div>
+
+<div style="font-size: 130%;">
+<div style="font-size: 12pt; border: 1px solid gray; padding: 15px; padding-bottom: 0; margin-bottom: 15px;">
+
+Installation is quick and simple, provided you follow the steps carefully. 99% of problems users encounter are due to skipping a step.
+
+1) <strong>Copy and paste</strong> ImageResizer.dll and ImageResizer.pdb into the /bin directory of your app.
+Alternatively, you can copy the inner ImageResizer folder (which contains .cs files) into /App_Code. This second approach allows modification of CustomFolders.cs and Watermark.cs.
+
+2) <strong>Copy and paste</strong> the settings at the bottom of the page into web.config to configure the module.
+
+3) Users of 2.1+, <strong>you're done</strong>! You can now resize images using the "image.jpg.<strong>ashx</strong>?width=500" syntax.
+For versions prior to 2.1, or for users wanting the cleaner "image.jpg?width=500" syntax, some <a href="/11111">additional IIS configuration is needed</a>.
+
+<strong>Upgrading?</strong> Read the <a href="/11171">v1.0-v1.2</a>, <a href="/11181">v1.2 to v2.0</a>,&#xA0;<a href="/438/version-2-1b-released/">v2.0-v2.1</a>, or <a href="/489">v2.1b-v2.6</a> upgrade notes instead.
+
+</div>
+<h2>Configuration</h2>
+You will need to insert the following settings into web.config in the designated places.
+<pre class="brush:xml">&lt;system.web&gt;
+  ...
+  &lt;httpModules&gt;
+    &lt;add name="ImageResizer" type="fbs.ImageResizer.InterceptModule"/&gt;
+  &lt;/httpModules&gt;
+  ...
+&lt;/system.web&gt;
+&lt;system.webServer&gt;
+  &lt;validation validateIntegratedModeConfiguration="false"/&gt;
+  ...
+  &lt;modules&gt;
+    &lt;add name="ImageResizer" type="fbs.ImageResizer.InterceptModule"/&gt;
+  &lt;/modules&gt;
+&lt;/system.webServer&gt;</pre>
+Last, some app settings for the resizer. You can use the following safely with v2.1 and up. Full configuration reference and notes for other versions can be found in the next section.
+<pre class="brush:xml">&lt;appSettings&gt;
+    ...
+    &lt;add key="ImageDiskCacheDir" value="imagecache" /&gt;
+    &lt;add key="MaxCachedImages" value="30000" /&gt;
+    &lt;add key="ImageResizerMaxWidth" value="1680" /&gt;
+    &lt;add key="ImageResizerMaxHeight" value="1680" /&gt;
+    &lt;add key="ImageResizerClientCacheMinutes" value="1440" /&gt;
+    &lt;add key="AllowURLRewriting" value="true" /&gt;
+    &lt;add key ="ResizeExtension" value=".ashx"/&gt;
+    ...
+&lt;/appSettings&gt;</pre>
+<h2>Complete reference</h2>
+<pre class="brush:xml"> &lt;!-- The directory to store cached version of images. Relative to the application root.
+If you want the cache outside the application, use a
+Virtual Folder in IIS to point the physical location elsewhere. --&gt;
+&lt;add key="ImageDiskCacheDir" value="imagecache"/&gt;
+
+&lt;!-- How many files to keep in the cache. The 10% least recently used files
+will be deleted when this limit is reached. Don't set this lower than the
+number of images on your site. 2x the image count is a good default. 
+If you are getting "Access Denied" messages, this is the cuplrit - you need to 
+increase it --&gt;
+&lt;add key="MaxCachedImages" value="30000" /&gt;
+
+&lt;!-- The following settings are optional: --&gt;
+
+&lt;!-- The maximum size to permit images to be resized to. --&gt;
+&lt;add key="ImageResizerMaxWidth" value="1680" /&gt;
+&lt;add key="ImageResizerMaxHeight" value="1680" /&gt;
+
+&lt;!-- Takes effect in version 1.2+. The default (for all versions) 
+is 1440 minutes (24 hours). Set to 0 to disable *client* caching 
+(304 "Not Modified" responses will still be returned if nothing has changed). 
+Client caching is not related to disk caching. --&gt;
+&lt;add key="ImageResizerClientCacheMinutes" value="1440" /&gt;
+
+&lt;!-- This enables /resize(x,y,f)/image.jpg notation in v1.2+. Enabling this
+will make URL authorization ineffective on image files. 
+Changed to AllowURLRewriting in 2.0--&gt;
+&lt;add key="AllowFolderResizeNotation" value="true" /&gt;
+
+&lt;!-- This enables /resize(x,y,f)/image.jpg notation and other CustomFolders.cs
+rewriting (other than querystring-only changes) in v2.0. Enabling this
+will make URL authorization ineffective on image files on versions prior to 2.1b.--&gt;
+&lt;add key="AllowURLRewriting" value="true" /&gt;
+
+&lt;!-- Enable only for debugging! (v2.0a+ only) 
+Prevents use of cached files - Required for seeing results 
+when changing the resizing algorithms.
+Causes terrible performance - don't leave enabled.--&gt;
+&lt;add key="DiskCacheAlwaysInvalid" value="false"/&gt;
+
+&lt;!-- (v2.0b+ only) Prevents the cache cleanup routine from running. If you want to
+manually purge the image cache yourself, and aren't worried about running out
+of disk space via a DOS attack, you can disable this. Not advised. --&gt;
+&lt;add key="DisableCacheCleanup" value="false"/&gt;
+
+&lt;!-- (v2.1+ only) Disabling custom quantization allows the resizer to function in low trust
+environments where managed pointer access and data type marshaling is prohibited.
+However, PNGs and BMPs can only be output in 32-bit mode, and GIFs will use the default
+halftone pallete. Enable this if JPGs and PNGs work, but GIFs don't, and using colors=255
+on PNGs causes them to break also.
+Causes much lower quality GIFs to be generated.
+Version 2.1+.
+--&gt;
+&lt;add key ="DisableCustomQuantization" value="false"/&gt;
+
+&lt;!-- (v2.1b+ only) This allows images to be resized without any
+IIS configuration whatsoever (AllowURLRewriting must be true, however).
+Just set this value to ".axd", ".ashx", ".aspx", or any extension
+already registered in IIS, and add the same extension to your image URLs
+when you are resizing them. Doesn't conflict with other pages/files with 
+that extension, unless you name them .jpeg.ashx., etc.
+When configured properly in IIS, any extension should work, but ".ashx" 
+seems to be configured right on the largest number of servers.
+    
+Ex. /images/media/flower.jpg -&gt; /images/media/flower.jpg.axd?width=x&amp;height=y  
+--&gt;
+&lt;add key ="ResizeExtension" value=".ashx"/&gt;
+
+&lt;!-- v2.6+ Disables the additional URL authorization checks 
+performed by the resizer after URL rewriting. --&gt;
+&lt;add key="DisableImageURLAuthorization" value="false"/&gt;
+      
+&lt;!-- v2.2+ Enables use of registired VirtualPathProviders.
+Inherently stops modified date checking.
+(i.e, cached files are never updated, unless the VirtualFile
+implements IVirtualFileWithModifiedDatae). --&gt;
+&lt;add key="ImageResizerUseVirtualPathProvider" value ="false"/&gt;
+    
+&lt;!-- v2.5+ Only executes the virtual path provider if the physical file doesn't exist --&gt;
+&lt;add key="ImageResizerUseVirtualPathProviderAsFallback" value ="false"/&gt;
+
+&lt;!-- v2.3+ When set to a non-empty value, divides the cache into the
+specified number of subfolders. MUST be a power of two, or it will get 
+rounded up to the next power of two, which might be VERY different from 
+the configured value. Values above 8096 are not suggested for best NTFS performance. 
+Suggested value is (MaxCachedImages / 7500).  Remember to delete the imagecache
+folder every time you change this value - otherwise lots of orphaned files will be there.
+--&gt;
+&lt;add key="ImageCacheSubfolders" value="8"/&gt;</pre>
+</div>
+
+<!--url: 11141_Image_Resizer_Documentation-->

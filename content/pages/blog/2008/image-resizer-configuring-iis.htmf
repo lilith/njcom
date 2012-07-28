@@ -1,0 +1,51 @@
+Aliases: /131/image-resizer-configuring-iis/ /?p=131 /11111_Image_Resizer_Configuring_IIS
+Atom ID: http://66.29.219.39/?p=131
+Summary: Configuring IIS to send image requests to ASP.NET
+Date: Jun 6 2008
+
+<h1>Image Resizer - Configuring IIS</h1>
+
+<div style="padding:10px; color:red; font-size:11pt; border:1px solid red; margin-bottom:1.5em;">This is regarding a depreciated version. <a href="http://imageresizing.net/docs/cleanurls">Visit the updated version of this page </a></div>
+
+<p><strong>Using IIS7 <em>Integrated</em> mode or the Visual Studio web server? You can skip this step. </strong>
+You don't need to do this if you are using the <strong>.jpg.ashx</strong> syntax.</p>
+<strong>Remember to use the path for YOUR version of asp.net in both IIS and web.config. The safest way is to copy it from an existing .aspx mapping.</strong>
+<h2>
+  <strong>Installing on IIS 5 &amp; IIS 6</strong>
+</h2>
+<strong>For the module to operate properly, we must configure IIS to pass all requests to the ASP.NET runtime. By default IIS serves these files itself.
+
+1) Open IIS, right-click on your web site, and choose properties.
+
+2) Click the "Home Directory" tab, then "Configuration"
+
+3) For a wildcard mapping on IIS 5, add extension ".*". For IIS 6, choose "Insert" and add the aspnet_isapi.dll executable <em>%windir%\Microsoft.NET\Framework\v2.0.50727\aspnet_isapi.dll</em> inside the wildcard applications maps area. For both IIS 5 and 6, make sure "Script Engine" is checked. "Verify file exists" will need to be unchecked if you plan to do any URL rewriting, but should be left checked if you are using the default documents feature of IIS. (URL rewriting with the <a href="http://www.urlrewriting.net/">UrlRewriting.Net</a> library provides much more power than IIS default documents. I highly recommend it).
+
+Note: For 64-bit installs, use "%windir%\Microsoft.NET\Framework64\v2.0.50727\aspnet_isapi.dll". The most reliable way to determine the path of aspnet_isapi.dll is to copy it from the .aspx mapping. You have to use the right-click menus - the keyboard shortcuts don't work.
+<h2>Installing on IIS 7 classic mode</h2>
+IIS 7 mode mappings are done in web.config. Do <strong>not</strong> add these if you are using IIS 7 Integrated mode (the default). You may get Server Unavailable on your image requests. None of the steps on this page are needed on IIS7 Integrated (default), and may actually cause problems.
+<pre class="brush:xml">
+    &lt;configuration&gt;
+    ...
+  &lt;system.webserver&gt;
+    &lt;handlers&gt;
+      &lt;add name="ASPNET" path="*" verb="*" modules="IsapiModule" scriptprocessor="%windir%\Microsoft.NET\Framework\v2.0.50727\aspnet_isapi.dll" resourcetype="Unspecified" requireaccess="None" precondition="classicMode,runtimeVersionv2.0,bitness32"&gt;
+    &lt;/add&gt;&lt;/handlers&gt;
+  &lt;/system.webserver&gt;
+    ...
+&lt;/configuration&gt;
+</pre>
+<h2>IIS7 Classic 64-bit</h2>
+<pre class="brush:xml">
+ &lt;configuration&gt;
+    ...
+  &lt;system.webserver&gt;
+    &lt;handlers&gt;
+      &lt;add name="&#x201D;ASPNET&#x201D;" path="&#x201D;*&#x201D;" verb="&#x201D;*&#x201D;" modules="&#x201D;IsapiModule&#x201D;" scriptprocessor="&#x201D;%windir%\Microsoft.NET\Framework64\v2.0.50727\aspnet_isapi.dll&#x201D;" resourcetype="&#x201D;Unspecified&#x201D;" requireaccess="&#x201D;None&#x201D;" precondition="&#x201D;classicMode,runtimeVersionv2.0,bitness64&#x2033;/"&gt;
+    &lt;/add&gt;&lt;/handlers&gt;
+  &lt;/system.webserver&gt;
+    ...
+&lt;/configuration&gt;</pre>
+</strong>
+
+<!--url: 11111_Image_Resizer_Configuring_IIS-->

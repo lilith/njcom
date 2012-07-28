@@ -1,0 +1,52 @@
+Aliases: /?p=114 /10911_URL_Rewriting
+Atom ID: http://66.29.219.39/?p=114
+wp_status: pending
+Flags: draft
+Date: May 16 2008
+
+<h1>URL Rewriting</h1>
+
+	
+
+<p>A little over one year ago I started work on a ASP.NET content management system (the one that currently powers this site and <a href="http://youngfoundations.org/">youngfoundations.org</a>. At the time, there was almost no correct information on the web about how to properly perform URL rewriting in ASP.NET. A lot of the documentation was <em>theoretically</em> correct, but I never found anything in my several months of research that provided clean solutions to the "side effects": invalid post-backs (incorrect action attributes), broken CSS references, broken image and anchor references, etc.</p>
+
+<p>There is a lot more to URL rewriting than simply creating a series of if...then statements during OnBeginRequest and firing off the correct page with HttpContext.RewritePath.
+</p>
+
+<p><a href="http://msdn.microsoft.com/en-us/library/system.web.httpcontext.rewritepath.aspx">HttpContext.RewritePath</a> has undergone many patches and hotfixes - make sure you have the latest version of System.Web.dll, or you will regret it! If you get a NullReferenceExcecption from RewritePath or images aren't showing up, <a href="~/10931" runat="server">read this</a>.
+
+
+
+<p>Also, if you're confused by the pathInfo parameter to RewritePath, it's for the <a href="http://nathanaeljones.com/10961_PathInfo">PathInfo</a> feature of ASP.NET. The docs describe it as "Additional path information to use for the URL redirect". Since <em>every</em> argument to RewritePath is "Additional path information to use for the URL redirect", I find that a little humorous. If you don't what PathInfo is, <a href="http://nathanaeljones.com/10961_PathInfo">read this</a>.</p>
+
+<h2> Wildcard mapping</h2>
+<p> If you care about having <a href="http://nathanaeljones.com/10941_Designing_URIs">friendly URLs</a> and you're not running IIS7 yet, you'll need to 'wildcard map' all incoming extensions to aspnet_isapi.dll. There isn't any other way to capture extension-less URLs. Compression in IIS6 is also by extension, so extension-less files will need to implement gzip inside the .aspx file (thankfully, it's easy - I'll try to blog on that as well). There is <strong>not</strong> a workaround to wildcard mapping that I know of. If you don't care about postbacks, you can use the <a href="http://msmvps.com/blogs/omar/archive/2007/04/29/serve-extensionless-url-from-asp-net-without-using-isapi-module-or-iis-6-wildcard-mapping.aspx">
+404 hack</a>, but I wouldn't recommend it.</p>
+
+<h2>URL rebasing</h2>
+<p>As I'm sure everybody knows, relative paths are always relative to folder of the document URL. So what if the document URL is at a different folder level (/contact/ instead of /contact.aspx), or a different folder entirely? ASP.NET keeps track of the original physical location of the .aspx, .ascx, and .master in a property called AppRelativeTemplateSourceDirectory. (Content Pages, Master Pages, and User Controls are all TemplateControl derivatives). If your page/control is declaratively defined (.aspx, .ascx, .master), then this property is set. If they're in App_Code, then child controls will resolve paths relative to the root.
+
+There are two relevant methods that are called automatically by server controls. ResolveURL and ResolveClientUrl (both members of the Control class).
+
+The first step both take is to take the relative URL and combine it with AppRelativeTemplateSourceDirectory to get and application-relative URL (if it is not one already). 
+
+ResolveUrl then combines the app-relative virtual path with HttpRuntime.AppDomainAppVirtualPathString using HTTPResponse.ApplyAppPathModifier() to get the domain-relative, 'absolute' path. 
+
+ResolveClientUrl instead makes the url relative to Context.Request.ClientBaseDir.VirtualPathString;
+
+
+
+
+
+URL rebasing
+  
+
+
+
+<p>I've tried most approaches, I think - I've overridden DefaultHttpHandler, PageFactory, used IIS 404 redirects, used a custom form tag derivative, control adapters, and the <base/> tag. 
+
+
+
+</p></p></p>
+
+<!--url: 10911_URL_Rewriting-->

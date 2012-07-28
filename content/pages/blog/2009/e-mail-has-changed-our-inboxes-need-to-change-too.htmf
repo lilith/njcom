@@ -1,0 +1,66 @@
+Aliases: /83/e-mail-has-changed-our-inboxes-need-to-change-too/ /?p=83
+Atom ID: http://computerlinguist.com/?p=83
+Categories: general-programming
+Tags: computerlinguist-com
+Date: Jun 9 2009
+
+<h1>E-mail has changed. Our inboxes need to change, too.</h1>
+
+<span style="color: #ff6600;">Edit (May 18, 2011):</span> HA! Google launched the Priority Inbox, almost exactly what I was describing. Google is cool. Hmm... Did they read my blog, or was it just a coincidence? Probably a coincidence.
+
+It's true. Software designers are still thinking about e-mail wrong. I love Gmail, and have used Outlook, Live Mail, Apple Mail, Entourage, Postbox, Thunderbird, Xobni, and a few others. But everyone is still stuck in a decade-old rut.
+
+E-mail is much more than a way for people to communicate.   For freqent users of e-mail, it becomes their personal queue as well. The next generation of e-mail software needs to focus on making e-mail fulfill that role more smoothly.
+
+One major challenge we often face is maintaining e-mail's ease-of-use as our inbox gets filled with newsletters, notifications, sales reciepts, usenet posts, and chain e-mails from distant acquaintances.
+
+Our inbox contains messages that vary in priority from nearly-spam notifications to critical conversations and high-priority to-do items. Notifications bury the important items quickly, and I find myself forwarding e-mails to myself so they stay on top a little while longer. It doesn't have to be this hard! Most e-mail services and clients offer tagging features or flagging, but stop short of integrating those into a smooth workflow or allowing the inbox to be customized to take advantage of the data. To-do lists are great, but I never see them unless they appear in my inbox alongside my e-mails. Most to-do items originate <em>from</em> e-mails, so it makes sense that to-do items should really just be a tag or label for an e-mail. (E-mails sent to yourself should automatically get this tag).
+
+50-70% of e-mails I receive come from a computer, not a human. I still need to see them, but only once, and I don't need to reply. These crowd my inbox, and hide other much more important items. More on how these are easy to label later.
+<h2>Introducing the Thinbox</h2>
+Some people like absolute control, others are lazy.&#xA0;I'm one of the lazy folk who want my computer to do all the work an keep things simple for me. &#xA0;To handle this kind of person - I'm suggesting a whole new type of inbox - the thinbox... &#xA0;This could live alongside the 'inbox' without any compatibility issues, I think. Gmail could implement this without a lot of trouble.
+
+The thinbox is minimalistic. The goal is to only show items that need to be dealt with. &#xA0;If I'm caught up, it's empty - a blank screen. To achieve this feat, the user is 'guided' to deal with e-mails as they are read, and the view is limited to a certain time span (such as the last week or month). Archived items are never shown.
+
+First, what types of e-mails do we get?
+<ol>
+	<li>E-mails we want to see and handle now
+<ol>
+	<li>Reply, and the conversation disappears</li>
+	<li>Read and act on. No reply needed; click Archive.</li>
+	<li>Read and Archive. Completed conversations, or boring newsletters, sales reciepts, ship notifications, automatic notifications..</li>
+</ol>
+</li>
+	<li>And ones I want to see later
+<ol>
+	<li>Skim and read later. Interesting newsletters, usenet posts, etc. Cool, but not right now.</li>
+	<li>Read and remember to do something on a certain day. To-do item arrive in the form of an e-mail from a colleage or boss, an appointment reminder, or a bill.</li>
+	<li>Read and reply later... when I have more data, or when I have more time, or when they get back from vacation/trip/etc</li>
+</ol>
+</li>
+</ol>
+This brings us to a feature that we need to achieve our goal - we need to be able to have a e-mail re-appear at the top of an inbox on a given day. This could be implemented with a 'reappearOn' field. This allows us to 'postpone' an e-mail/todo.
+<h2>Supporting features needed for thinbox</h2>
+<ul>
+	<li>Limiting by age in needed, because I will never sort my 9,079 old e-mails: Hide older than 1 day | week | month | all (probably needs to be group level)</li>
+</ul>
+<ul>
+	<li>Results from following queries displayed one after another in the thinbox, with no divider (just a different background color, and a pop-out tab on the left that vertically spans all group items.
+<ul>
+	<li>"Needs Reply": Search inbox (not all mail) for e-mails I haven't replied to, and aren't flagged automatic, review, or to-do. Plus all e-mails tagged "Needs reply". Defaults to 1 week visibility.</li>
+	<li>"Automatic": Could be done with filters, but would be best done as a learning set of heuristics, based of user preferences. Users could black/whitelist addresses. Defaults to 1 day visibility.</li>
+	<li>"Up for review": Articles tagged 'review', and have a review date before current time. This is a way to postpone/schedule e-mails and e-mails tagged 'to-do'. A way to remind oneself about an e-mail at a certain time in the future - simply set a future date for it to reappear in the inbox (just sort by scheduled date instead of sent date when present). Defaults to 1 week visibility.</li>
+	<li>"to-do": A simple default label. E-mails to oneself are automatically tagged. Defaults to 1 month visibility.</li>
+	<li>"Bored?": (optional) A 'quick' label for e-mails that I don't have time to read right now... Should probably stay minimized untill the other groups are empty.</li>
+</ul>
+</li>
+	<li>Quick links (on hover) for marking an item as "to-do", "review", "automatic". Then choosing "soon, tomorrow, next week, next month" as the review time.</li>
+	<li>It should be easy to manage groups as a whole: - a tab for each group in a left colum should allow batch archving, postponement, or re-labeling.</li>
+	<li>Automatic archiving when I reply (Send and Archive is default). Forwarded e-mails should suggest "Archive" and "Check Later"</li>
+	<li>It is important to keep things clean... Instead of displaying the 5+ groups in separate boxes, put them inline, ordered by group, then date. Background color should differ by group. Groups disappear when they have no items.</li>
+</ul>
+<h3>Labeling 'automatic' e-mails.</h3>
+Separating such 'no reply' e-mails from the rest isn't very difficult - we can look for 'unsubscribe' links (newsletters) , large quantities of e-mail addresses in the TO field and the body (chain e-mails), keywords such as "order confirmation" or "reciept", or addresses like no-reply/donotreply@domain.com. &#xA0;I think we can flag these with 90% accuracy at least, and allow users to correct algorithm mistakes at the e-mail and e-mail adress levels.
+<h3>Other gripes</h3>
+Viewing all e-mails by a particular address should be a 1-click operation. If I'm looking at an e-mail from johndoe@company.com, there should be a "See all conversations with this person" link. It could appear when hovering over any e-mail address in the entire application - easy to implement. Preferably, other recent conversations should appear below the current conversation as links... Maybe the last 3?
+

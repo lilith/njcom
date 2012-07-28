@@ -1,0 +1,17 @@
+Aliases: /contact/donate/ /?p=513
+
+<h1>Donate</h1>
+
+<div style="float:right; width:200px;">
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="cmd" value="_s-xclick"/>
+<input type="hidden" name="hosted_button_id" value="HTW5XGHFMHRG2"/>
+<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"/>
+<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1"/>
+</form>
+<p>
+If the above doesn't work, you can try <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick=HTW5XGHFMHRG2">this link.</a></p></div>
+
+<p>To donate, click the button below. If this is for a custom software project, please specify it in the "Add special instructions to the seller" area during checkout.</p>
+<p>Please not a paypal account is NOT required. There is a small link for credit card payments to the left of the login area.</p>
+

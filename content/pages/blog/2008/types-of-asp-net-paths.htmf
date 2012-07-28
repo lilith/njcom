@@ -1,0 +1,49 @@
+Aliases: /129/types-of-asp-net-paths/ /?p=129 /10981_Types_of_ASP_NET_paths
+Atom ID: http://66.29.219.39/?p=129
+Summary: ASP.NET is primarily concerned with "virtual paths", the portion of the path following the hostname or port number. When working with ASP.NET, you must understand the following types of URIs thoroughly, and know how they are handled by ASP.NET and the browser.
+Categories: asp-net
+Tags: asp-net
+Date: Jun 9 2008
+
+<h1>Types of ASP.NET paths</h1>
+
+<!-- #content ul{  list-style-type:disc;  padding-left:20px; } span.examplePath{ color:green; } -->
+
+ASP.NET is primarily concerned with "virtual paths", the portion of the path following the hostname or port number. When working with ASP.NET, you must understand the following types of URIs thoroughly, and know how they are handled by ASP.NET and the browser.
+<ul>
+	<li> <strong>Absolute paths.</strong> Ex. <span class="examplePath">http://mycomputer/Web1/Test/images/companylogo.png</span>
+<ul>
+	<li>ASP.NET leaves this type of path alone &#x2013; it's already in the least ambiguous form possible. Browsers understand absolute paths very well.</li>
+	<li>Only use these for referencing external websites. They're expensive to maintain.</li>
+</ul>
+</li>
+	<li><strong>Root-relative virtual paths.</strong> Ex. <span class="examplePath">/Web1/Test/images/companylogo.png</span>
+<ul>
+	<li> ASP.NET leaves these alone too. Browsers resolve the path client-side by combining it with the domain of the parent document.</li>
+	<li>I don't ever recommend hard-coding these into a website - use application-relative paths or relative paths instead. <strong>Note: These are also called "absolute virtual paths" and "domain-relative paths".</strong></li>
+</ul>
+</li>
+	<li><strong>Application-relative paths.</strong> Ex. <span class="examplePath">~/images/companylogo.png</span>
+<ul>
+	<li>Browsers don't have a clue what the tilde(~) means, so server-side path resolution is required. Server-side, the tilde is shorthand for HttpRuntime.AppDomainAppVirtualPath.</li>
+	<li>ASP.NET rebases these as client-side relative paths on some control attributes, but you must remember to use <strong>runat="server"</strong>.</li>
+	<li>This is the type of path you should use if a relative path doesn't make sense.</li>
+</ul>
+</li>
+	<li><strong>Relative paths.</strong> Ex: <span class="examplePath">../images/logo.png</span>
+<ul>
+	<li> There are two types of relative paths: server-side and client-side. They aren't syntactically different, but server-side paths are relative to the containing source file, and client-side paths are relative to the address bar or parent markup file.</li>
+	<li>Server-side relative paths are assumed to be relative to the containing .master, .ascx, or .aspx file location. These must be rebased into client-side relative paths when rendered using ResolveClientUrl(). Most ASP.NET controls do this for you. You should use this type of path whenever you are referencing a related file that won't move in relation to the current file.</li>
+	<li>Client-side relative paths are relative to the parent URL, usually the address bar. If you want to reference an image on an html page, you must use a path that is relative to the address bar location of the html page. If you want to reference a image from within a .css file, you must use a path that is <strong>relative to the .css file.</strong> Paths inside javascript files are <strong>not</strong> relative to the javascript source location, though. They must be relative to the document the script is executing in, the address bar.</li>
+</ul>
+</li>
+	<li><strong>Fragment and Javascript paths.</strong> Ex. <span class="examplePath">#section2</span> or <span class="examplePath">javascript:OpenPopup();</span>
+<ul>
+	<li>ASP.NET leaves these alone. The browser is not supposed to create a new request when one of these is clicked, but to simply perform the action or navigation within the current document.</li>
+	<li> Fragments never appear in a HTTP request. They are only for the browser's benefit, and are stripped off before the path is sent to ASP.NET.</li>
+</ul>
+</li>
+</ul>
+Note - When I say that ASP.NET leaves a path alone, I mean that it doesn't do any path rebasing. ASP.NET will still do some attribute encoding on the path if it is embedded in a hyperlink.
+
+<!--url: 10981_Types_of_ASP_NET_paths-->

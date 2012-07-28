@@ -1,0 +1,37 @@
+Aliases: /524/imageresizer-v3-is-released/ /?p=524
+Atom ID: http://nathanaeljones.com/?p=524
+Date: May 18 2011
+
+<h1>ImageResizer v3 is released</h1>
+
+Image Resizer 3 launched on April 24th. New version, new <a href="http://imageresizing.net/docs/2to3/diff">architecture</a>, new <a href="http://imageresizing.net/">website</a>.
+
+Now that the initial sprint is over, &#xA0;things have settled down, and I have a nice set of&#xA0;<a href="http://imageresizing.net/docs/">documentation articles</a>, I'm finally blogging about it.
+
+I've been more focused on writing documentation than&#xA0;publicizing, but I still managed to get <strong>5,713 pageviews in 24 days</strong>, and someone <a href="http://channel9.msdn.com/coding4fun/blog/Funny-you-look-bigger-in-real-life-Server-side-image-resizing-with-the-free-and-open-source-ImageRes">wrote a channel 9 article written about the project</a>, which was very cool!
+
+As it happened, NameCheap.com support staff helpfully&#xA0;<del>fixed</del> broke my DNS records at the same time the article went live, so the article got 5000+ hits and I only managed a couple hundred. Thanks NameCheap Support! Due to the time difference, I caught their error the next day. Suprisingly, I still suggest NameCheap as the best registrar. Just avoid (a) e-mail forwarding and (b) support. Everything else works great. I moved to NameCheap after using GoDaddy and Network Solutions, and I've never looked back. After 4 years and 25 domains, this was the first time I ever contacted support. I think that says something about their software. If they would just move e-mail forwarding to EC2 and train support staff to verify their changes didn't break the customer's website, they'd be perfect.
+
+Perhaps more interesting - <a href="http://imageresizing.net">imageresizing.net</a> runs Ruby. &#xA0;Not rails, Ruby. <a href="http://nestacms.com/">NestaCms</a>, actually. Deploying a new version from my laptop to Heroku takes between 2 and 4 seconds. And everything is versioned in Git, so I can roll back in seconds, group changes into commits, and deploy only the changes I think are ready. I edit the site in TextMate, push changes with SmartGit, and I've never been happier. Oh, and hosting is free since I don't need or use a DB.
+
+I'm editing plain text files, using textmate's nice markdown bundle, getting syntax highlighting, and I can mix in pure HTML whenever I want. Page templates can be a combination of HAML, erubis, and markdown, and can accepted variables from the header section of the markdown pages.
+
+<a href="http://nestacms.com/">NestaCMS</a> is minimal abstraction is its finest. Maximum&#xA0;flexibility, minimum overhead, simplest debugging. &#xA0;And the source is so readable I could use it as-is for documentation in the download. Now there's an idea!
+
+Back to the topic - If you haven't already, you should <a href="http://imageresizing.net/">download Image Resizer v3 and give it a spin.</a>
+
+Installation is very simple, and there are <a href="http://imageresizing.net/plugins">20 new plugins available</a>.
+
+Oh, and it's free. Like MIT-free. It's supported by the add-on plugin bundles, which also have MIT-like licenses.
+
+
+
+
+
+
+
+
+
+
+
+

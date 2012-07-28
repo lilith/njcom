@@ -1,0 +1,23 @@
+Aliases: /150/image-resizer-1-2-upgrade-notes/ /?p=150 /11171_Image_Resizer_1_2_Upgrade_Notes
+Atom ID: http://66.29.219.39/?p=150
+Summary: Upgrade from Image Resizer v1.0 to v1.2 now. New support and speed optimizations for IIS7 integrated mode.
+Categories: image-resizing
+Date: May 17 2008
+
+<h1>Image Resizer 1.2 - Upgrade Notes</h1>
+
+Version 1.2 includes several new features, a simplified URL syntax, and easier installation. It now supports (and takes advantage of) IIS7 Integrated mode, as well as IIS5, IIS6, and IIS7 classic. The new version is now available for download. If you are an existing customer, you should already have received an e-mail containing a free upgrade.
+
+Query string syntax has changed (old links will still work, though). thumbnail has been renamed to format, and is no longer needed to force resizing. You can now simply use <strong>image.jpg?width=200</strong> instead of <strong>image.jpg?thumbnail=jpg&amp;width=200</strong>. I've also added a <strong>quality</strong> setting to adjust jpeg compression.
+<h2>Upgrade instructions</h2>
+The resizer is now implemented as an HttpModule instead of an HttpHandler. Because of this, you will need to <a href="~/11121"> undo these changes to web.config</a> and <a href="~/11161">make these much simpler changes instead.</a>
+
+There are also 2 new settings you can <a href="~/11141">take advantage of</a>. Using ImageResizerClientCacheMinutes, you can now control how long an image will sit in the browser cache before being updated. If you don't use ASP.NET's URL authorization system to protect your images, you may want to enable AllowFolderResizeNotation. You will then be able to <strong>/resize(40,40)/image.jpg</strong> instead of <strong>image.jpg?maxwidth=40&amp;maxheight=40</strong>.
+
+Last, delete the /imagecache folder. It will automatically be re-created and populated as images are requested.
+<h2>Additional changes</h2>
+The code has been refactored quite a bit - You'll notice there are now 5 code files. Image manipulation has been factored out into its own class ImageManager so you can use it directly from your code. Disk caching has similarly been abstracted into DiskCache.cs, so you can leverage that independently also. You can inherit from InterceptModule to easily build your own image processing pipelines (overriding CheckRequest and MakeResizedImage). Last but not least, you can modify CustomFolders.cs to force the resizing of all images in certain folders or matching certain patterns.
+
+The<strong>?download=true feature</strong> has been removed for cleanliness. If you want this feature back, leave feedback below.
+
+<!--url: 11171_Image_Resizer_1_2_Upgrade_Notes-->

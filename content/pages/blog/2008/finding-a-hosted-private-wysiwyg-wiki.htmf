@@ -1,0 +1,26 @@
+Aliases: /93/finding-a-hosted-private-wysiwyg-wiki/ /?p=93 /10902_Finding_a_hosted_private_wysiwyg_wiki
+Atom ID: http://66.29.219.39/?p=93
+Summary: I've signed up for a couple dozen wikis in the last two weeks. In my spare time I've been trying to find a hosted wiki that meets our needs.\nWe need a private wiki with WYSWYG editing, 40+ user count, reasonably fast edit transitions, hierarchical organization of pages, and ad-free versions.
+Date: May 1 2008
+
+<h1>Finding a hosted, private, wysiwyg wiki</h1>
+
+<p>I've signed up for a couple dozen wikis in the last two weeks. In my spare time I've been trying to find a hosted wiki that meets our needs.
+We need a private wiki with WYSWYG editing, 40+ user count, reasonably fast edit transitions, hierarchical organization of pages, and ad-free versions.</p>
+
+<p>So far the only two that really impressed me were wetpaint.com and wik.is. </p>
+
+<p>Wetpaint.com has a $20/mo ad-free version for non-profits they are beta testing, but be warned that this only removes the Google ads on the side. The wetpaint-sponsored ads at the bottom can't be removed, although you can change their type by changing the 'category' of your wiki (try education for something safer).</p>
+
+<p>Wetpaint has a fantastic AJAX editing interface, with edit transitions under 2 seconds on DSL - quite fantastic. Initial page loads are quick also. Very trim Javascript.</p>
+
+
+<p>wik.is has a free and pro version, the primary difference being the alloted storage space. wik.is runs DekiWiki, created by the folks that made MediaWiki. DekiWiki is good stuff, although a little heaver on the javascript side, although I don't think it would be too hard to lump and compress the javascript files. Going into edit mode takes 4+ seconds, and requires over a hundred HTTP requests - about 1.5 megabytes. </p>
+
+<p>Both can either be private or public, and allow template choices. wik.is allows you to create your own templates and edit the site CSS. Both allow custom domains and site logos.</p>
+
+<p>Since wik.is is $99/year for no ads, and wetpaint.com is $240/year for less ads, I think we'll be going with wik.is. </p>
+
+<p><a href="http://viawiki.com">Viawiki.com</a> also hosts DekiWiki, and has a much faster editing version - give the demo a try. They license per user, though, so if you have a lot of people it can get a little pricey.</p>
+
+<!--url: 10902_Finding_a_hosted_private_wysiwyg_wiki-->

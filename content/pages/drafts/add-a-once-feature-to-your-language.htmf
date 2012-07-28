@@ -1,0 +1,28 @@
+Aliases: /?p=50
+Atom ID: http://computerlinguist.wordpress.com/?p=50
+wp_status: draft
+Flags: draft
+Date: Nov 11 2008
+
+<h1>Add a 'once' feature to your language</h1>
+
+'once' is a feature that makes a method callable... once. Subsequent calls are cached.
+
+&#xA0;
+
+Javascript:
+
+Actionscript 2:
+
+Actionscript 3:
+
+Python:
+
+Ruby:
+
+Clojure:
+
+C#... wait... you'll need a delegate for each function type! Sorry...
+
+Java... sorry
+

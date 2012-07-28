@@ -1,0 +1,188 @@
+Aliases: /?p=72
+Atom ID: http://computerlinguist.com/?p=72
+wp_status: draft
+Flags: draft
+Tags: computerlinguist-com
+Date: May 10 2010
+
+<h1>Boot Camp, the hybrid GPT/MBR , and what *NOT* to do</h1>
+
+I have a MacBook Pro with a 320GB drive (300GiB). I have OS X installed on the first 150GiB, Vista on the next 100GiB, and Ubuntu on the last 50GiB.
+
+My drive started the click of death about a month ago, and I started seeing system freezes. I backed everything up in a hurry and left on vacation. I'm back now, and I have a brand new 500GB drive to replace it with.
+
+So... now the question is how to move my partitions over the the new drive and expand my OS X partition.
+
+SRC
+
+&gt; dd_rescue /dev/sda /dev/sdb - Note, the GPT will have incorrect information about the drive's size. No tools will work until this is fixed.
+
+&gt; wizard
+
+&gt;terminal
+
+&gt;parted
+
+&gt;print
+
+&gt;type "fix" when prompted to fix the GPT
+
+&gt; Click GParted
+
+Click the last 3 partitions (including linux swap)
+
+copy the value from Free Space Following into Free Space Preceding, click Free Space Following to make it enter 0, and click Move
+
+If you have any filesystem errors on any of the drives (I did on the NTFS parition), GParted will stop right there (it works on the partitions right-to-left).
+
+My solution was to delete the NTFS partition and create a new one where I wanted it moved to. I then used dd_rescue again to copy the filesystem over again for just that partition.
+
+Unfortunately, creation occurred before the deletion, and got numbered 6 instead of 3 in the partition table. Therefore gptsync (part of rEFIt) wouldn't put it in the MBR.
+
+So... I opened GParted, wrote down the start/end sector numbers, and deleted it. I then opened parted from the command line and ran
+
+mkpart primary ntfs 651612465s 865052054s  (the Ss are needed to tell it we are using sectors).
+
+At which point it reappeared as sd3 again... yay.
+
+I ran gptsync from rEFIt, and it now made it into the top-4 list for the MBR... however, it was marked as C0 (unknown) instead of 07 (NTFS/HPFS) And the asterisk was on the linux partition instead of the ntfs partition.
+
+Since rEFIt is directing the partition to boot from, it still would probably been fine... except for the Vista's boot configuration store.
+
+Attempts to boot resulted in "An error occurred while attempting to read the boot configuration data."
+
+Like this guy's attempts: <a href="http://dreamlayers.blogspot.com/2008/02/manually-moving-vista-ntfs-partition.html">http://dreamlayers.blogspot.com/2008/02/manually-moving-vista-ntfs-partition.html</a>
+
+heat related lock-ups?
+
+In addition, I needed to mark it as a system boot partition.
+
+<a href="http://dreamlayers.blogspot.com/2008/02/manually-moving-vista-ntfs-partition.html">http://dreamlayers.blogspot.com/2008/02/manually-moving-vista-ntfs-partition.html</a>
+
+Don't spend $49 on Acrons Disk Director. It locks up at the boot menu on my MacBook Pro with bootcamp installed.
+
+Dont's spend $69 on Symantec Partition Magic. Don't ever boot from the Partition Magic 8 disk with boot camp installed. It automagically destroys the hybrid gpt/mbr without any user intervention. OS X may repair your first partition, but you'll probably have to use forensic tools to find the geometry for the remainder.
+
+If you're interested in more than your OS X partition, don't use CarbonCopyCloner or probably any other desktop-based tool to clone your drive. I don't believe any currently exist to handle a
+
+Use those nice free bootable linux CDs. You'll have to run rEFIt parition sync (if you're doing a 3-way bootcamp you probably already installed it), or use gptsync afterwards. Clonezilla and SystemRestoreCD both include dd_rescue, which is by far the simplest way to clone one drive to another. It's pretty fast, even over a USB link. Expect 2-3 hours for a 320MB system.
+<h2>Fixing the partition offset</h2>
+I tried 0xED and HexFiend, nether allowed direct disk editing.
+
+So... thankfully it's easy to copy a section of the hard disk to a file
+
+I executed "sudo dd if=/dev/disk0s3 count=500 of=vistabootpart"
+
+Which placed a vistabootpart file in my home directory with 250KiB  of the 3rd partition (2nd if you don't count the EFI partition) on my first hard drive.
+
+I then opened it up in OxED and selected 4 bytes starting at 1C.
+
+The 32-but signed value is the number you're looking at - this should match the sector offset of the partition. Mine was 314982440/0x2840C612
+
+I changed it to 651612465, the new location of the partition.
+
+To save the file, I first had to change permissions (Cmd+I in finder), unlock, and give staff and everyone read/write instead of just read. I think this is because I used sudo to write the file under elevated priviledges (which are required for disk-level access).
+
+I then ran dd again, just switching if and of:
+
+sudo dd if=vistabootpart count=500 of=/dev/disk0s3
+
+After this, Vista appeared to start booting up.... then croaked "autochk not found - AUTOCHK program" and subsequently bluescreened.
+
+Reading http://www.pcguide.com/vb/showthread.php?t=45339
+
+led me to believe this was because I wasn't able to choose the right partition type in the GPT (and subsequently the MBR).
+
+Orginially the GPT type was Basic Data and the MBR type was 0x07 NTFS/HPFS - however, recreating in parted changed it to MS Reserved 0xC0.
+
+Running the Vista repair disk marked the partition active.
+
+I'm tired of rebooting by now, so I found an OS X version of gptsync
+
+http://netkas.org/?p=39
+
+Download http://rapidshare.com/files/73933573/gptsync_tools.zip.html
+
+I dropped the executables in my home directory.
+
+I ran "sudo ./showpart /dev/disk0" to see my gpt and mbr tables.
+
+MS Reserved is getting translated to 0xC0....
+
+Which I think is being interpreted as a hidden partiton by Vista, causing my boot problems.
+
+According to http://en.wikipedia.org/wiki/GUID_Partition_Table
+
+MS Reserved = E3C9E316-0B5C-4DB8-817D-F92DF00215AE
+
+Basic Data Partition = <span> </span>EBD0A0A2-B9E5-4433-87C0-68B6B72699C7
+
+So... I'm going to head back to the System Rescue CD and see if I can fix this...
+GPT
+
+1     40    409639 EFI System (FAT)
+2    409640    314720295 Mac OS X HFS+
+3    314982440    510296893 Basic Data
+4    510296894    613812519 Basic Data (ext3)
+5    613812520    623578145 Linux Swap
+
+MBR
+
+1    1    409638    EE    EFI Protective
+2    409640    314720295 AF Mac OS X HFS+
+3 *    314982440    510296893    07 NTFS/HPFS
+4    510296894    613812519 83 Linux
+
+moved NTFS to
+
+651612465
+865052054
+
+total sectors =
+976768065
+sectors per MB = 1953536130
+
+parted
+
+select /dev/sda
+unit s
+
+rm 3
+
+mkpart basicdata 651612465s 865052054s
+
+reboot (shutdown -h now)
+
+rEFIt, gptsync
+
+Fixed to 0x07, and maintained active flag on MBR
+
+---
+
+Windows failed to start.  Repair your computer
+
+Windowssystem32winload.exe
+0xC000000e
+The selected entry could not be loeaded because the applicaiton is missing or corrupt.
+
+---
+
+Trying to boot from the vista disk generated the same error...
+
+http://www.multibooters.co.uk/cloning.html
+http://www.multibooters.co.uk/mbr.html
+
+Sounds like it's time for me to get BartPE+Partition saving running..
+Grabbed my XPSP2 disk... so far it's building away... downloading partsaving and added it as a plugin.
+I burned the resulting ISO with InfraRecorder... and viola! it booted.
+
+BartPE ran great - partition saving allowed me to edit the Vista Boot Configuration on paritition 3 and edit all the BCD entries to point to the right sectors.
+
+Didn't help, even though some wrong.
+
+I held down the option key while booting, and booted the vista DVD that way... seemed to work. Not sure why rEFIt stopped working....
+
+I hit repair and Vista detected a problem with my startup partition. Repair and restart solved the problem with winload.exe!
+
+Yahoo!
+

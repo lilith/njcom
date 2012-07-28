@@ -1,0 +1,86 @@
+GIT
+  remote: git://github.com/nathanaeljones/nesta-plugin-aliases.git
+  revision: ca36ffeaf78cbd2fb999fd2c0d96526a3fd3532d
+  specs:
+    nesta-plugin-aliases (0.0.2)
+      nesta (>= 0.9.11)
+
+GIT
+  remote: git://github.com/nathanaeljones/nesta-plugin-simplicity.git
+  revision: 54c08d18cc7a76b40059d1e423085b28142b2865
+  specs:
+    nesta-plugin-simplicity (0.0.1)
+      nesta (>= 0.9.11)
+
+GIT
+  remote: git://github.com/nathanaeljones/nesta-plugin-tags.git
+  revision: 893ed9d58caa902926ce6f1ec61ecb9a80109e80
+  specs:
+    nesta-plugin-tags (0.0.1)
+      nesta (>= 0.9.11)
+
+GIT
+  remote: git://github.com/nathanaeljones/nesta-plugin-wordpress.git
+  revision: 6530204cf47cf1cf3ee42cc51d9070b86b77d47b
+  specs:
+    nesta-plugin-wordpress (0.0.5)
+      nesta (>= 0.9.11)
+
+GIT
+  remote: git://github.com/nathanaeljones/nesta.git
+  revision: 8fc355da51c7d9bb5206ca2af231c42886764e38
+  specs:
+
+PATH
+  remote: ../nesta
+  specs:
+    nesta (0.9.11)
+      RedCloth (~> 4.2)
+      haml (~> 3.1)
+      rdiscount (~> 1.6)
+      sass (~> 3.1)
+      shotgun (>= 0.8)
+      sinatra (= 1.2.6)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    RedCloth (4.2.9)
+    backports (2.3.0)
+    erubis (2.7.0)
+    haml (3.1.4)
+    haml-edge (3.1.79)
+    monkey-lib (0.5.4)
+      backports
+    rack (1.4.1)
+    rdiscount (1.6.8)
+    sass (3.1.15)
+    shotgun (0.9)
+      rack (>= 1.0)
+    sinatra (1.2.6)
+      rack (~> 1.1)
+      tilt (>= 1.2.2, < 2.0)
+    sinatra-advanced-routes (0.5.1)
+      monkey-lib (~> 0.5.0)
+      sinatra (~> 1.0)
+      sinatra-sugar (~> 0.5.0)
+    sinatra-reloader (0.5.0)
+      sinatra (~> 1.0)
+      sinatra-advanced-routes (~> 0.5.0)
+    sinatra-sugar (0.5.1)
+      monkey-lib (~> 0.5.0)
+      sinatra (~> 1.0)
+    tilt (1.3.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  erubis
+  haml-edge
+  nesta!
+  nesta-plugin-aliases!
+  nesta-plugin-simplicity!
+  nesta-plugin-tags!
+  nesta-plugin-wordpress!
+  sinatra-reloader

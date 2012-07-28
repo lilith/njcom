@@ -1,0 +1,6 @@
+Libs: search, -comments
+Menu: search
+
+# Search nathanaeljones.com
+
+<div id="cse" style="width: 100%;">Loading</div>

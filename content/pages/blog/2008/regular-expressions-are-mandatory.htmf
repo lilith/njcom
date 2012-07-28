@@ -1,0 +1,74 @@
+Aliases: /11/regular-expressions-are-mandatory/ /?p=11
+Atom ID: http://computerlinguist.wordpress.com/?p=11
+Categories: general-programming
+Tags: computerlinguist-com
+Date: Aug 20 2008
+
+<h1>Regular expressions are mandatory</h1>
+
+I admit that regular expressions (regexes) are intimidating. I avoided them like a disease for six years. I wasn't quite sure what they did, but seeing stuff like this was enough to make me lose interest quick:
+<pre style="line-height: 1.2em;">&lt;(?&lt;tagname&gt;[\\w:-]+)(?&lt;attrpair&gt;\\s+(?&lt;attrname&gt;\\w[-\\w:]*)
+(\\s*=\\s*\"(?&lt;attrval&gt;[^\"]*)\"|
+\\s*=\\s*'(?&lt;attrval&gt;[^']*)'|
+\\s*=\\s*(?&lt;attrval&gt;&lt;%#.*?%&gt;)|
+\\s*=\\s*(?&lt;attrval&gt;[^\\s=/&gt;]*)|
+(?&lt;attrval&gt;\\s*?)))*
+\\s*(?&lt;insertattrs&gt;)(?:(?&lt;empty&gt;/&gt;)|&gt;
+(?s:(?&lt;contents&gt;.*?)
+(?i:&lt;/\\s*\\k&lt;tagname&gt;\\s*&gt;)))</pre>
+Whenever I did string parsing, I usually ended up with masses of loops and indexOf calls. I tried to avoid anything complicated, but the parsing code inevitably ended up huge, fragile, and difficult to read.
+
+During those six years, I probably wrote over ten thousand lines of string parsing code that could have been replaced with <strong>ten or twenty <em>lines</em> of regular expressions. Really.
+</strong>
+
+If you do any kind of programming, or even just work with text, you need to understand regular expressions. They're very, very useful. So useful, in fact, that it's near impossible to find a language that doesn't support them.  Perl, PHP, Ruby and Javascript even add syntactic sugar to make them easier to use.
+<h1>Regex patterns</h1>
+Regex patterns don't have to be complicated to be useful. You'll probably get the most mileage out of simple patterns - quick regexes that save you a few dozen lines of code.
+
+For example, you might scan text for simple e-mail addresses with this pattern:
+
+<span style="color: #008000;">
+  <strong>
+    <tt class="regex">[a-z</tt>
+  </strong>
+</span><tt class="regex">
+  <span style="color: #008000;">
+    <strong>]+</strong>
+  </span>
+  <span style="color: #339966;">
+    <span style="color: #000000;">@</span>
+    <strong>[</strong>
+  </span>
+</tt><span style="color: #339966;">
+  <strong>
+    <tt class="regex">a-z</tt>
+  </strong>
+</span><tt class="regex"><span style="color: #339966;"><strong>]+</strong></span>\.<span style="color: #008000;"><strong>[</strong></span></tt><span style="color: #008000;">
+  <strong>
+    <tt class="regex">a-z</tt>
+    <tt class="regex">]</tt>
+  </strong>
+</span>
+
+Within square brackets, you can list allowed characters like this: <em>[abcdefghijklm]</em> or specify a range: <em>[a-m].</em>
+
+The + symbol means 'one or more' of whatever it is following. So "A+" would match A or AAA or AAAAA. (*) means '0 or more'.
+
+The period (.) means 'any character'. Since we're actually trying to <em>match</em> a period, we have to 'escape' it with a backslash: \.
+
+Unfortunately, the above regex dosen't match e-mail addresses like <em>joe@example.co.uk</em>. It also won't match <em>joe@example-domain.com</em> or <em>first-last@me9.com</em>. Here's an improved version.
+
+<tt class="regex"><span style="color: #008000;">[a-z0-9._-]+</span>@<span style="color: #008000;">[a-z0-9.-]+</span>\.<span style="color: #008000;">[a-z]</span></tt>
+
+And here's an even more sophisticated version. It excludes domains that start or end in an hyphen. It also prevents more than one period in a row in the domain or username.
+
+<strong>[</strong>a-z0-9!#$%&amp;'*+/=?^_`{|}~-<strong>]+(?:</strong>\\.<strong>[</strong>a-z0-9!#$%&amp;'*+/=?^_`{|}~-<strong>]+)*</strong>
+
+@<strong>(?:[</strong>a-z0-9<strong>](?:[</strong>a-z0-9-<strong>]*[</strong>a-z0-9<strong>])?</strong>\\.<strong>)+[</strong>a-z0-9<strong>](?:[</strong>a-z0-9-<strong>]*[</strong>a-z0-9<strong>])?</strong>
+<h1>Experiment</h1>
+<a href="http://rubular.com/">http://rubular.com/</a>
+<h1>Continued</h1>
+<a href="http://en.wikipedia.org/wiki/Regular_expression">http://en.wikipedia.org/wiki/Regular_expression</a>
+
+<a href="http://www.regular-expressions.info/">http://www.regular-expressions.info/</a>
+

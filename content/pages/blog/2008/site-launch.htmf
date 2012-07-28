@@ -1,0 +1,26 @@
+Aliases: /94/site-launch/ /?p=94 /10882_Site_Launch
+Atom ID: http://66.29.219.39/?p=94
+Summary: You've got to start sometime. After launching a certain number of websites, launching your own can seem really, really boring. Like watching grass grow. At least it doesn't take long with the CMS I created...
+Date: Apr 30 2008
+
+<h1>Site Launch</h1>
+
+	
+
+<p>	
+You've got to start sometime. After launching a certain number of websites, launching your own can seem really, really boring. 
+</p>
+<p>Like watching grass grow. At least it doesn't take long with the CMS I created.</p>
+<p>I FTP'd the site up last night, then attached the database file and set the connection string during lunch break. 
+</p>
+<p>The part that took the longest was resetting my password in the CMS, since I'd forgotten it :(. The quickest way to is to run "Update aspnet_Membership SET Password="pass" PasswordFormat=0" to reset all passwords to "pass".</p>
+<p>There's only a few non-typical requirements:</p>
+<ul>
+<li>Obviously ASP.NET needs wildcard mapping set up, so all URLs go to ASP.NET. The hosting provider has to map "*" to "aspnet_isapi.dll"</li>
+<li>The application needs write access to the local file system, but only if you want to have online editing ability. This
+is controlled at two levels - the filesystem (permissions for Network Service), and the asp.net trust level (machine.config)</li>
+</ul>
+
+<!--url: 10882_Site_Launch-->
+<!--articlebanner: <img runat="server" src="banner.jpg" alt="Into the horizon" />-->
+<!--blogbanner: <img runat="server" src="banner.jpg" alt="Into the horizon" />-->

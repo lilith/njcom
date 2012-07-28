@@ -1,0 +1,18 @@
+Aliases: /45/clojure-cross-platform-fast-concurrent-concise/ /?p=45
+Atom ID: http://computerlinguist.wordpress.com/?p=45
+Categories: general-programming
+Tags: computerlinguist-com
+Date: Nov 10 2008
+
+<h1>Clojure - cross platform, fast, concurrent, concise</h1>
+
+I recently ran across this video on Clojure... Very compelling presentation.&#xA0;
+
+I originally thought of lisp as being interpreted.. It's easy to build a simple lisp interpreter.
+
+Clojure, however, is compiled lisp - but still quite as dynamic, and it supports edit-and-continue.
+
+<a href="http://blip.tv/file/982823">Watch the video</a>
+
+Looks very promising
+

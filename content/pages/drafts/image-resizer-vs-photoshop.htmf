@@ -1,0 +1,37 @@
+Aliases: /?p=158 /11221_Image_Resizer_vs_Photoshop
+Atom ID: http://66.29.219.39/?p=158
+wp_status: pending
+Flags: draft
+Categories: image-resizing
+Tags: image-resizer, image-resizing
+Date: May 8 2009
+
+<h1>Image Resizer vs. Photoshop</h1>
+
+	
+
+<a href="quality-original.jpg" runat="server">View Original</a>
+<p>These samples have been resized to 600px wide. Click to view each image.</p>
+
+
+	
+
+
+
+<picture templateid="qualityLeft" src="quality-600px-q-100.jpg" runat="server"/>
+<picture templateid="qualityLeft" src="quality-original.jpg?width=600&amp;quality=100" runat="server"/>
+
+<picture templateid="qualityLeft" src="quality-600px-quality-90.jpg"/>runat="server" /&gt;
+<picture templateid="qualityLeft" src="quality-original.jpg?width=600&amp;quality=90" runat="server"/>
+
+<picture templateid="qualityLeft" src="quality-600px-quality-80.jpg" runat="server"/>
+<picture templateid="qualityLeft" src="quality-original.jpg?width=600&amp;quality=80" runat="server"/>
+
+<picture templateid="qualityLeft" src="quality-600px-24bit.png" runat="server"/>
+<picture templateid="qualityLeft" src="quality-original.jpg?width=600&amp;format=png" runat="server"/>
+
+<picture templateid="qualityLeft" src="quality-600px-selective-diffusion-256c.gif" runat="server"/>
+<picture templateid="qualityLeft" src="quality-original.jpg?width=600&amp;format=gif" runat="server"/>
+
+
+<!--url: 11221_Image_Resizer_vs_Photoshop-->

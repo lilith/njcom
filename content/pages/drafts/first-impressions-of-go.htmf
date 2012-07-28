@@ -1,0 +1,71 @@
+Aliases: /?p=473
+Atom ID: http://nathanaeljones.com/?p=473
+wp_status: draft
+Flags: draft
+Date: Dec 7 2009
+
+<h1>First Impressions of GO</h1>
+
+As normal with Google products, there is a fair amount of buzz about the new language: Go.
+
+There is lots to like about the new language. It was designed by highly respected people in the computing community, and integrates lots of good ideas.
+
+Not everything is flowers and roses about the new language, but its benefits might outweight its drawbacks enough for it to gain serious traction.
+
+What I like
+<ul>
+	<li><strong>V</strong><strong>ariable names come before type declarations</strong>, somewhat like ES4. &#xA0;My experience has taught me that readability is king. and keywords that precede identifiers seriously limit readability. It's important to be able to visually find functions and variables quickly by name. Just because English has the insane adjective-noun order doesn't mean programming languages should follow that mistake with identifiers and types.</li>
+	<li>Some keywords, like const and import, don't have to be repeated every time. This makes it much easier to scan variable and import names.</li>
+	<li><strong>Multiple return values</strong>. While I would prefer a lightweight tuple type like python, multiple return values eliminates one of the biggest pain points and causes of boilerplate code.</li>
+	<li><strong>Good data literals</strong>. Array and map literals are concise and reasonably clean.</li>
+	<li><strong>ES4-style casting:</strong> int(val), string(val). Of all the casting conventions I've seen, this is the cleanest and most intuitive.</li>
+	<li><strong>Simple type assertions. </strong> x.(Type) is a complete expression that returns x or throws a runtime exception. &#xA0;You can get the result as a boolean using the form <em>var val, ok := x.(Type). </em>val = x and ok=true, or val = zero value and ok = false.</li>
+	<li>Function literals! I haven't even heard mention of this feature, yet it opens up support for much of the functional paradigm.</li>
+</ul>
+What &#xA0;I don't like:
+<ul>
+	<li>No default function arguments or optional parameters - a great eliminator of boilerplate functions.</li>
+	<li>Types still litter the syntax terribly. I hate to say it, but I might even be willing to swallow a perl/php syntax to get implicit typing. like $var.</li>
+	<li>No heterogeneous collections or literals.</li>
+</ul>
+I'm not a fan of generics - they're complicated, and
+<ul>
+	<li>- <strong>The receiver syntax ruins otherwise decent readability</strong>...
+func (p *myType) compute(factor int) int { return p.i * factor }
+For object-oriented portions of projects, I see this making it very difficult to visually scan for functions. Western-world eyes scan left-to-right, and the receiver syntax nearly triples the required eye-work to get to the identifier.</li>
+	<li>I think there are serveral better alternatives:</li>
+	<li>func compute (factor int) int &#xA0;(p *myType){ return p.i * factor }</li>
+	<li>func compute (p *myType; factor int) int { return p.i * factor }</li>
+	<li>Another option that would help would be to extend the import/const/var capabilities to functions also.</li>
+	<li>func (p *myType) (
+compute(factor int) int { return p.i * factor }
+)</li>
+	<li/>
+	<li>- No events? No dynamic method dispatch? Not even on the level of Objective-C?</li>
+	<li>- No exceptions? Maybe it will provide an environment where coders *have* to handle the corner cases. Multiple return objects should help with this... but I see it limiting interoperability.</li>
+	<li>- no immutable datatypes? Mutable slices?</li>
+	<li>- I suggest designing a language for readability over writability - typically they correspond.</li>
+	<li/>
+	<li>Simple type assertions</li>
+</ul>
+http://golang.org/doc/go_spec.html#Method_expressions
+
+Method expressions are cool - should simplify event systems.
+
+Function literals/closures!
+
+Interesting "defer"
+
+what I like about go:
+
+- Formatting tools defining the standard. Much of the readability of any language comes from the standardization of the formatting. Establishing a good formatting spec in the form of an implementation is a great idea.
+
+- Multiple return values. This makes a lot of sense. Dynamic languages can avoid the problem because it's cheap to make an object/tuple/hashmap to hold pieces of data, but static languages lacking this feature end up forcing boilerplate code.
+
+Some people think code generation is a solution to problems, but it isn't. What if you have 2 methods returning the same pair? With code generation you can't exchange them, since they compile to difference classes.
+
+I wholeheartedly applaud that it embraces DRY instead of making it impossible, as many languages do.
+
+I like the implicit type style, interface based.
+"Where C++ provides classes, subclasses and templates, Go provides interfaces. A Go interface is similar to a C++ pure abstract class: a class with no data members, with methods which are all pure virtual. However, in Go, any type which provides the methods named in the interface may be treated as an implementation of the interface. No explicitly declared inheritance is required. The implementation of the interface is entirely separate from the interface itself."
+

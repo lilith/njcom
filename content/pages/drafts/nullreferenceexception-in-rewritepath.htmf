@@ -1,0 +1,43 @@
+Aliases: /?p=122 /10931_NullReferenceException_in_RewritePath
+Atom ID: http://66.29.219.39/?p=122
+Summary: If you are getting a NullReferenceException from RewritePath at ~/, or if image references break when your URLs end in /, you need hotfix 911300.
+wp_status: pending
+Flags: draft
+Date: Jun 2 2008
+
+<h1>NullReferenceException in RewritePath</h1>
+
+<p>If you are getting a NullReferenceException from RewritePath at ~/, or if image references break when your URLs end in /, you need hotfix <a href="http://support.microsoft.com/kb/911300">911300</a> or a subsequent update such as MS06-056.</p>
+<p>I debugged this problem with MaxmimumASP about a year ago. Apparently, this patch comes with Visual Studio SP1, but wasn't released for the rest of the world (read: production servers) until several months later. Some hosts may still be missing the patch, so watch out.</p>
+<div class="codeBox">
+<h2>Object reference not set to an instance of an object.</h2>
+<pre>
+at System.Web.HttpContext.RewritePath(VirtualPath filePath, VirtualPath pathInfo, String queryString, 
+    Boolean setClientFilePath)
+at System.Web.HttpContext.RewritePath(String filePath, String pathInfo, String queryString, Boolean 
+setClientFilePath)
+at UrlRewritingNet.Web.UrlRewriteModule.OnPagePreInit(Object sender, EventArgs e)
+at System.Web.UI.Page.OnPreInit(EventArgs e)
+at fbs.PageBase.OnPreInit(EventArgs e) in c:\Websites\yf\app_code\BaseClasses\PageBase.cs:line 109
+at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean 
+    includeStagesAfterAsyncPoint)
+</pre>
+</div>
+
+<p>
+This happened when trying to rewrite http://youngfoundations.org/ to page http://youngfoundations.org/default.aspx. It's a pretty common scenario. Now, while subfolders such as http://youngfoundations.org/blog/ didn't throw an error, ASP.NET translated all of the image and hyperlink references incorrectly. But URLs ending in a non-slash character behaved fine.</p>
+<p>There's a bit <a href="http://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=276542">more information</a> on the issue on Microsoft Connect, although I don't mention the subfolder issue.</p>
+<p>Bottom line: If you see different behavior between dev and production, ask your hosting provider to update the ASP.NET runtime. I know mine (and others) test .NET patches for quite a while before installing them, since they often cause as many problems as they fix. Don't believe them if they say it's up-to-date. Get the *full* version number on System.Web.dll and compare it to yours. </p>
+
+
+
+
+<h2>Related Microsoft Connect issues</h2>
+<a href="https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=276542">https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=276542</a>
+<a href="https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=105061">https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=105061</a> 
+<a href="https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=105149">https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=105149</a>
+<a href="https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=103229">https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=103229</a>
+<a href="https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=104436">https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=104436</a>
+<a href="https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=104429">https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=104429</a>
+
+<!--url: 10931_NullReferenceException_in_RewritePath-->

@@ -1,0 +1,258 @@
+Aliases: /138/server-side-image-resizing-module-for-asp-net-asp-phpiis-2/ /?p=138 /11131_Server_side_Image_Resizing_Module_for_ASP_NET_ASP_PHP_IIS
+Atom ID: http://66.29.219.39/?p=138
+Summary: Server-side image resizing is one of those tiny features that can have incredible ROI. It can save webmasters several hours each day, and gives you the ability to change the resolution of an image without having to hunt up the original.
+Categories: image-resizing
+Tags: image-resizer, image-resizing
+Date: Aug 6 2008
+
+<h1>Server-side Image Resizing Module for ASP.NET, ASP, & PHP/IIS</h1>
+
+<div style="padding:10px; color:red; font-size:11pt; border:1px solid red; margin-bottom:1.5em;">This is regarding a depreciated version. <a href="http://imageresizing.net/">Visit the V3 website for the latest information about the product. </a></div>
+
+<p style="position: absolute; height: 5px; width: 5px; top: -3000px;">Open-source image resizing module for ASP.NET. Great for thumbnails and slideshows. Features managed disk caching, jpeg/png/gif support, and bicubic resizing.</p>
+
+Server-side image resizing is one of those tiny features that can have incredible ROI. It can save webmasters several hours each day, and gives you the ability to change the resolution of an image without having to hunt up the original. However, many of the approaches currently on the web don't take security or performance into account.
+<div class="rightbox"><a class="download" href="https://www.e-junkie.com/ecom/gb.php?i=178817&amp;c=single&amp;cl=41912">Download Source ($69)</a>
+<p style="margin-bottom:0;padding-top:0;font-size:7.5pt; color:#909090;">v1.0 - August 6, 2008</p>
+<p style="margin-bottom:0;padding-top:0;font-size:7.5pt; color:#909090;">v1.2 - Nov 23, 2008</p>
+<p style="margin-bottom:0;padding-top:0;font-size:7.5pt; color:#909090;">v2.0 alpha -Mar 1, 2009 (by request)</p>
+
+<a href="~/11151">View License</a>
+<a href="~/11141">Documentation</a>
+
+If you have any questions after reading the documentation, leave a comment or e-mail <strong>nathanael.jones@gmail.com</strong>.</div>
+I developed this image resizing system about a year and a half ago. I wanted something very intuitive, simple, secure, and efficient. We've been using this system heavily on a live, high-traffic site (<a href="http://youngfoundations.org">youngfoundations.org</a>) for over a year, and we have had zero stability problems, memory leaks, or other issues with it. It's very mature and stable.
+
+Although I typically release my components for free, I decided to charge a 'download fee' for this one to help support my other open-source projects. Don't worry, this component is still open-source, and the license permits source redistribution as part of a larger system. However, I'm asking that people who want to integrate this component purchase the download instead of ripping it out of another open-source project. My free to non-free LOC (lines of code) ratio is still over 40 to 1, and I plan on keeping it that way.  I trust this will keep everybody happy.
+<h3>Features</h3>
+<ul class="normallist">
+	<li>Querystring-based resizing: <strong>image.jpg?width=100</strong>
+<ul class="normallist">
+	<li><strong>?format=jpg|png|gif</strong> &#x2014; Changes the output format. (This was 'thumbnail' in v1.0).</li>
+	<li><strong>&amp;maxwidth=value&amp;maxheight=value</strong> &#x2014; Specify the maximum size for the resized image. Aspect ratio is maintained. You don't have to use both maxwidth and maxheight - you can use just one.</li>
+	<li><strong>&amp;height=value&amp;width=value</strong> &#x2014; If used together, these will force the image to be stretched to the new dimensions. If height or width is used by itself, aspect ratio is maintained.</li>
+	<li><strong>&amp;quality=0-100</strong> &#x2014; Changes the jpeg compression setting. 90 is the default value, and you really don't need to touch it. 90 produces fantastic quality and tiny files. New in v1.2</li>
+</ul>
+</li>
+	<li>Secure - images still have to pass through ASP.NET's URL authorization system.</li>
+	<li>Can be used from ASP, PHP, HTML files, or any language that runs alongside ASP.NET. Images are separate requests, so you don't need to be using ASP.NET to make this work for you.</li>
+	<li>Not just for thumbnails - can resize images to any resolution. You can set the size limitations in web.config.</li>
+	<li>Great for slideshows - you can change the resolution of the images dynamically as the user resizes.</li>
+	<li>Supported input formats: BMP, GIF, JPG, PNG and TIFF</li>
+	<li>Supported output formats: <strong>JPG, PNG, GIF</strong></li>
+	<li>Photoshop-quality bicubic resizing and jpeg compression.</li>
+	<li>Works with IIS5, IIS5.1, IIS6, IIS7, and ASP.NET 2.0+. v1.2 is optimized for IIS7 Integrated mode</li>
+	<li>Well documented, well organized code.</li>
+	<li>Great platform to build your own image processing systems on. You can use the disk caching system or image processing code separately.</li>
+	<li>You can set entire folders of images to resize using CustomFolders.cs. (v1.2) You can do "URL rewriting" on your images there also.</li>
+</ul>
+<h3>Bonus functionality</h3>
+<ul class="normallist">
+	<li>Example watermarking code. You can enable this feature by uncommenting the code.</li>
+	<li><em>yrl</em> class for dealing with virtual paths.</li>
+</ul>
+<h3>Performance</h3>
+<ul class="normallist">
+	<li><strong>Disk-based caching. Subsequent identical resizes are instantaneous.</strong>
+<ul class="normallist">
+	<li>Caching doesn't get in your way - if you modify the source file, the resized versions are also updated.</li>
+	<li>You can resize the same image to several different sizes, and the different versions are cached separately.</li>
+	<li><strong>Managed disk cache</strong>. If the number of cached files exceeds the configured threshold, a cleanup pass is made on the directory, and a block of the least recently used files are removed.</li>
+</ul>
+</li>
+	<li>Client-side caching directives are sent, minimizing repetitive requests from the same client.</li>
+	<li>Thumbnail generation in <strong>under 20 milliseconds</strong> for most images.</li>
+	<li>Suitable for slideshows and lists of images. Even the initial resizing of 50 images concurrently isn't noticeably slow.</li>
+	<li>Good with large source files (1-5MB)</li>
+</ul>
+
+<!--url: 11131_Server_side_Image_Resizing_Module_for_ASP_NET_ASP_PHP_IIS-->
+<!--blogbanner: <a href="~/products/asp&#45;net&#45;image&#45;resizer/" runat="server"><img src="ad2.jpg" runat="server" alt="Easy image resizing" /></a>-->
+<!--articlebanner: <div class="resizerDemo">
+<img class="product&#45;top&#45;image" src="product&#45;top.png" runat="server" alt="" />
+<div class="imageSelection">
+
+<div id="imageList"></div>
+ <p class="chooseImage">Choose an image to work with.</p>
+</div>
+
+<div class="imageBackground">
+
+<div class="interface">
+<ul class="sizes">
+ 
+
+</ul>
+<p class="command"><a target="_tab" id="demo_openInNewTab">Modify the query string directly</a>.</p>
+<p class="command"><a id="demo_download">Download resized image</a></p>
+<p class="command"><a href="http://www.payloadz.com/go/sip?id=497545">Download Source Code ($69)</a></p>
+</div>
+  </div>
+</div>
+
+<script type="text/javascript">
+//<!&#45;&#45;
+
+$(document).ready(function(){
+   var basePath = '<%= ResolveUrl(Page.AppRelativeTemplateSourceDirectory) %>';
+   var images = ['IMG_1228.jpg', 'IMG_5375.jpg','IMG_5443.jpg','IMG_8152.jpg','IMG_5393.jpg'];
+   var query = '?maxwidth=100&maxheight=100';
+   
+
+for (var i = 0; i < images.length;i++){
+  var img = $("<img />").attr('src',basePath + images[i] + query).
+     attr('alt','click to manipulate').appendTo($('#imageList'));
+
+window.currentImage = ""; window.currentQuery = "";
+//handle image change
+ img.click(function(){
+   var currentImage = $(this).attr('src');
+
+   $("#imageList img").removeClass('selected');
+   $(this).addClass('selected');
+
+   //Remove querystring
+   window.currentImage = currentImage.substr(0,currentImage.indexOf('?'));
+   updateImage();
+ });
+
+}
+//handle query change
+var queries = 
+  ["?width=400","Medium size",
+   "?maxwidth=100&maxheight=100","Typical thumbnail",
+   "?format=png&maxwidth=200&maxheight=200","PNG version",
+   "?width=200&height=100&stretch=fill","Distorted",
+   "?format=gif&maxwidth=100","GIF version (ugly)"];
+
+window.currentQuery = queries[0];
+
+var queryList = $('.interface ul.sizes');
+for (var i = 1; i < queries.length; i+=2){
+   var q = queries[i&#45;1];
+   var name = queries[i];
+   
+   var item = $("<li/>").append(name).append($("<p/>").append(q)).attr('title',q);
+
+   if (i == 1) item.addClass("selected");
+   
+   item.click(function(){
+      $('ul.sizes li').removeClass("selected");
+      $(this).addClass("selected");
+      window.currentQuery = $(this).attr('title');
+      updateImage();
+   });
+   item.appendTo(queryList);
+}
+
+//handle checkbox change
+
+function updateImage(){
+    $('.product&#45;top&#45;image').hide("slow");
+    $('.imageBackground').css('background&#45;image','none');
+    $('.imageBackground').css('background&#45;image','url(' + getImageUrl() + ')');
+    $('.imageBackground').slideDown("slow");
+    $('#demo_download').attr('href',getImageUrl() + '&download=true');
+    $('#demo_openInNewTab').attr('href',getImageUrl());
+
+}
+
+function getImageUrl(){
+  return window.currentImage + window.currentQuery;
+}
+
+
+});
+
+
+
+//&#45;&#45;>
+</script>
+<style type="text/css">
+.resizerDemo{
+background&#45;color:black;
+}
+#imageList{text&#45;align:center;}
+#imageList img{
+    margin:25px;
+margin&#45;bottom:10px;
+margin&#45;top:15px;
+    border:3px solid #b0b0b0;
+cursor:pointer;
+}
+#imageList img:hover{
+    border:3px solid #c0c0c0;
+}
+#imageList img.selected{
+    border:3px solid #ffffff;
+}
+p.chooseImage{
+text&#45;align:center;
+color:white;
+font&#45;size:8pt; 
+padding&#45;bottom:10px;
+paddint&#45;top:10px;
+}
+
+.imageBackground {
+padding:50px;
+padding&#45;right:100px;
+padding&#45;top:40px;
+background&#45;repeat:no&#45;repeat;
+background&#45;position: right center;
+display:none;
+height:300px;
+}
+.interface{
+
+}
+.interface p.command{
+ margin&#45;top:1.3em;
+}
+ul.sizes li{
+margin:10px;
+margin&#45;left:0px;
+cursor:pointer;
+color:#c0c0c0;
+}
+ul.sizes li:hover{
+color:white;
+}
+ul.sizes li p{
+margin&#45;top:6px;
+color:#909090;
+}
+ul.sizes li.selected{
+color:white;
+}
+h1.title span.date{display:none;}
+
+.rightbox{
+width:215px;
+float:right;
+
+padding:15px;
+padding&#45;right:0px;
+/*padding&#45;left:18px;*/
+margin&#45;left:25px;
+margin&#45;bottom:25px;
+margin&#45;top:20px;
+background: url(<%= ResolveUrl(Page.AppRelativeTemplateSourceDirectory) %>gradient.png) repeat&#45;x top left;
+text&#45;align:right;
+}
+.rightbox a{
+display:block;
+padding&#45;right:15px;
+}
+.rightbox p{
+
+padding&#45;right:15px;
+margin&#45;bottom:0px;
+}
+.rightbox a.download{
+display:block;
+padding:7px;
+padding&#45;right:15px;
+background: url(<%= ResolveUrl(Page.AppRelativeTemplateSourceDirectory) %>download.png) no&#45;repeat top left;
+}
+</style>-->

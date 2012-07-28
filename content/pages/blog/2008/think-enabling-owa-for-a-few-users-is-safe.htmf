@@ -1,0 +1,21 @@
+Aliases: /104/think-enabling-owa-for-a-few-users-is-safe/ /?p=104 /11031_Think_enabling_OWA_for_a_few_users_is_safe
+Atom ID: http://66.29.219.39/?p=104
+Summary: Think Outlook Web Access is secure since you only have it enabled for the users that keep strong passwords? Think again.
+Date: May 14 2008
+
+<h1>Think enabling OWA for a few users is safe?</h1>
+
+<p>Think Outlook Web Access is secure since you only have it enabled for the users that keep strong passwords?
+</p>
+<p> Think again.
+</p>
+<p>There's this little thing called WebDAV. It's how Entourage connects to Exchange, and is used by the AJAX in OWA. Now, it is true that OWA will say "Microsoft Outlook Web Access is currently disabled for user X" if you try to access OWA through your web browser directly. However, the actual underlying WebDav methods aren't similarly restricted. Even if a user has OWA specifically disabled, he can still connect using Entourage/WebDav remotely!</p>
+
+<p>So, as long as you have OWA published, you're only as secure as your weakest password. You can't stop employees from connecting remotely, and you can't stop hackers from accessing mailboxes with weak passwords. And if you haven't disabled the new "Remote File Access" feature of Exchange 2007, now would be a good time. Your company-wide shares can be viewed if just one user has a weak password.
+</p>
+
+<p>Bottom-line: If you have been relying upon mailbox-level OWA control to protect those users who refuse to remember long passwords - you're in trouble.</p>
+<p>Note: I called Microsoft Support to confirm this behavior, and their tests had the same results - Disabling OWA access doesn't affect remote WebDav/Entourage access.</p>
+
+
+<!--url: 11031_Think_enabling_OWA_for_a_few_users_is_safe-->

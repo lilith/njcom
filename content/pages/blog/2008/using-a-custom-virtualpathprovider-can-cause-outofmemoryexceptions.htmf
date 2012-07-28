@@ -1,0 +1,109 @@
+Aliases: /125/using-a-custom-virtualpathprovider-can-cause-outofmemoryexceptions/ /?p=125 /11081_Using_a_custom_VirtualPathProvider_can_cause_OutOfMemoryExceptions
+Atom ID: http://66.29.219.39/?p=125
+Summary: Virtual path providers are awesome - you can serve a site from a .zip file, perform XSLT transformations to generate .aspx files as the compiler reads them, and do all sorts of unusual things. However, using them can make the StaticFileHandler buffer entire downloads in memory before sending the data to the client.
+Categories: asp-net
+Date: Jun 6 2008
+
+<h1>Using a custom VirtualPathProvider can cause OutOfMemoryExceptions</h1>
+
+Virtual path providers are awesome - you can serve a site from a .zip file, perform XSLT transformations to generate .aspx files as the compiler reads them, and do all sorts of unusual things. However, using them can make the StaticFileHandler buffer entire downloads in memory before sending the data to the client. (StaticFileHandler is used instead of an IIS callback (ExecuteUrl) if HTTP headers or cache policy has been modified during the pipeline).
+<h2>History</h2>
+About a year ago, I was in the process of designing and coding a CMS. My ultimate goal was to design a simple, file-based system that still had the full power and flexibility of a database-based CMS. One of the features I implemented was to make file downloads simple through a "?download=true" suffix on any file on the site. I did this by overriding DefaultHttpHander, and adding the following code within the BeginProccessRequest method.
+<pre class="brush:c-sharp">if (context.Request.QueryString["download"] != null)
+{
+    if (!context.Request.QueryString["download"].Equals("false", StringComparison.OrdinalIgnoreCase))
+    {
+        //yrl is a custom virtual path class. yrl.Current is the currently executing path, and
+        //yrl.Current.Name returns just the filename (no path or querystring) of the current file. Ex. "TestProject.zip"
+
+        //Content-disposition:attachement is the only really good way to force browsers to show the
+        // "Open or Save" dialog box for a link. Setting the mime type to octet-stream doesn't always work for IE,
+        //and can cause problems. This is the "correct" way to do it.
+        context.Response.AppendHeader("Content-disposition", "attachment; filename=\"" + yrl.Current.Name + "\"");
+
+        //Allow caching of this file at the server, proxy, and client. (An F5 will re-request, of course).
+        context.Response.Cache.SetCacheability(HttpCacheability.NoCache);
+        context.Response.Cache.SetCacheability(HttpCacheability.Public);
+    }
+}
+
+//Default handler. IIS6 (ExecuteUrl) or StaticFileHandler, depending upon response.CanExecuteUrlForEntireResponse
+
+//If AppendHeader has been used, StaticFileHandler will be invoked within the base class method, instead of passing the request to IIS6. If you are running under Cassini(Visual Studio) or IIS5.1(XP), StaticFileHandler is always used.
+return base.BeginProcessRequest(context, callback, state);</pre>
+It worked great, and I was happy. I wanted to avoid a download.aspx page, since that circumvents the URL authorization system, and would force me to write and maintain a duplicate security system. By putting the command in the querystring, the request still has to go through the pipeline and meet all of the authentication and authorization checks.
+
+A month or so later, I decided to implement a XSLT translation layer (using a VirtualPathProvider) to allow .aspx files to be generated (on request, not to disk) from .xml files. It was a useful system, and allowed us to create a simplified XML syntax that didn't have all the redundant data we were needing in the .aspx files.
+
+I have to admit the VirtualPathProvider fallthrough system really threw me for a loop. I expected to inherit from MapPathBasedVirtualPathProvider, and override the methods I needed. However, MapPathBasedVirtualPathProvider was marked <em>internal</em>. The base class VirtualPathProvider actually has its own fall-through system built-in. If the subclass hasn't handled the GetFile request, then the base class will look up the next provider in the chain and send the request along.
+
+The XSTLVirtualPathProvider didn't change any behavior for normal files, but on files ending in ".xml.aspx", an XSLTVirtualFile instance was returned instead of the normal MapPathBasedVirtualFile instance. The XSLTVirtualFile.Open() method would read the XSLT stylesheet tag from the file, transform the document, and return the result.
+
+It worked great - but a few weeks later I started getting e-mails from the monitoring system. OutOfMemoryExceptions were happening all over the place, particularly when users were downloading large MP3s. I was a bit surprised - after profiling the memory use under controlled conditions, I discovered that the <em>entire file</em> was getting read into memory (separately) for each client request!
+<div class="codeBox">
+<h1>System.OutOfMemoryException in System.Web.HttpResponseUnmanagedBufferElement..ctor()</h1>
+<h1>System.OutOfMemoryException</h1>
+Insufficient memory to continue the execution of the program.
+<ul style="list-style-type:disc; padding-left:25px">
+	<li>System.Web.HttpResponseUnmanagedBufferElement..ctor()</li>
+	<li>System.Web.HttpWriter.BufferData(Byte[] data, Int32 offset, Int32 size, Boolean needToCopyData)</li>
+	<li>System.Web.HttpWriter.WriteFromStream(Byte[] data, Int32 offset, Int32 size)</li>
+	<li>System.Web.HttpWriter.WriteBytes(Byte[] buffer, Int32 index, Int32 count)</li>
+	<li>System.Web.HttpResponse.WriteVirtualFile(VirtualFile vf)</li>
+	<li>System.Web.StaticFileHandler.RespondUsingVirtualFile(String virtualPath, HttpResponse response)</li>
+	<li>System.Web.StaticFileHandler.ProcessRequestInternal(HttpContext context)</li>
+	<li>System.Web.DefaultHttpHandler.BeginProcessRequest(HttpContext context, AsyncCallback callback, Object state)</li>
+	<li>fbs.Handlers.CustomDefaultHandler.BeginProcessRequest(HttpContext context, AsyncCallback callback, Object state)</li>
+	<li>System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()</li>
+	<li>System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean&amp; completedSynchronously)</li>
+</ul>
+</div>
+At this point I sent an e-mail to <a href="http://weblogs.asp.net/scottgu/">Scott Guthrie</a> to ask for a workaround. He looped in <a href="http://blogs.msdn.com/dmitryr/">Dmitry Robsman</a> and <a href="http://blogs.msdn.com/tmarq/">Thomas Marquardt</a> to help me with the problem. I knew the problem was within StaticFileHandler, but Dmitry helped me nail it down the the VirtualPathProvider clause.
+<h3>StaticFileHandler.ProccessRequestInternal excerpt, using <a href="http://www.aisto.com/roeder/dotnet/">Reflector</a></h3>
+<pre class="brush:c-sharp">//HostingEnvironment.UsingMapPathBasedVirtualPathProvider returns false if you have a custom VPP
+if (!HostingEnvironment.UsingMapPathBasedVirtualPathProvider)
+{
+    //Buffers entire stream in memory, then writes to the response.
+    RespondUsingVirtualFile(request.FilePath, response);
+}
+else
+{
+     //Stream data from disk, don't buffer in memory. (In ASP.NET 1.0, this path also buffered entirely in memory)
+    ....
+}</pre>
+As you can see, StaticFileHandler is being very heavy handed. If any VirtualPathProvider is used at all, the "buffer all" path is taken. Since 99.99% of the site's requests were just MapPathBasedVirtualFile requests, this is really inefficient. And if you have high server load, or a few large files, that line of code can take your server down.
+
+Since I really needed the ?download=true feature and the XSLT translation, I was in a pickle. I needed downloads to be secured through ASP.NET (Yes, I was using wildcard mapping). I needed the same file to be played through the browser via one link, and downloaded through another. And I needed the XSLT translation.
+
+I asked if StaticFileHandler could be changed to check the type of the VirtualFile instance, instead of the VirtualPathProvider. Something like this:
+<pre class="brush:c-sharp">//This should check for null from GetFile.
+if (!HostingEnvironment.VirtualPathProvider.GetFile(filePath) is MapPathBasedVirtualFile)
+{
+    //Buffers entire stream in memory, then writes to the response.
+    RespondUsingVirtualFile(request.FilePath, response);
+}
+else
+{
+    //Stream data from disk, don't buffer in memory. (In ASP.NET 1.0, this path also buffered entirely in memory)
+    //....
+}</pre>
+Thomas Marquardt came to the rescue, did far better than just adding the granular file check! Even though he is an incredibly busy guy, he rewrote StaticFileHandler into a seriously cool class. Within two days. The final hotfix added support for custom VirtualPathProviders, pause/resume support (range requests), kernel-mode caching, and better handling of older IIS versions.
+<blockquote>
+<ul style="list-style-type:disc; padding-left:25px">
+	<li>SFH now supports Range requests.  It also supports the If-Range header.</li>
+	<li>SFH now supports kernel mode caching when the status is 200.  (Note that range requests receive a 206 when satisfied, or a 416 when not satisfied, and are not cached at the server.  Also, HTTP.sys won't cache responses larger than UriMaxUriBytes, the default is 262144 bytes).</li>
+	<li>If a custom VirtualPathProvider (VPP) is used and GetFile returns a MapPathBasedVirtualFile, SFH will use HttpResponse.TransmitFile (when hosted on IIS) instead of reading the file into memory (as is currently done in v2.0).</li>
+	<li>If the default VPP is used, SFH will always use TransmitFile on IIS 5.x, IIS 6.0 and IIS 7.0.  For all other platforms (non-IIS), HttpResponse.WriteFile is used.  Because WriteFile reads the file into memory, SFH will not perform well on these platforms when the files are sufficiently large.</li>
+</ul>
+</blockquote>
+I have to say I've never had such a good support experience with any other company. It took less than 8 days from my first e-mail before I received a patch, and the first version worked flawlessly. In the last few years I've had the privilege of communicating with many people in the ASP.NET development team, the documentation team, and in the support division. They are all really top-notch.
+
+I want to publicly thank Scott Guthrie, Nikhil Kothari, Dmitry Robsman, and Thomas Marquardt for their help on this issue and others. I and many other developers are thankful for the blogs they operate, and the assistance they provide on the forums and in blog comments.
+
+I also want to thank Marc Gelormino for his help. He's always been helpful in clarifying things the documentation is ambiguous on, and has been steadily improving them.
+
+I want to thank Radomir Zaric for his help in the process of getting an official hotfix. He may have written the <a href="http://support.microsoft.com/kb/947461">KB article</a> as well.
+
+You can read more about the patch at <a href="http://support.microsoft.com/kb/947461">http://support.microsoft.com/kb/947461</a>
+
+<!--url: 11081_Using_a_custom_VirtualPathProvider_can_cause_OutOfMemoryExceptions-->

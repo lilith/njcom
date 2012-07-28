@@ -1,0 +1,79 @@
+Aliases: /146/referencing-stylesheets-scripts-from-content-pages/ /?p=146 /11011_Referencing_stylesheets_scripts_from_content_pages
+Atom ID: http://66.29.219.39/?p=146
+Summary: The ability to reference style sheets and scripts from within content pages is greatly needed, but link and meta tags only work in the root master page. Here's how to add full link, meta, and script parsing to your entire application.
+Categories: asp-net
+Date: Aug 8 2008
+
+<h1>Referencing stylesheets, scripts from content pages</h1>
+
+The ability to reference style sheets and scripts from within content pages is greatly needed, but<strong> link and meta tags only work in the root master page</strong>. Script references don't work anywhere... that's a separate issue. Here's how to add full link, meta, and script parsing to your entire application.
+
+Because the parsing logic for 'link', 'meta', and 'title' is only inside the HtmlHead class (in the HtmlHeadBuilder class), link and meta tags don't work in content pages. If you put a &lt;asp:ContentPlaceHolder&gt; tag in the <a href="http://aspnetresources.com/blog/linking_stylesheets_from_master_pages.aspx">head section of the master page</a>, and a matching &lt;asp:Content&gt; tag in the content page, you've created a barrier the special parsing logic can't cross.
+
+I wrote a <a href="/aspnet/LiveTests/ContentPlaceHolder/">series of tests</a> to determine exactly when &lt;script&gt;, &lt;link&gt;, and &lt;meta&gt; parsing stop working. It's kind of like an 'acid test' for this issue. It also includes 8 tests for a 2nd bug with ContentPlaceHolder. While 2 of those always fail, the rest turn green when you hit 'Enable patch". Only Microsoft can fix the last two, since the methods are marked 'internal'.
+
+If you haven't tried using <a href="~/10981">application-relative</a> paths, you might not have noticed the issue yet. Relative paths will appear to work if the physical path of the page matches the browser path, i.e, no nested master pages, no URL rewriting or Server.Transfer. Root-relative paths will work, but <a href="~/11071">using them is a short-sighted mistake.</a>.
+
+So, what <em>
+  <strong>does</strong>
+</em> happen to them? Well, if your link and meta tags have <em>runat="server"</em> on them, then the generic parsing code will turn them into HtmlGenericControl instances. If not, the tags are left as plain text and packed together in a LiteralControl instance between other server tags.
+HtmlGenericControl doesn't do path resolution, so adding runat="server" doesn't help any.
+<h2>My solution</h2>
+I wrote an algorithm that does a 2nd parsing pass to make everything act like it should. While I was at it, I also added support for script references in the head section. The algorithm
+<ol class="normallist">
+	<li><strong>Parses the leftover LiteralControl instances in Page.Header</strong> and turns &lt;link&gt;, &lt;meta&gt;, and &lt;script&gt; tags into <strong>HtmlMeta, HtmlLink, and ScriptReference(custom class)</strong> instances. The remnants of the LiteralControl are split into multiple LiteralControl instances. tags inside client or server comments are ignored.</li>
+	<li><strong>Recursively loops through all HtmlGeneric control instances</strong> in Page.Header and turns &lt;link&gt;, &lt;meta&gt;, and &lt;script&gt; tags into HtmlMeta, HtmlLink or ScriptReference instances (This catches the ones that twere parsed by the generic parser because they had <em>runat="server"</em> specified.)</li>
+</ol>
+When dynamically creating controls directly inside a ContentPlaceHolder, it's critical that you assign the TemplateControl property correctly if you want URL rebasing to work. If you don't, the control will ask it's parent (the CPH), what the TemplateControl is, and the CPH will return the master page. Then everything will get rebased relative to the master page instead.
+In my algorithm, I use the <a href="~/11021">GetAdjustedParentTemplateControl() method</a> to adjust for the CPH issue when setting the TemplateControl property.
+<h2>What if it's fixed?</h2>
+The patch just looks at the leftovers. If Microsoft fixes this behavior, there won't be any leftovers.
+<h2>What about performance?</h2>
+Regular expressions are very, very fast, and we're only running them on leftover LiteralControls. On a large head section, timing tests hovered around 0.7 milliseconds. I've been using this on a high-traffic site for over a year.
+<h2>The code</h2>
+The two main files are ContentPlaceHolderFixes.cs and ScriptReference.cs. To repair the head section on the current page, call ContentPlaceHolderFixes.RepairPageHeader(this); during OnLoad.
+
+I recommend sub-classing Page and doing this application-wide. You'll end up wanting to do this at some time or another anyway.
+<pre class="c-sharp">    public class PageBase : Page
+    {
+        /// &lt;summary&gt;
+        /// Creates a new PageBase instance.
+        /// &lt;/summary&gt;
+        public PageBase(){}
+
+        /// &lt;summary&gt;
+        /// Calls the ContentPlaceHolderHeadRepair.Repair method
+        /// &lt;/summary&gt;
+        /// &lt;param name="e"&gt;&lt;/param&gt;
+        protected override void OnLoad(EventArgs e)
+        {
+            //Parses link, meta, and script tags that got missed by the Head&gt;CPH bug.
+            ContentPlaceHolderFixes.RepairPageHeader(this);
+
+            //Fire the events later
+            base.OnLoad(e);
+        }
+
+    }</pre>
+To use this base class, tell your code-behind file to inherit from PageBase instead of Page. If you don't have a code-behind, set <em>Inherits="PageBase"</em> on the page directive.
+<h2>Tests</h2>
+The project includes a "Test" folder and a Test.aspx file. Run it to compare results with and without the patch. It contains about 26 tests, which exercise the patch under different conditions: nested master pages, runat="server", visible="false". etc. Test.aspx uses Server.Transfer to simulate URL rewriting.
+
+I'll be very happy when those <a href="~/tests/contentplaceholder/">26 tests</a> succeed without needing the patch, and I'm sure everyone else will also. If you're interested in monitoring the progress of the issue, you can check out the <a href="https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=273683">Micrsoft Connect ticket</a>.
+
+<a href="/aspnet/ContentPlaceHolderFix.zip">Download Code</a>
+<a href="~/tests/contentplaceholder/">Run live test</a>
+<h2 style="margin-top: 8em;">Alternative solutions and their issues</h2>
+Here are some alternative solutions I've tried and read about. I wasn't really satisfied with any of them.
+<ol class="normallist">
+	<li>Create an <a href="http://www.edream.org/BlogArticle.aspx?RecordID=112">HtmlLink instance, assign the properties, and add it to Page.Header</a> from a code-behind file. Adding a code-behind file isn't something designers typically feel comfortable with, and it adds clutter.</li>
+	<li>Use inline code to resolve the URL:
+<strong>&lt;link type="text/css" rel="stylesheet" href='&lt;%= ResolveUrl("styles.css") %&gt;' /&gt;</strong>. <a href="http://aspnetresources.com/blog/code_blocks_inside_master_pages_cause_trouble.aspx">Check out this article about why code blocks inside master pages can cause problems.</a> I ran into the issue myself, and it's frustrating.</li>
+	<li>Create a <a href="http://blog.btburnett.com/2008/04/linking-stylesheets-from-content-pages_02.html">custom control</a> for embedding stylesheets to replace the 'link' tag. This sounds the best of the alternatives, assuming you reference the control globally in Web.config. I haven't tried this one, though, so YMMV.</li>
+</ol>
+These alternatives all require markup changes, and will prevent WYSIWYG editors from reading the stylesheet references properly. I'm adverse to making things any more non-standard than they have to be. I like to implement a patch such that I can forget it exists.
+<h2><script src="/scripts/syntaxhighlighter/shCore.js" type="text/javascript"/>See Also</h2>
+<a href="http://nathanaeljones.com/152/extending-page-adding-metadata-and-stylesheet-management/">A more comprehensive subclass</a> that allows runtime management of stylesheets and metadata.
+
+<!--url: 11011_Referencing_stylesheets_scripts_from_content_pages-->
+<!--articlebanner: <a href="~/products/asp&#45;net&#45;image&#45;resizer/" runat="server"><img src="~/ad2.jpg" runat="server" alt="Easy image resizing" /></a>-->

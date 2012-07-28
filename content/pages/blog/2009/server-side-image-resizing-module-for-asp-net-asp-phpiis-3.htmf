@@ -1,0 +1,429 @@
+Aliases: /162/server-side-image-resizing-module-for-asp-net-asp-phpiis-3/ /?p=162 /11211_Server_side_Image_Resizing_Module_for_ASP_NET_ASP_PHP_IIS
+Atom ID: http://66.29.219.39/?p=162
+Summary: Version 2.0 beta is now available!
+Categories: image-resizing
+Tags: image-resizer, image-resizing
+Date: May 17 2009
+
+<h1>Server-side Image Resizing Module for ASP.NET, ASP, & PHP/IIS</h1>
+
+	
+
+<p style="position: absolute; height: 5px; width: 5px; top: -3000px">
+Open-source image resizing module for ASP.NET. Great for thumbnails and slideshows. Features managed disk caching, jpeg/png/gif support, and bicubic resizing. 
+</p>
+
+
+<script type="text/javascript">
+	$(function() {
+		$("#tabs").tabs();
+	});
+	</script>
+<style type="text/css">
+div.articleBody {
+line-height:2.1em;
+padding:15px 15px 15px 15px;
+}
+.smallcomments blockquote{
+line-height:1em; font-size:8pt;
+}
+</style>
+
+
+<div id="tabs">
+	<ul>
+		<li><a href="#why">Why</a></li>
+		<li><a href="#opensource">Open Source</a></li>
+		<li><a href="#features">Features</a></li>
+		<li><a href="#quality">Quality</a></li>
+		<li><a href="#performance">Performance</a></li>
+
+
+<li><a href="#requirements">Requirements</a></li>
+
+
+<li><a href="#changelog">Changelog</a></li>
+
+	</ul>
+
+<div id="why">
+<h3>You need this module if you work with images.</h3> 
+<p>Once installed, you can size, crop, and change the format of images from anywhere... HTML, ASP.NET, ASP, PHP, Flex, or Flash ... Just add the desired behavior to the URL with "?width=100" or "?format=jpg". It supports scaling, cropping, rotating, flipping, stretching, padding, borders, transparency, jpeg, png, and gif formats. Aspect ratio is <em>always</em> maintained unless =fill is specified. 
+</p>
+
+<p class="rightbox">The difference between the actual size and wanted size  of an uploaded image is inversely proportional to the quantiy of time available and the sluggishness of Photoshop.</p>
+
+
+<p>Server-side image resizing is one of those little features that can have incredible ROI. It can save webmasters several hours each day, and gives you the ability to change the resolution of an image without having to hunt up the original. %--However, many of the approaches currently on the web don't take security or performance into account.--%&gt;</p>
+
+
+<p>I developed this image resizing system around two years ago. I needed something very intuitive, simple, secure, and efficient. We've been using this system heavily on a live, high-traffic site (<a href="http://youngfoundations.org">youngfoundations.org</a>) for two years, and we have had zero stability problems, memory leaks, or reliability issues with it. It's very mature and stable. Version 2.0 is even faster and more scalable than the previous versions, and includes dozens of new features.</p>
+
+<p>Check out the <a href="~/11201" runat="server">samples page</a> to see what it can do. The <a href="~/11151" runat="server">license</a> is much like the GPL, and allows you to redistribute the source code as part of a larger project. You'll find the source code very clean, organized, and well commented. </p>
+
+
+<div class="rightbox">
+<a class="download" href="https://www.e-junkie.com/ecom/gb.php?i=254264=single=41912">Download Source ($69)</a>
+<p style="margin-bottom:0;padding-top:0;font-size:7.5pt; color:#909090;">Includes v2.0b - May 16, 2009</p>
+
+<a href="~/11151" runat="server">License</a>
+<a href="~/11201" runat="server">Samples</a>
+<a href="~/11141" runat="server">Installation</a>
+<p>If you have any questions after reading the documentation, leave a comment or e-mail <strong>nathanael.jones@gmail.com</strong>. </p>
+</div>
+<p>Although I typically release my components for free, I decided to charge a 'download fee' for this one to help support my other open-source projects. Don't worry, this component is still open-source, and the license permits source redistribution as part of a larger system. However, I'm asking that people who want to integrate this component purchase the download instead of ripping it out of another open-source project. My free to non-free LOC (lines of code) ratio is still over 40 to 1, and I plan on keeping it that way.  I trust this will keep everybody happy.</p>
+
+<p>Your donations are the reason Version 2 exists.</p>
+
+<h2>A few user comments...</h2>
+<div class="smallcomments">
+<blockquote>
+<p>To anyone thinking of using this module, it worked great and saved me lots of custom-coding time for a client project. On top of that, Nathanael reworked some of the code to my needs for a very reasonable rate, so I have the custom solution I needed. </p>
+<p>
+If you're working on an image display project in asp.net, just use this code and enjoy. It's bullet proof!</p>
+Jason<br/>
+<a href="http://webmanufactory.blogspot.com/">http://webmanufactory.blogspot.com/</a>
+</blockquote>
+
+
+<blockquote>
+<p>Nathanael, I downloaded your code this weekend to use in our portal code base. I was tired of writing code to pick between icon/medium/large/original sizes of the images for different pickers / viewers etc. I was skeptical as to whether the component would be fast enough for the performance we are after in our software, but I am glad to report that your code is super fast and does exactly what you say it does. It was easy to install, and works perfectly. Thank you so much for building this tool, it is going to come in handy!</p>
+
+<p>I do have one question though, which is why the tool will not resize an image to be larger than the original source image. I have a few images that are 800X600 jpegs, and when I tried ?width=1024 the code returned the original image size of 800X600? Is this by design? How hard would it be to make the code upsize and image? <em>[v2 allows this with scale=both]</em></p>
+
+<p>
+Again, thank you for the tool, and to other skeptic developers, Nathan's code rocks out of the box. 
+</p>
+Thanks, <br/> 
+Steve
+</blockquote>
+
+<blockquote>
+By Dave<br/>
+just like to say, since using the code (and getting working and donating in next to no time) we have moved three or four of our sites over to using this technique. Previously we had manually run batch resizes initially and then made clients create multiple sizes of the image... very time consuming and some clients weren't technically up to the task. Having been after such a solution for so long, i was really worried that the time to generate images on the fly and the resultant quality would be a problem, but WOW..... this code nails it entirely...i can only say if you are reading these comments, worry not and get this code straight away.... so much work seems to have gone into this solution, i can't rate it too highly... my find of the year....... thanks Nathanael....
+</blockquote>
+</div>
+
+</div>
+
+<div id="buy">
+
+
+
+</div>
+
+
+<div id="features">
+
+<p>Querystring-based resizing is super-simple and can be used from any language (HTML, ASP.NET, PHP, Flash, Flex, etc). </p>
+
+<p>Supports scaling, cropping, rotating, flipping, stretching, padding, borders, transparency, and the 4 main image formats. Aspect ratio is maintained unless <strong>stretch=fill</strong> is specified.</p>
+
+<p>For example, to make an image 400px or less wide, just add <strong>?width=400</strong>. If you want to set both the maximum height and width, use <strong>?maxwidth=400maxheight=400</strong>.</p>
+
+<p>Sometimes you need all your images to be exactly the same size, regardless of the original aspect ratio. There are several solutions to this. If you specify both <strong>width</strong> and <strong>height</strong>, whitespace will be automatically added to two sides to make up the difference. Set whitespace color with <strong>bgcolor</strong>. If you don't want whitespace, you can try <strong>crop=auto</strong>. This "smart cropping" will figure out the minimal amount of cropping needed to center the image in the box without changing the aspect ratio or leaving whitespace. And, of course, you could stretch your images with <strong>stretch=fill</strong>... if you really wanted to.</p>
+
+<p>Convert between jpg, png, gif, tiff, and bmp images with <strong>format=jpg|png|gif</strong>. Adjust the quality/size tradeoff of Jpegs with <strong>quality=1-100</strong>, and the palette size of GIFs and PNGs with <strong>colors=2-255</strong></p>
+
+<p>Not just for thumbnails - useful for resizing entire slideshows in real-time as the user changes the window size.</p>
+
+<p>Check out the <a href="~/11201" runat="server">samples page</a> to see the features in action.</p>
+
+<ul class="normallist">
+<li>Supported input formats: BMP, GIF, JPG, PNG and TIFF</li>
+<li>Supported output formats: <strong>JPG, PNG, and GIF</strong></li>
+
+</ul>
+
+
+</div>
+<div id="quality">
+<p>Bicubic resampling is used exclusively, resulting in very high-quality output. Jpeg compression is excellent, and uses the native windows JPEG encoder. Version 2.0 adds octree quantization for GIF and 8-bit PNG output, providing excellent palette generation for those also.</p>
+
+<p>In my tests, the native windows JPEG encoder and Photoshop have the same visual quality and file size results. Expect photoshop-quality results for both JPEG and PNG output. </p>
+<p>GIF and 8-bit PNG output is drastically improved in version 2.0 due to the addition of octree quantization. The primary difference you will notice between Photoshop and module output is the lack of dithering. In most scenarios this doesn't affect visual quality much and actually makes the image look 'cleaner'. Very gentle gradients do benefit from dithering, as do gradients against transparency. </p>
+
+<p>File sizes are excellent - don't expect a measurable improvement when you use Photoshop or ImageReady to compress your images with the same quality settings.</p>
+
+</div>
+<div id="performance">
+
+<p>The key to the excellent performance of this module is the disk caching system. This allows even a relatively low-end server to handle the same number of dynamic requests as static file requests.</p>
+
+<ul class="normallist">
+<li>Caching doesn't get in your way - if you modify the source file, the resized versions are also updated.</li>
+<li>You can resize the same image to several different sizes, and the different versions are cached separately.</li>
+<li><strong>Managed disk cache</strong>. If the number of cached files exceeds the configured threshold, a cleanup pass is made on the directory, and a block of the least recently used files are removed.</li>
+<li>Client-side caching directives are sent, minimizing repetitive requests from the same client.</li>
+<li>Thumbnail generation in <strong>under 20 milliseconds</strong> for most images.</li>
+<li>Suitable for slideshows and lists of images. Even the initial resizing of 50 images concurrently isn't noticeably slow.</li>
+<li>Good with large source files (1-5MB)</li>
+
+</ul>
+
+
+
+</div>
+
+
+
+<div id="requirements">
+<ul class="normallist">
+<li>Runs on any of the following following: Windows 2000,  Server 2000, XP, Server 2003, Vista, Server 2008, or Windows 7*. *Not tested, but I don't know of any breaking changes to IIS occuring.</li>
+<li>Requires .NET 2.0 or higher to be installed on the server and enabled on the website.</li>
+<li>The customer must have the ability to copy and paste configuration settings, download files, copy files, and follow simple directions for configuring IIS 6 and below.</li>
+<li>Users of version 1.0 should get the free upgrade to 1.2 if they wish to use IIS7 Integrated Mode.</li>
+</ul>
+</div>
+
+<div id="opensource" style="padding-left:25px">
+
+<p>While I do charge a download fee, the license allows you to redistribute the source as part of another open-source project. I'm trying to achieve several objectives: 1) Remove the need for users to track licenses, 2) Promote use in open-source projects, 3) Still provide financial support so the project can continue to evolve rapidly.</p>
+
+<ul class="normallist">
+<li>Complete source code and an example project is included</li>
+<li>Clean, well documented, well designed code. </li>
+<li>Great platform to build your own image processing systems on. You can use the disk caching system or image processing code independently from each other.</li>
+<li>Very extensible, easy to add new features.</li>
+</ul>
+
+<p>CustomFolders.cs can be *easily* modified to do all kinds of work:</p>
+<ul class="normallist">
+<li>Build rules to automatically resize images based on folder name or other criteria. </li>
+<li>Add a new syntax for abbreviating or simplifying common resizing operations. Like /resize(w,h)/.</li>
+<li>Easily perform URL rewriting for your images with String.Replace calls. (Regexes work too, if you like them).</li>
+</ul>
+
+
+<p>By purchasing the download, you are permitted to </p>
+
+<ol>
+<li>Modify and use the component in all of your projects. </li>
+<li>Redistribute the source code as part of another project, provided the component 
+is less than 5% of the project (in lines of code), and you keep this information attached.</li>
+<li>If you received the source code as part of another open source project, 
+you cannot extract it (by itself) for use in another project without purchasing a download 
+from http://nathanaeljones.com/. If nathanaeljones.com is no longer running, and a download
+cannot be purchased, then you may extract the code.</li>
+</ol>
+
+<p>This is basically a developer license - if you aren't a developer (i.e., a hosting company wanting a site or server license), please e-mail me (nathanael.jones@gmail.com).</p>
+
+</div>
+
+<div id="changelog">
+
+<h2>Releases</h2>
+<ol class="normallist">
+<li>1.0 - August 6, 2008 (Initial release to the public.) </li>
+<li>1.2 - Nov 23, 2008 (<a href="~/11171" runat="server">Upgrade Notes from 1.0 to 1.2</a>) (<a href="~/11131" runat="server">Original product page</a>) </li>
+<li>2.0a Jan 30, 2009 (E-mail distribution)</li>
+<li>2.0a Mar 4, 2009 (E-mail distribution)</li>
+<li>2.0b May 16, 2009  (<a href="~/11181" runat="server">Upgrade notes from 1.2 to 2.0</a>)
+
+</li>
+
+
+
+
+</ol></div>
+</div>
+
+
+
+
+
+
+
+<!--url: 11211_Server_side_Image_Resizing_Module_for_ASP_NET_ASP_PHP_IIS-->
+<!--articlebanner: <div class="resizerDemo">
+<img class="product&#45;top&#45;image" src="product&#45;top.png" runat="server" alt="" />
+<div class="imageSelection">
+
+<div id="imageList"></div>
+ <p class="chooseImage">Choose an image to work with.</p>
+</div>
+
+<div class="imageBackground">
+
+<div class="interface">
+<ul class="sizes">
+ 
+
+</ul>
+<p class="command"><a target="_tab" id="demo_openInNewTab">Modify the query string directly</a>.</p>
+<p class="command"><a id="demo_download">Download resized image</a></p>
+<p class="command"><a href="http://www.payloadz.com/go/sip?id=497545">Download Source Code ($69)</a></p>
+</div>
+  </div>
+</div>
+
+<script type="text/javascript">
+//<!&#45;&#45;
+
+$(document).ready(function(){
+   var basePath = '<%= ResolveUrl(Page.AppRelativeTemplateSourceDirectory) %>';
+   var images = ['IMG_1228.jpg', 'IMG_5375.jpg','IMG_5443.jpg','IMG_8152.jpg','IMG_5393.jpg'];
+   var query = '?maxwidth=100&maxheight=100';
+   
+
+for (var i = 0; i < images.length;i++){
+  var img = $("<img />").attr('src',basePath + images[i] + query).
+     attr('alt','click to manipulate').appendTo($('#imageList'));
+
+window.currentImage = ""; window.currentQuery = "";
+//handle image change
+ img.click(function(){
+   var currentImage = $(this).attr('src');
+
+   $("#imageList img").removeClass('selected');
+   $(this).addClass('selected');
+
+   //Remove querystring
+   window.currentImage = currentImage.substr(0,currentImage.indexOf('?'));
+   updateImage();
+ });
+
+}
+//handle query change
+var queries = 
+  ["?width=400","Medium size",
+   "?maxwidth=100&maxheight=100","Typical thumbnail",
+   "?format=png&maxwidth=200&maxheight=200","PNG version",
+   "?width=200&height=100&stretch=fill","Distorted",
+   "?format=gif&maxwidth=100","GIF version (ugly)"];
+
+window.currentQuery = queries[0];
+
+var queryList = $('.interface ul.sizes');
+for (var i = 1; i < queries.length; i+=2){
+   var q = queries[i&#45;1];
+   var name = queries[i];
+   
+   var item = $("<li/>").append(name).append($("<p/>").append(q)).attr('title',q);
+
+   if (i == 1) item.addClass("selected");
+   
+   item.click(function(){
+      $('ul.sizes li').removeClass("selected");
+      $(this).addClass("selected");
+      window.currentQuery = $(this).attr('title');
+      updateImage();
+   });
+   item.appendTo(queryList);
+}
+
+//handle checkbox change
+
+function updateImage(){
+    $('.product&#45;top&#45;image').hide("slow");
+    $('.imageBackground').css('background&#45;image','none');
+    $('.imageBackground').css('background&#45;image','url(' + getImageUrl() + ')');
+    $('.imageBackground').slideDown("slow");
+    $('#demo_download').attr('href',getImageUrl() + '&download=true');
+    $('#demo_openInNewTab').attr('href',getImageUrl());
+
+}
+
+function getImageUrl(){
+  return window.currentImage + window.currentQuery;
+}
+
+
+});
+
+
+
+//&#45;&#45;>
+</script>
+<style type="text/css">
+.resizerDemo{
+background&#45;color:black;
+}
+#imageList{text&#45;align:center;}
+#imageList img{
+    margin:25px;
+margin&#45;bottom:10px;
+margin&#45;top:15px;
+    border:3px solid #b0b0b0;
+cursor:pointer;
+}
+#imageList img:hover{
+    border:3px solid #c0c0c0;
+}
+#imageList img.selected{
+    border:3px solid #ffffff;
+}
+p.chooseImage{
+text&#45;align:center;
+color:white;
+font&#45;size:8pt; 
+padding&#45;bottom:10px;
+paddint&#45;top:10px;
+}
+
+.imageBackground {
+padding:50px;
+padding&#45;right:100px;
+padding&#45;top:40px;
+background&#45;repeat:no&#45;repeat;
+background&#45;position: right center;
+display:none;
+height:300px;
+}
+.interface{
+
+}
+.interface p.command{
+ margin&#45;top:1.3em;
+}
+ul.sizes li{
+margin:10px;
+margin&#45;left:0px;
+cursor:pointer;
+color:#c0c0c0;
+}
+ul.sizes li:hover{
+color:white;
+}
+ul.sizes li p{
+margin&#45;top:6px;
+color:#909090;
+}
+ul.sizes li.selected{
+color:white;
+}
+h1.title span.date{display:none;}
+
+.rightbox{
+width:215px;
+float:right;
+
+padding:15px;
+padding&#45;right:0px;
+/*padding&#45;left:18px;*/
+margin&#45;left:25px;
+margin&#45;bottom:25px;
+margin&#45;top:20px;
+background: url(<%= ResolveUrl(Page.AppRelativeTemplateSourceDirectory) %>gradient.png) repeat&#45;x top left;
+text&#45;align:right;
+}
+.rightbox a{
+display:block;
+padding&#45;right:15px;
+}
+.rightbox p{
+
+padding&#45;right:15px;
+margin&#45;bottom:0px;
+}
+.rightbox a.download{
+display:block;
+padding:7px;
+padding&#45;right:15px;
+background: url(<%= ResolveUrl(Page.AppRelativeTemplateSourceDirectory) %>download.png) no&#45;repeat top left;
+}
+</style>-->
+<!--blogbanner: 	
+
+<a href="~/products/asp&#45;net&#45;image&#45;resizer/" runat="server"><img src="ad2.jpg" runat="server" alt="Easy image resizing" /></a>-->

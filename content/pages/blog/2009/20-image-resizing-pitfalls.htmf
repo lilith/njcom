@@ -1,0 +1,187 @@
+Aliases: /163/20-image-resizing-pitfalls/ /?p=163 /11191_20_Image_Resizing_Pitfalls
+Atom ID: http://66.29.219.39/?p=163
+Summary: Dozens of articles on server-side image resizing have been written. If we count other tongues, maybe hundreds. These contributions to the community have been invaluable to me, and I truly appreciate the time each author spent to share his or her knowledge.
+Categories: image-resizing
+Tags: image-resizer, image-resizing
+Date: May 19 2009
+
+<h1>20 Image Resizing Pitfalls</h1>
+
+ <p>
+        Dozens of articles on server-side image resizing have been written. If we count other tongues, maybe hundreds. These contributions to the community have been invaluable to me, and I truly appreciate the time each author spent to share his or her knowledge.</p>
+    <p>
+        So why am I writing another?  </p>
+    <p>
+        Because each article I have read includes one of the errors below, leading readers to write either slow, insecure, or incorrectly functioning code. I have discovered        many of these pitfalls the hard way. I hope others won't have to.  </p>
+    <p>
+        Instead of giving step-by-step instructions, this article will simply list  pitfalls and the alternatives. If you want to read the full source code of my  image resizing module, <a href="http://imageresizing.net/download">just download  it.</a> It's constantly maintained an updated, and has a large, active user base  (as of 2011).</p>
+    This article was reorganized and updated on May 28, 2011. 7 new pifalls were  added (29 now), and most existing ones were updated.  <h2>
+        Security and Stability Pitfalls</h2>
+    <ol class="normallist">
+        <li>Not using using(){}. You *must* wrap your Graphics, Bitmap, and MemoryStream objects in a using(){} clause, or else they will not get cleaned out of memory for a while. Under load this can cause *serious* issues. Read <a href="http://blogs.msdn.com/tess/archive/2009/02/03/net-memory-leak-to-dispose-or-not-to-dispose-that-s-the-1-gb-question.aspx">
+                <em>to dispose, or not to dispose, that's the 1GB question</em></a> if you have any doubts regarding the severity of this error.  <p>
+                If you find yourself nesting a lot of using(){} statements or needed logic about disposing items, you can also try{} finally{} (which is how using(){} is implemented).</p>
+            <pre name="code" class="brush:c-sharp">
+//Using method. object must implement IDisposable for this to work
+using (object a = new object())
+using (object b = new object())
+using (object c = new object()){ //Code here
+}
+</pre>
+        </li>
+        <li>Using on-the-fly image resizing <em>without</em> disk caching! The ASP.NET memory cache won't cut it here folks - it gets cleaned out every application reboot, and besides, you probably have more images than RAM. Resizing an image is fast, but it will still flood the CPU if a single user browses a single page with 20 or more resized images on it. This is a do-it-yourself <a href="http://en.wikipedia.org/wiki/Denial-of-service_attack">
+                DOS</a> attack. On-the-fly resizing is fine if you have disk caching. </li>
+        <li>Serving a file from disk by loading it into memory. Think about how much RAM your server has, how large a single image is, how long it has to stay in memory before users finish downloading it, and how many users you have requesting images. Don't load anything into memory after the initial resize.  <p>
+                <a href="http://msdn.microsoft.com/en-us/library/dyfzssz9.aspx">WriteFile()</a>
+                serves directly from disk, and is *much* safer and more efficient. However - you shouldn't be using WriteFile() either if you can avoid it. Letting StaticFileHandler do its job is a much better choice.  </p>
+        </li>
+        <li>Accepting the file path as a querystring parameter. This mistake makes me cringe - I find it amazing each time how much people trust their filtering code to prevent abuse of this feature. (If they have path filtering code at all!) Just... don't... do it... please. Do you know how many ways there are to encode filenames and circumvent pattern-matching techniques? Yes, there are ways to protect this kind of system, but why?  <p>
+                Why choose /resizeimage.ashx?path=~%2fimg%2fproducts%2fbox.jpg&amp;maxwidth=100&amp;maxheight=100 over /img/products/box.jpg?maxwidth=100&amp;maxheight=100 ?</p>
+            <p>
+                If you're stuck in IIS6 and you aren't allowed to modify handler mappings, you should look for a better host.</p>
+        </li>
+        <li>NEW: When using new Bitmap(Stream), new Image(Stream), Image.FromStream() or Bitmap.FromStream(), BE CAREFUL. The stream absolutely, *must* stay open for the life of the bitmap or image. <em>The Image and Bitmap classes do not keep a reference to the stream!</em>
+            You must ensure that garbage collection doesn't close it. I suggest setting Image/Bitmap.Tag to the Stream instance, so you can track and dispose of them together.</li>
+        <li>NEW: Opening a Bitmap or Image by filename will cause the file to be locked for the duration of the Bitmap instance. You can avoid the lock by using a FileStream, cloning it to a MemoryStream, disposing the FileStream, then using the .Tag property to track and dispose the MemoryStream later.</li>
+        <li>NEW: Don't use Math.Round! GDI rounds floating-point values differently from .NET. Use Math.Floor() on the coordinates before giving them to DrawImage or the Bitmap constructor. Can cause OverflowExceptions</li>
+        <li>NEW: Limit the maximum size of the resulting image if clients can change the values! Otherwise they could attempt to use lots of RAM on the server by asking for a 10,000x10,000 pixel Bitmap. Check both the width and the height *before* allocating the new bitmap instance, and throw an HttpException if it's out-of-bounds.</li>
+    </ol>
+    <h2>
+        Performance Pitfalls</h2>
+    <ol class="normallist">
+        <li><em>Not</em> using on-the-fly resizing. This one bites also, as a usability issue. If you decide to convert all your images up-front, please realize how difficult it will be to track down the originals and resizing them again next time you make a resolution jump. I've been through this enough, and it's painful - that's why I wrote a <a href="http://imageresizing.net/">dynamic image resizer</a>! </li>
+        <li>Writing directly to the output stream. If you're caching to disk, but still serving the image contents in code, you're only supporting a little bit of the HTTP standard, and you're bypassing all of the work <a id="A1" href="~/11081" runat="server">Thomas Marquardt did to bring StaticFileHandler up to snuff</a> . Implement your resizer as and HttpModule, not an HttpHandler or you're stuck.</li>
+        <li>Making an HttpHandler instead of an HttpModule. I actually did this in v1.0, and it was a *mess*, as well as being non-optimal from a performance standpoint. There are several problems with doing this as an HttpHandler.  <ol class="normallist">
+                <li>It's very difficult to make an HttpHandler catch only *some* requests (i.e., those requesting resizing), for a certain extension. It's very hard, in fact, and involves subclassing DefaultHttpHandler and re-implementing a lot of code. While that's possible on IIS5/6/7 classic, it doesn't work on IIS7 Integrated. So IIS7 integrated is a complete deal-breaker if you want to let standard images alone. </li>
+                <li>It's difficult to pass a request from one HttpHandler to another. When building an image resizer, we don't want to be responsible for serving the resized file, just making sure the resized version has been cached to disk, and then rewriting the request to point to that file. An HttpModule, on the other hand, is perfectly suited to checking for image resize requests, caching the results, and rewriting the request so StaticFileHandler or whatever is the default in IIS 8 , 9, or 10 can take of it. I do this in PostAuthorizeRequest, by calling context.RewritePath(virtualPath, false);</li>
+            </ol>
+        </li>
+        <li>It's obvious, but you should have caching enabled for your images, regardless of whether they are being resized or not. Disk caching is great, but memory caching allows for even faster responses to frequently requested images, and shouldn't be omitted. In addition, HttpCacheability.Public enables client and proxy caching too, so browsers and some firewalls will cache the result from the server. You can adjust the amount of time the files are cached with SetExpires.  <p>
+                This is the code I use during PreSendRequestHeaders  </p>
+            <pre name="code" class="brush:c-sharp">
+HttpApplication app = sender as HttpApplication;
+HttpContext context = (app != null) ? app.Context : null; 
+if (context != null &amp;&amp; context.Items != null &amp;&amp; context.Items["FinalContentType"] != null &amp;&amp; context.Items["LastModifiedDate"] != null)
+{ 
+  //Clear previous output 
+  //context.Response.Clear(); 
+  context.Response.ContentType = context.Items["FinalContentType"].ToString(); 
+  //FinalContentType is set to image/jpeg or whatever the image mime-type is earlier in code. 
+  //Add caching headers 
+  int mins = c.get("clientcache.minutes", -1); //Or Configuration.AppSettings['whatever'] 
+  //Set the expires value if present 
+  if (mins &gt; 0) e.ResponseHeaders.Expires = DateTime.UtcNow.AddMinutes(mins); 
+
+  //Send the last-modified date if present 
+  DateTime lastModified = (DateTime)context.Items["LastModifiedDate"]; //Set earlier in code. 
+  if (lastModified != DateTime.MinValue) e.ResponseHeaders.LastModified = lastModified; 
+
+  //Authenticated requests only allow caching on the client.  
+  //Anonymous requests get caching on the server, proxy and client 
+  if (context.Request.IsAuthenticated) 
+    e.ResponseHeaders.CacheControl = System.Web.HttpCacheability.Private; 
+  else   
+    e.ResponseHeaders.CacheControl = System.Web.HttpCacheability.Public;
+}
+</pre>
+        </li>
+    </ol>
+    <h2>
+        Pitfalls in Image Resizing</h2>
+    <ol class="normallist">
+        <li>Using GetThumbnailImage(). <a href="http://msdn.microsoft.com/en-us/library/system.drawing.image.getthumbnailimage.aspx">
+            GetThumbnailImage</a>() seems the obvious choice, and many articles recommend its use.<br/>
+            Unfortunately, it always grabs the embedded jpeg thumbnail if present. Some photos have these, some don't - it usually depends on your camera. You'll wonder why GetThumbnailImage works good on some photo, but on others is horribly blurred. GetThumbnailImage() isn't reliable for photos larger than 10px by 10px for that reason.</li>
+        <li>GDI often makes the outer pixel of the resized image a slightly different color. You can minimize this by using TileFilpModeXY in the ImageAttributes class when calling .DrawImage</li>
+        <li>Forgetting to set InterpolationMode, SmoothingMode, CompositingQuality, and PixelOffsetMode. With all these set properly, you should be able to get resized images indistinguishable from Photoshop results. If you don't, you'll end up with trash. GDI has dumb defaults. (BTW, the low-quality settings aren't always much faster) <a href="http://www.glennjones.net/Post/799/Highqualitydynamicallyresizedimageswithnet.htm">
+                This article</a> explains why those are needed to make DrawImage compose the image well.  <pre name="code" class="brush:c-sharp">
+graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+graphics.SmoothingMode  = SmoothingMode.HighQuality;
+graphics.CompositingQuality = CompositingQuality.HighQuality;
+graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;  </pre>
+        </li>
+        <li>Not maintaining aspect ratio. I see this often, and I'm not sure why - the math isn't too hard. Well, for those who are wondering how, I hope this code is rather transparent (no pun intended).  <pre name="code" class="brush:c-sharp">
+double aspectRatio = imageWidth/imageHeight;
+double boxRatio = maxWidth/maxHeight;
+double scaleFactor = 0;
+
+if (boxRatio &gt; aspectRatio) //Use height, since that is the most restrictive dimension of box. 
+  scaleFactor = maxHeight / imageHeight;
+else 
+  scaleFactor = maxWidth / imageWidth; 
+
+double newWidth = imageWidth * scaleFactor;
+double newHeight = imageHeight * scaleFactor;
+</pre>
+        </li>
+    </ol>
+    <h2>
+        Pitfalls in Image Encoding</h2>
+    <ol class="normallist">
+        <li>Not setting the Jpeg quality to 90. You'll get huge Jpegs from Image.Save unless you pass in the proper parameters. 90 seems to be the magic value - great quality and much lower file size than 100.  <pre name="code" class="brush:c-sharp">
+int quality = 90; //90 is the magic setting - really. It has excellent quality and file size.
+System.Drawing.Imaging.EncoderParameters encoderParameters = new System.Drawing.Imaging.EncoderParameters(1);
+encoderParameters.Param[0] = new System.Drawing.Imaging.EncoderParameter(System.Drawing.Imaging.Encoder.Quality, (long)quality);
+thumb.Save(stream, GetImageCodeInfo("image/jpeg"), encoderParameters); 
+
+/// &lt;summary&gt;
+/// Returns the first ImageCodeInfo instance with the specified mime type. Some people try to get the ImageCodeInfo instance by index - sounds rather fragile to me.
+/// &lt;/summary&gt;
+/// &lt;param name="mimeType"&gt;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static ImageCodecInfo GetImageCodeInfo(string mimeType)
+{ 
+  ImageCodecInfo[] info = ImageCodecInfo.GetImageEncoders(); 
+  foreach (ImageCodecInfo ici in info) 
+     if (ici.MimeType.Equals(mimeType, StringComparison.OrdinalIgnoreCase)) 
+        return ici; 
+  return null;
+}
+</pre>
+        </li>
+        <li>Using the built-in quantization (palette creation) for GIFs, 8-bit PNGs and BMPs. The default palette is truly terrible, and while you can specify your own set of 255 colors - which ones should they be? The process of determining which colors to choose for the palette and to produce the best quality images is call quantization. I recommend the very efficient and decent-quality <a href="http://codebetter.com/blogs/brendan.tompkins/archive/2004/01/26/use-gdi-to-save-crystal-clear-gif-images-with-net.aspx">
+                octree quantization algorithm</a>. It does have a number of bugs you will have to patch. Follow the transparency patch instructions found in the comments. Use the safe version of the library. Patch the Marshal.ReadInt32() bug (original is ReadByte()). Change any casts from IntPtr-&gt;int to IntPtr-&gt;long to make the code 64-bit safe.  <p>
+              I  added adjustable Floyd-Steinberg dithering to  <a href="http://imageresizing.net/">the octree-quantization algorithm in my  open-source image resizing library</a>, and the results have been very promising so far.</p>
+        </li>
+        <li>Inheriting the palette from the original image. While at first this seems like an  <a href="http://getlara.com/north-america/canada/alberta/edmonton/post/2008/10/13/png-jpg-gif-image-resize-with-net-with-transparency">
+                easy way to solve the palette problem</a> for GIFs, realize that the bicubic resizing will have combined colors, and the new thumbnail may not have any of colors of the original image. Also, any operations performed on the bitmap in 8-bit mode will be poor quality, and this won't allow conversion between image formats. There are other ways to keep transparency. This is probably better than leaving the default palette, but YMMV.</li>
+        <li>Resizing images that don't request it. Your code should only activate when an image has a querystring with one of the supported commands. Pushing all images through your code is unnecessary. </li>
+        <li>UPDATED: Not setting context.Response.ContentType properly. You'll get all kinds of interesting, varied, and peculiar results from browsers if you omit this step. Things can be really interesting if the format is changed during the resize, since the extension will match the original format. Send Content-type: "image/png" for png files, "image/jpeg" for jpegs, and "image/tiff" for tiff files. Pretty easy to remember. Avoid anything that cotains "x-", it's probably wrong.</li>
+        <li>And one last piece of advice.<strong> Have Good Defaults. Always.</strong><br/>
+            <p>
+                The output image type should default to the source image type, unless it's a BMP or TIFF. Default behavior should always preserve aspect ratio.  </p>
+            <p>
+                Many developers stop after making their code configurable. They don't take that extra 10 minutes to give everything smart defaults. Smart defaults distinguish good software from <em>great</em> software.</p>
+        </li>
+    </ol>
+    <h2 id="diskcaching">
+        Disk Caching pitfalls</h2>
+    <ol class="normallist">
+        <li>Disk-caching without checking for updated (or reverted!) source files. Debugging a resized image that won't update can eat up lots of time. Make sure you set the LastWriteTimeUTC on your cached images to match the source image file (and check they match) - don't simply check to see if the source file is newer than the cached file, since that will break if you copy an older file over a source image. Always use something like RoughCompare() to compare filesystem dates - *never* inequalities. Remember that filesystem dates are less precise than DateTime, and get rounded. Alternatively, you can hash the original modified date as part of the cached filename - this will create extra cached files each time a source file changes, but you'll save on I/O requests and have less trouble trying to update the source files on a live site.  <pre name="code" class="brush:c-sharp">
+/// &lt;summary&gt;
+/// Returns true if both dates are equal (to the nearest 200th of a second)
+/// &lt;/summary&gt;
+/// &lt;param name="modifiedOn"&gt;&lt;/param&gt;
+/// &lt;param name="dateTime"&gt;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+private static bool RoughCompare(DateTime d1, DateTime d2)
+{ 
+  return (new TimeSpan((long)Math.Abs(d1.Ticks - d2.Ticks)).TotalMilliseconds &lt;= 5);
+}
+</pre>
+        </li>
+        <li>Disk-caching without cleanup! Another do-it-yourself <a href="http://en.wikipedia.org/wiki/Denial-of-service_attack">
+            DOS</a> attack, although not quite as bad as the first. Left unchecked, your cache directory could grow very large over a few years as orphaned image versions accumulate. If a malicious visitor realizes that you have automatic resizing, he could try to fill up your hard drive by requesting an endless variety of resolutions for a given image. Of course, security-conscious developers will have cache-limiting systems in place. I suggest cleaning out the least recently used 10-20% of the cache directory whenever the file limit is reached. Handle locked files gracefully.</li>
+        <li>Checking the cache size for cleanup every image request. This will swamp your I/O. Instead of running that directory listing each time, keep a static counter that tracks how many <em>new</em> images have been resized since the application started. Run the cache cleanup on the first image request and each time the counter passes the cleanup threshold.</li>
+        <li>Disk caching without protecting the cache directory. Unless you want anonymous users to potentially view the same images as authorized users, you need your cache directory locked down. A Web.config file in the directory can do this - just verify your URL rewriting rules don't leave another way to access the directory.  <p>
+              The cache directory needs to stay inside the application to permit request rewriting to the cached files.  </p>
+        </li>
+        <li>Disk caching without proper locking code. This is a problem, and will cause  image requests to fail occasionally. 2 image requests for the same image size *will* happen at the same time, and (if they aren't cached), they may conflict when trying to write to the same file at the same time. You'll probably get a "The process cannot access the file because it is being used by another process." message if this happens. You can prevent this by creating a locking system so that only one thread can save a give resized image at a time. Optimally, you want multiple resizes for different images to occur at the same time. If you're not as concerned about concurrency performance as I was, you could cheat at make the whole resizing method locked. (For new image requests only!) </li>
+        <li>NTFS doesn't work with over 8,000 files in a directory. Trust me. You can deal  with this by using some binary math and splitting the cache directory into 32  subfolders, based on the first 5 bits of the hash. Feel free to look a the  source code of the <a href="http://imageresizing.net/plugins">DiskCache</a>  plugin for an example.</li>
+    </ol>
+    <p>
+        <a href="http://nathanaeljones.com/196/design-of-an-image-resizing-module/">Part  2 explains</a> the 2009 architecture of the ImageResizer version 2. It's a bit  outdated, but probably still helpful. </p>
+    <p>
+        You can download the <a href="http://imageresizing.net/">source code to Version  3 at http://imageresizing.net/</a></p>
+
+<!--url: 11191_20_Image_Resizing_Pitfalls-->
