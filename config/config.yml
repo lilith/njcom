@@ -3,6 +3,8 @@
 #
 title: "Nathanael Jones"
 subtitle: "Ramblings of a computer linguist"
+logotext1: Nathanael
+logotext2: Jones
 
 # If you want to set the descrition or keywords meta tags on your site's
 # home page, do it here.
@@ -26,7 +28,7 @@ author:
 # can also use scripts/theme to install them.
 #
 # theme: name-of-theme
-theme: cl
+theme: smart
 
 # If you want to use the Disqus service (http://disqus.com) to display
 # comments on your site, register a Disqus account and then specify your
@@ -35,6 +37,9 @@ theme: cl
 #
 disqus_short_name: ndj7
 
+
+footer:
+  statement: Copyright &copy; 2012 Nathanael Jones
 
 # cache
 #     Set it to true if you'd like Nesta to cache your pages in ./public.

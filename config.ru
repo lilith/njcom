@@ -10,3 +10,4 @@ require 'nesta/app'
 Nesta::App.root = Nesta::Env.root
 require 'erubis'
 run Nesta::App
+
