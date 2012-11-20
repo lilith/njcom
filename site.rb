@@ -14,10 +14,16 @@ class Site < Hardwired::Bootstrap
 
 		#Load config.yml from the root
 		config_file 'config.yml'
-    debugger if Hardwired::Config.config.nil?
 
 		register Hardwired::Nesta
 		register Hardwired::Wordpress
+
+    helpers do
+      def cache_for(time)
+        response['Cache-Control'] = "public, max-age=#{time.to_i}"
+      end
+    end
+
 
     get '/blog/:year' do |year|
       request[:year] = year
@@ -32,7 +38,11 @@ class Site < Hardwired::Bootstrap
 
     get %r{/google([0-9a-z]+).html?} do |code|
       "google-site-verification: google#{code}.html" if config.google_verify.include?(code)
-    end 
+    end
+
+    after '*' do 
+      cache_for(3600)
+    end  
 
 
 		#debugger
