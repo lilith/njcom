@@ -2,13 +2,10 @@
 title: "Nathanael Jones"
 subtitle: "Ramblings of a computer linguist"
 
-description: "I write software in over 20 programming languages using 30+ frameworks. Let me help you choose the best technology and components for your project."
-# keywords: "enter 3 or 4, comma separated, keywords"
-
 author:
    name: Nathanael Jones
    uri: http://nathanaeljones.com
-   email: computer.linguist@gmail.com
+   email: n@imazen.io
    google_profile: "http://google.com/profiles/104429865496810073908"
 
 
@@ -19,40 +16,15 @@ author:
 disqus_short_name: ndj7
 
 
-footer:
-  statement: Copyright &copy; 2012 Nathanael Jones
-
-
-# content
-#     The root directory where nesta will look for your article files.
-#     Should contain "pages" and "attachments" subdirectories that contain
-#     your actual content and the (optional) menu.txt file that links to your
-#     main category pages.
-#
-#content: content
 content: content
 
 # google_analytics_code
 #     Set this if you want Google Analytics to track traffic on your site.
 #     Probably best not to set a default value, but to set it in production.
-#
-#     The production settings are used if you're deploying to Heroku, so
-#     scroll down a bit to set it in production even if you're not deploying
-#     to your own server.
-#
-google_analytics_code: "UA-5218175-1"
+#google_analytics_code: "UA-5218175-1"
+production: 
+  google_analytics_code: "UA-5218175-1"
 
 # Google Webmaster and Analytics usually require a 'google[code].html' file be placed on the domain
 # Use this feature to do this without polluting your directory structure
-
 google_verify: [344a8f78fa8143f6, b4f699bd08907a51]
-
-# Overriding "cache" and "content" in production is recommended if you're
-# deploying Nesta to your own server (but see the deployment documentation
-# on the Nesta site). Setting google_analytics_code in production is
-# recommended regardless of how you're deploying (if you have a GA account!).
-#
-# Don't forget to uncomment the "production:" line too...
-
-production:
-   google_analytics_code: "UA-5218175-1"
