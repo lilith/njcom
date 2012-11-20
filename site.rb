@@ -48,5 +48,10 @@ class Site < Hardwired::Bootstrap
 		#debugger
 end
 
-#Add customizations to MySite
-require './custom.rb'
+module Hardwired
+  class Template
+    def hidden?
+      flag?('hidden') or draft? #(!Base.development? and draft?)
+    end
+  end
+end
