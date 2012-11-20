@@ -11,45 +11,25 @@ class Site
   # use Rack::Static, :urls => ["/<%= @name %>"], :root => "themes/<%= @name %>/public"
 
   helpers do
-    # Add new helpers here.
-    def latest_release
-      Hardwired::Page.articles_by_tag("releases").first
-    end
-    def releases
-      Hardwired::Page.articles_by_tag("releases")
-    end
-    
-    def bundles
-      Hardwired::Page.find_all.select { |item| item.flagged_as?('bundle')}
-    end
+
   end
   
-  
-
 end
 module Hardwired
   
-  class Page
-    def template
-      fallback = metadata('bundle') ? 'plugin_page' : 'page'
-      (metadata('template') || fallback).to_sym
-    end
-  
-    def self.plugins_by_bundle(bundle)
-      Hardwired::Page.find_all.select { |item| item.bundle_name == bundle and not item.flagged_as?('bundle')}
+  class Template
+
+    def layout
+      return meta.layout unless meta.layout.nil?
+      return nil if in_layout_dir?
+      return Paths.layout_subfolder + '/plugin_page' unless meta.bundle.nil?
+      return Paths.layout_subfolder + '/page'
     end
 
-    def bundle_name
-      metadata('Bundle')
+    def hidden?
+      flag?('hidden') or draft? #(!Base.development? and draft?)
     end
-       
-    def bundle
-      Hardwired::Page.find_by_path("/plugins/bundles/#{bundle_name}")
-    end
-    
-    def bundle_plugins
-      Hardwired::Page.plugins_by_bundle(bundle_name)
-    end
+
   end
 
 end

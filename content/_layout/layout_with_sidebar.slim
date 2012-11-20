@@ -1,0 +1,53 @@
+Layout: layout
+
+.row
+  .span9
+    ==yield 
+  .span3.about-me
+    h4 About Nathanael
+    markdown:
+      **Nathanael Jones** is a software engineer, husband, consultant, and computer linguist with unreasonably high expectations of inanimate objects.
+      He refines .NET, ruby, and javascript libraries full-time at [Imazen](http://imazen.io), but can often be found on [stack overflow](http://stackoverflow.com/users/166893/computer-linguist) or particpating in [W3C community groups](http://www.w3.org/community/).
+    h4 
+      a href="https://twitter.com/nathanaeljones" Recent Tweets
+    <a href="https://twitter.com/nathanaeljones" class="twitter-follow-button" data-show-count="false" data-dnt="true">Follow @nathanaeljones</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    .tweets | Loading recent tweets...
+    h4 Open-source work
+    markdown:
+      Most of my projects are on Github, but they are split between [github.com/nathanaeljones](http://github.com/nathanaeljones) and [github.com/imazen](http://github.com/imazen).
+
+
+    h4 StudioJS
+    a href="https://github.com/nathanaeljones/studiojs" A jQuery-based image editor
+    h4 libwebp for .NET
+    a href="https://github.com/imazen/libwebp-net"  libwebp 0.2.0 lacked a .NET wrapper, so I made one - with full P/Invoke coverage.
+    h5 lightresize
+    a href="https://github.com/imazen/lightresize" lightresize is an embeddable .NET class for primitive image resizing which doesn't depend on System.Web - but also lacks 95% of ImageResizer functionality.
+    h5 CropImage.NET
+    a href="https://github.com/nathanaeljones/cropimage"  After the (very) popular WebCropImage project was abandoned and deleted, I resurrected the project and gave it some much-needed love.
+    h5 WebFormsFixes
+    a href="https://github.com/nathanaeljones/WebFormsFixes" Some utilites to make WebForms a bit more bearable.
+    h5 HardwiredCMS
+    a href="http://hardwiredcms.com"  After 2 years of Nesta, I got tired of leaky abstractions, and decided to simplify things.
+    h5 Nesta
+    markdown:
+      Nesta is one of the best micro-CMSes, and I've contributed a lot to the project. I [added format extensibility to core](https://github.com/nathanaeljones/nesta) (not yet merged) and created [nesta-plugin-tags](https://github.com/nathanaeljones/nesta-plugin-tags), [nesta-plugin-simplicity](https://github.com/nathanaeljones/nesta-plugin-simplicity), [nesta-plugin-wordpress](https://github.com/nathanaeljones/nesta-plugin-wordpress), and [nesta-plugin-aliases](https://github.com/nathanaeljones/nesta-plugin-aliases)
+    h5 WeaverEngine
+    | A continuations-based framework for massively-multi-editor systems (intially, games).
+    a href="https://github.com/nathanaeljones/weaver-lua" Lua implementation
+    a href="http://weaverengine.com" Home page
+
+    h5 SuperCopy
+    a href="http://supercopy.codeplex.com" SuperCopy lets you simulate copies, merges, and makes XCopy easy to use (2005)
+    h5 QuickKey
+    a href="/quickkey" QuickKey is a Character Map alternative I wrote in 2001, which became very popular with multi-lingual users.
+
+    h4 Contact information
+    ul
+      li
+        a href="http://www.linkedin.com/in/nathanaeljones" LinkedIn 
+      li
+        a href="https://twitter.com/nathanaeljones" Twitter 
+    a href="/contact" Contact 
+    

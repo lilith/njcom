@@ -1,0 +1,28 @@
+Layout: layout_with_sidebar
+
+-if page.meta.banner
+  .banners-wrap.t
+    .banners
+      == auto_render page.meta.banner.to_sym
+
+.page-content.no-banner
+  div class="#{page.meta.textclass || 't'}"
+    - if page.lib?("plusone")
+      <div style="width:70px;padding-top:25px;float:right"><div class="g-plusone"></div></div>
+    - if page.heading
+      h1.page-header
+        == page.heading
+    == yield
+    -if page.lib?("plusone")
+      <div class="g-plusone"></div>
+
+
+- if page.date
+  footer
+    p.meta
+      strong
+        | Published on 
+        time datetime=page.date.to_s pubdate=true
+          = format_date(page.date)
+- if !page.lib?('-comments')
+  == slim :comments, :layout => false

@@ -1,3 +1,21 @@
+
+     jQuery(function($){
+        $(".tweets").tweet({
+          join_text: "auto",
+          username: "nathanaeljones",
+          avatar_size: 32,
+          count: 4,
+          auto_join_text_default: "",
+          auto_join_text_ed: "",
+          auto_join_text_ing: "",
+          auto_join_text_reply: " I replied ",
+          auto_join_text_url: "",
+          loading_text: "loading tweets..."
+        });
+      });
+
+
+
 window.log = function(){
   log.history = log.history || [];  
   log.history.push(arguments);

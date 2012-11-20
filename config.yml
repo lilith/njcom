@@ -1,53 +1,27 @@
-# Title and subheading for your site. Used on the home page and in page
-# titles.
-#
+
 title: "Nathanael Jones"
 subtitle: "Ramblings of a computer linguist"
-logotext1: Nathanael
-logotext2: Jones
 
-# If you want to set the descrition or keywords meta tags on your site's
-# home page, do it here.
-#
 description: "I write software in over 20 programming languages using 30+ frameworks. Let me help you choose the best technology and components for your project."
 # keywords: "enter 3 or 4, comma separated, keywords"
 
-# You should really specify your content's author when generating an
-# Atom feed. Specify at least one of name, uri or email, and Nesta will
-# include it in your feed. See the Atom spec for more info:
-#
-# http://www.atomenabled.org/developers/syndication/atom-format-spec.php#element.feed
-#
 author:
    name: Nathanael Jones
    uri: http://nathanaeljones.com
    email: computer.linguist@gmail.com
+   google_profile: "http://google.com/profiles/104429865496810073908"
 
-# You can stick with the default look and feel, or use a theme. Themes are
-# easy to create or install, and live inside the themes directory. You
-# can also use scripts/theme to install them.
-#
-# theme: name-of-theme
-theme: smart
 
 # If you want to use the Disqus service (http://disqus.com) to display
 # comments on your site, register a Disqus account and then specify your
 # site's short name here. A comment form will automatically be added to
 # the bottom of your pages.
-#
 disqus_short_name: ndj7
 
 
 footer:
   statement: Copyright &copy; 2012 Nathanael Jones
 
-# cache
-#     Set it to true if you'd like Nesta to cache your pages in ./public.
-#     Useful if you're deploying Nesta with a proxy server such as Nginx,
-#     but not in the least bit helpful if your pages are dynamic, or you're
-#     deploying Nesta to Heroku.
-#
-cache: false
 
 # content
 #     The root directory where nesta will look for your article files.
@@ -67,6 +41,11 @@ content: content
 #     to your own server.
 #
 google_analytics_code: "UA-5218175-1"
+
+# Google Webmaster and Analytics usually require a 'google[code].html' file be placed on the domain
+# Use this feature to do this without polluting your directory structure
+
+google_verify: [344a8f78fa8143f6, b4f699bd08907a51]
 
 # Overriding "cache" and "content" in production is recommended if you're
 # deploying Nesta to your own server (but see the deployment documentation
