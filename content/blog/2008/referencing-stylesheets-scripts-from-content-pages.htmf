@@ -1,8 +1,9 @@
 Aliases: /146/referencing-stylesheets-scripts-from-content-pages/ /?p=146 /11011_Referencing_stylesheets_scripts_from_content_pages
 Atom ID: http://66.29.219.39/?p=146
 Summary: The ability to reference style sheets and scripts from within content pages is greatly needed, but link and meta tags only work in the root master page. Here's how to add full link, meta, and script parsing to your entire application.
-Categories: asp-net
+Categories: asp.net
 Date: Aug 8 2008
+Tags: asp.net
 
 <h1>Referencing stylesheets, scripts from content pages</h1>
 

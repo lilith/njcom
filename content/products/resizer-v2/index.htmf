@@ -3,7 +3,7 @@ Redirect To: http://imageresizing.net/
 
 <h1>Server-side Image Resizing Module for ASP.NET, ASP, & PHP/IIS</h1>
 
-<div style="padding:10px; color:red; font-size:11pt; border:1px solid red; margin-bottom:1.5em;">This is regarding a depreciated version. <a href="http://imageresizing.net/">Visit the V3 website for the latest information</a>. <a href="http://imageresizing.net/docs/2to3/">Click here for the migration guide</a></div>
+<div style="padding:10px; color:red; font-size:11pt; border:1px solid red; margin-bottom:1.5em;">This is regarding a deprecated version. <a href="http://imageresizing.net/">Visit the V3 website for the latest information</a>. <a href="http://imageresizing.net/docs/2to3/">Click here for the migration guide</a></div>
 <div id="tabs">
 <ul>
 	<li><a href="#why">Why</a></li>

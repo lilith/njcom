@@ -1,7 +1,7 @@
 Aliases: /196/design-of-an-image-resizing-module/ /?p=196 /11241_Design_of_an_Image_Resizing_Module
 Atom ID: http://66.29.219.39/?p=196
 Summary: In this sequel to 20 Image Resizing Pitfalls, I'm outlining the architecture of my image resizing module, and including the source code for the HttpModule (but not the supporting classes).
-Categories: image-resizing
+Tags: image-resizing
 Date: May 26 2009
 
 <h1>Design of an Image Resizing Module</h1>

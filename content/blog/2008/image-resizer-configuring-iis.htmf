@@ -2,10 +2,11 @@ Aliases: /131/image-resizer-configuring-iis/ /?p=131 /11111_Image_Resizer_Config
 Atom ID: http://66.29.219.39/?p=131
 Summary: Configuring IIS to send image requests to ASP.NET
 Date: Jun 6 2008
+Tags: image-resizing
 
 <h1>Image Resizer - Configuring IIS</h1>
 
-<div style="padding:10px; color:red; font-size:11pt; border:1px solid red; margin-bottom:1.5em;">This is regarding a depreciated version. <a href="http://imageresizing.net/docs/cleanurls">Visit the updated version of this page </a></div>
+<div style="padding:10px; color:red; font-size:11pt; border:1px solid red; margin-bottom:1.5em;">This is regarding a deprecated version. <a href="http://imageresizing.net/docs/cleanurls">Visit the updated version of this page </a></div>
 
 <p><strong>Using IIS7 <em>Integrated</em> mode or the Visual Studio web server? You can skip this step. </strong>
 You don't need to do this if you are using the <strong>.jpg.ashx</strong> syntax.</p>

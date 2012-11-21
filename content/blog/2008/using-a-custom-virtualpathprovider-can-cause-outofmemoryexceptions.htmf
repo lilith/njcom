@@ -1,7 +1,7 @@
 Aliases: /125/using-a-custom-virtualpathprovider-can-cause-outofmemoryexceptions/ /?p=125 /11081_Using_a_custom_VirtualPathProvider_can_cause_OutOfMemoryExceptions
 Atom ID: http://66.29.219.39/?p=125
 Summary: Virtual path providers are awesome - you can serve a site from a .zip file, perform XSLT transformations to generate .aspx files as the compiler reads them, and do all sorts of unusual things. However, using them can make the StaticFileHandler buffer entire downloads in memory before sending the data to the client.
-Categories: asp-net
+Tags: asp.net
 Date: Jun 6 2008
 
 <h1>Using a custom VirtualPathProvider can cause OutOfMemoryExceptions</h1>

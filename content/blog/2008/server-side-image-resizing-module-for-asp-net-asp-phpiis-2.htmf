@@ -1,13 +1,12 @@
 Aliases: /138/server-side-image-resizing-module-for-asp-net-asp-phpiis-2/ /?p=138 /11131_Server_side_Image_Resizing_Module_for_ASP_NET_ASP_PHP_IIS
 Atom ID: http://66.29.219.39/?p=138
 Summary: Server-side image resizing is one of those tiny features that can have incredible ROI. It can save webmasters several hours each day, and gives you the ability to change the resolution of an image without having to hunt up the original.
-Categories: image-resizing
-Tags: image-resizer, image-resizing
+Tags: image-resizing
 Date: Aug 6 2008
 
 <h1>Server-side Image Resizing Module for ASP.NET, ASP, & PHP/IIS</h1>
 
-<div style="padding:10px; color:red; font-size:11pt; border:1px solid red; margin-bottom:1.5em;">This is regarding a depreciated version. <a href="http://imageresizing.net/">Visit the V3 website for the latest information about the product. </a></div>
+<div style="padding:10px; color:red; font-size:11pt; border:1px solid red; margin-bottom:1.5em;">This is regarding a deprecated version. <a href="http://imageresizing.net/">Visit the V3 website for the latest information about the product. </a></div>
 
 <p style="position: absolute; height: 5px; width: 5px; top: -3000px;">Open-source image resizing module for ASP.NET. Great for thumbnails and slideshows. Features managed disk caching, jpeg/png/gif support, and bicubic resizing.</p>
 

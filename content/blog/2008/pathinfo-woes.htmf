@@ -1,7 +1,7 @@
 Aliases: /117/pathinfo-woes/ /?p=117 /10961_PathInfo_Woes
 Atom ID: http://66.29.219.39/?p=117
 Summary: "ASP.NET introduces a new URI component to the equation: PathInfo. It's not very well known, possibly due to poor implementation and consequent lack of usefulness. However, it is important that you understand how it can affect you."
-Categories: asp-net
+Tags: asp.net
 Date: May 19 2008
 Flags: hits
 

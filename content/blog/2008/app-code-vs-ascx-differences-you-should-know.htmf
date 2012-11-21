@@ -1,9 +1,9 @@
 Aliases: /132/app_code-vs-ascx-differences-you-should-know/ /?p=132 /11021_App_Code_vs_ascx_Differences_you_should_know
 Atom ID: http://66.29.219.39/?p=132
 Summary: Will you ever need to pass relative paths to your control? Does your control function as a container for markup? If so, you should subclass Control instead of using a .ascx file.
-Categories: asp-net
 Date: Oct 23 2008
 Flags: hits
+Tags: asp.net
 
 <h1>App_Code vs. ascx: Differences you should know</h1>
 
