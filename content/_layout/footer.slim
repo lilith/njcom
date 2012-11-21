@@ -13,10 +13,6 @@
         a href="http://windowsgit.com" WindowsGit - Set up a git server on windows with less hair-pulling
       li
         a href="http://cropimage.net" Simple image cropping for ASP.NET
-      li.nav-header Greatest hits
-      - for post in index.posts.select { |p| p.flag?('hits') }
-        li
-          a href="#{post.path}"=post.heading
 
   .span2
     ul.nav.nav-list
@@ -39,3 +35,16 @@
         a href="/contact" Contact
       li.muted
         | &copy; 2012 Nathanael Jones
+.row
+  .span6
+    ul.nav.nav-list
+      li.nav-header General development hits
+      - for post in index.posts.select { |p| p.flag?('hits') && !p.tag?('asp.net') }
+        li
+          a href="#{post.path}"=post.heading
+  .span6
+    ul.nav.nav-list
+      li.nav-header ASP.NET hits
+      - for post in index.posts.select { |p| p.flag?('hits') && p.tag?('asp.net') }
+        li
+          a href="#{post.path}"=post.heading
