@@ -41,7 +41,7 @@ class Site < Hardwired::Bootstrap
     end
 
     after '*' do 
-      cache_for(3600)
+      cache_for(dev? ? 30 : 60 * 60 * 24) #1 day
     end  
 
 
