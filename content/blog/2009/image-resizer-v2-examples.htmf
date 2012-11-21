@@ -11,27 +11,27 @@ Date: May 8 2009
     
     <h2>Resizing using maxwidth and/or maxheight</h2>
     <p>Aspect ratio is always maintained with maxwidth and maxheight. The image is scaled to fit within those bounds.</p>
-    <img src="red-leaf.jpg?maxwidth=300" title="With ?maxwidth=300"/>
-    <img src="grass.jpg?maxheight=300" title="With ?maxheight=300"/>
+    <img src="http://img.imageresizing.net/red-leaf.jpg?maxwidth=300" title="With ?maxwidth=300"/>
+    <img src="http://img.imageresizing.net/grass.jpg?maxheight=300" title="With ?maxheight=300"/>
     
-    <img src="tulip-leaf.jpg?maxwidth=300&amp;maxheight=300" title="With ?maxwidth=300&amp;maxheight=300"/>
+    <img src="http://img.imageresizing.net/tulip-leaf.jpg?maxwidth=300&amp;maxheight=300" title="With ?maxwidth=300&amp;maxheight=300"/>
     <h2>Resizing using width and height</h2>
     <p>Specifying only one of <em>width</em> or <em>height</em> will behave the same as using <em>maxwidth</em>
     or <em>maxheight</em>. The difference is when you specify both.</p>
     <p>Specifying both width and height will force the image to those exact dimensions, unless the 
     image is already smaller (see scale). This is done by adding whitespace to the image. To center and crop instead, use
     <strong>&amp;crop=auto</strong>. To lose aspect ratio and fill the specified rectangle, use <strong>&amp;stretch=fill</strong>.</p>
-    <img style="border:1px solid gray;" src="grass.jpg?width=200=200" title="Shown with a border so you can see the added whitespace. ?width=200=200"/>
-     <img src="grass.jpg?width=200=200=black" title="With ?width=200=200=black"/>
-    <img src="red-leaf.jpg?width=100=200=fill" title="Distorted to 100x200. ?width=100=200=fill"/>
-    <img src="red-leaf.jpg?width=100=200=auto" title="Cropped to 100x200. ?width=100=200=auto"/>
+    <img style="border:1px solid gray;" src="http://img.imageresizing.net/grass.jpg?width=200=200" title="Shown with a border so you can see the added whitespace. ?width=200=200"/>
+     <img src="http://img.imageresizing.net/grass.jpg?width=200=200=black" title="With ?width=200=200=black"/>
+    <img src="http://img.imageresizing.net/red-leaf.jpg?width=100=200=fill" title="Distorted to 100x200. ?width=100=200=fill"/>
+    <img src="http://img.imageresizing.net/red-leaf.jpg?width=100=200=auto" title="Cropped to 100x200. ?width=100=200=auto"/>
     
     <h2>Scaling</h2>
     <p>By default, images are not upscaled. If an image is already smaller than width/height/maxwidth/maxheight, it is not resized.
     To upscale images, use <strong>?scale=both</strong>. <strong>?scale=downscaleonly</strong> is the default.</p>
     
     
-    <img src="tractor-tiny.jpg?scale=both=200" title="Upscaled from 100px to 200px using ?scale=both=200"/>
+    <img src="http://img.imageresizing.net/tractor-tiny.jpg?scale=both=200" title="Upscaled from 100px to 200px using ?scale=both=200"/>
     <br/>
     The slight blur around the edges is a bug in Graphics.DrawImage(). You can control the color by setting <strong>bgcolor=color|hex</strong>.
     <h2>Cropping</h2>
@@ -40,96 +40,96 @@ Date: May 8 2009
     using the other commands as normal. Negative coordinates are relative to the bottom-right corner - 
     which makes it easy to trim off a 50-pixel border by specifying <strong>crop=(50,50,-50,-50)</strong>.</p>
     
-    <img id="Img5" src="tractor.jpg?crop=(10,150,200,350)" title="Cropping out a 200x200 square using ?crop=(10,150,200,350)"/>
-    <img id="Img6" src="tractor.jpg?crop=(60,200,250,400)" title="Cropping out a 200x200 square using ?crop=(60,200,250,400)"/>
-    <img id="Img7" src="tractor.jpg?crop=auto=300=150" title="Cropping out to 300x150 square using ?crop=auto=300=150"/>
+    <img id="Img5" src="http://img.imageresizing.net/tractor.jpg?crop=(10,150,200,350)" title="Cropping out a 200x200 square using ?crop=(10,150,200,350)"/>
+    <img id="Img6" src="http://img.imageresizing.net/tractor.jpg?crop=(60,200,250,400)" title="Cropping out a 200x200 square using ?crop=(60,200,250,400)"/>
+    <img id="Img7" src="http://img.imageresizing.net/tractor.jpg?crop=auto=300=150" title="Cropping out to 300x150 square using ?crop=auto=300=150"/>
     <h2>Rotation</h2>
     <p>Rotation is easy - just specify the number of degrees. You may want to set bgcolor also.</p>
-    <img id="Img8" src="red-leaf.jpg?rotate=30=100" title="With ?rotate=30=100"/>
+    <img id="Img8" src="http://img.imageresizing.net/red-leaf.jpg?rotate=30=100" title="With ?rotate=30=100"/>
     
-    <img id="Img9" src="tractor.jpg?rotate=-30=(60,200,250,400)" title="Using ?rotate=-30&amp;crop=(60,200,250,400)"/>
+    <img id="Img9" src="http://img.imageresizing.net/tractor.jpg?rotate=-30=(60,200,250,400)" title="Using ?rotate=-30&amp;crop=(60,200,250,400)"/>
     
-    <img id="Img10" src="grass.jpg?rotate=45=200=200=auto=black" title="With ?rotate=45=200=200=auto=black"/>
+    <img id="Img10" src="http://img.imageresizing.net/grass.jpg?rotate=45=200=200=auto=black" title="With ?rotate=45=200=200=auto=black"/>
       
     <h2>Flipping</h2>
     <p>You can horizontally or verically flip an image, as well as both. <strong>flip=h|v|both</strong></p>
-    <img id="Img11" src="tractor.jpg?flip=v=(60,200,250,400)" title="Using ?flip=v=(60,200,250,400)"/>
-     <img id="Img12" src="tractor.jpg?flip=both=(60,200,250,400)" title="Using ?flip=both=(60,200,250,400)"/><br/>
-    <img id="Img13" src="tractor.jpg?crop=(60,200,250,400)" title="Using ?crop=(60,200,250,400)"/>
-     <img id="Img14" src="tractor.jpg?flip=h=(60,200,250,400)" title="Using ?flip=h=(60,200,250,400)"/>
+    <img id="Img11" src="http://img.imageresizing.net/tractor.jpg?flip=v=(60,200,250,400)" title="Using ?flip=v=(60,200,250,400)"/>
+     <img id="Img12" src="http://img.imageresizing.net/tractor.jpg?flip=both=(60,200,250,400)" title="Using ?flip=both=(60,200,250,400)"/><br/>
+    <img id="Img13" src="http://img.imageresizing.net/tractor.jpg?crop=(60,200,250,400)" title="Using ?crop=(60,200,250,400)"/>
+     <img id="Img14" src="http://img.imageresizing.net/tractor.jpg?flip=h=(60,200,250,400)" title="Using ?flip=h=(60,200,250,400)"/>
     <h2>Source flipping</h2>
     <p>Since normal flipping applies after rotation and cropping occur, it can be 
     difficult to work with if you are just wanting the source image flipped before the other
     adjustments are applied. To flip the source prior to work, use <strong>sourceFlip=h|v|both</strong>.</p>
     <p>Note how the same crop coordinates return different sections of the image. This is because the source image is flipped before *anything* happens.</p>
-    <img id="Img20" src="tractor.jpg?maxwidth=100" title="Using ?maxwidth=100"/>
-    <img id="Img15" src="tractor.jpg?crop=(0,0,100,100)" title="Using ?crop=(0,0,100,100)"/>
-    <img id="Img16" src="tractor.jpg?flip=both=(0,0,100,100)" title="Using ?flip=both=(0,0,100,100)"/>
+    <img id="Img20" src="http://img.imageresizing.net/tractor.jpg?maxwidth=100" title="Using ?maxwidth=100"/>
+    <img id="Img15" src="http://img.imageresizing.net/tractor.jpg?crop=(0,0,100,100)" title="Using ?crop=(0,0,100,100)"/>
+    <img id="Img16" src="http://img.imageresizing.net/tractor.jpg?flip=both=(0,0,100,100)" title="Using ?flip=both=(0,0,100,100)"/>
     <h2>Stretching</h2>
     <p>To stretch an image to width and height, use <strong>stretch=fill</strong>. </p>
-    <img id="Img17" src="tractor.jpg?stretch=fill=200=100" title="Using ?stretch=fill=200=100)"/>
+    <img id="Img17" src="http://img.imageresizing.net/tractor.jpg?stretch=fill=200=100" title="Using ?stretch=fill=200=100)"/>
     <h2>Padding</h2>
     <p>You can add padding around the image with <strong>paddingWidth=px</strong> and 
     <strong>paddingColor=color|hex</strong>. paddingColor defaults to bgcolor, which defaults to white.
     This setting can be.... useful.</p>
-    <img id="Img18" src="grass.jpg?maxwidth=200=black=20" title="With ?maxwidth=200=black=20"/>
+    <img id="Img18" src="http://img.imageresizing.net/grass.jpg?maxwidth=200=black=20" title="With ?maxwidth=200=black=20"/>
     <h2>Borders</h2>
     <p>You can add a border around the image with <strong>borderWidth=px</strong>, 
     <strong>borderColor=color|hex</strong>.</p>
-    <img id="Img19" src="grass.jpg?maxwidth=200=white=20=8=808080" title="With ?maxwidth=200=8=808080=20"/>
+    <img id="Img19" src="http://img.imageresizing.net/grass.jpg?maxwidth=200=white=20=8=808080" title="With ?maxwidth=200=8=808080=20"/>
     
     <h1>Output format</h1>
     <p>GIF, JPG, and PNG output is supported. BMP and TIFF input fils are additionally supported, and every format can be converted to any other format with <strong>format=jpg|png|gif</strong></p>
     <h2>Jpeg compression levels 0-100 (quality=0-100)</h2>
     <p>The sizes of these images range from 855B to 12KB. The largest size jump is from 90 to 100 (5KB to 12KB). I think 90 is a good balance, and is therefore the default.</p>
-     <img id="Img31" src="tulip-leaf.jpg?quality=0=100"/>
-    <img id="Img21" src="tulip-leaf.jpg?quality=10=100"/>
-    <img id="Img22" src="tulip-leaf.jpg?quality=20=100"/>
-    <img id="Img23" src="tulip-leaf.jpg?quality=30=100"/>
-    <img id="Img24" src="tulip-leaf.jpg?quality=40=100"/>
-    <img id="Img25" src="tulip-leaf.jpg?quality=50=100"/>
-    <img id="Img26" src="tulip-leaf.jpg?quality=60=100"/>
-    <img id="Img27" src="tulip-leaf.jpg?quality=70=100"/>
-    <img id="Img28" src="tulip-leaf.jpg?quality=80=100"/>
-    <img id="Img29" src="tulip-leaf.jpg?quality=90=100"/>
-    <img id="Img30" src="tulip-leaf.jpg?quality=100=100"/>
+     <img id="Img31" src="http://img.imageresizing.net/tulip-leaf.jpg?quality=0=100"/>
+    <img id="Img21" src="http://img.imageresizing.net/tulip-leaf.jpg?quality=10=100"/>
+    <img id="Img22" src="http://img.imageresizing.net/tulip-leaf.jpg?quality=20=100"/>
+    <img id="Img23" src="http://img.imageresizing.net/tulip-leaf.jpg?quality=30=100"/>
+    <img id="Img24" src="http://img.imageresizing.net/tulip-leaf.jpg?quality=40=100"/>
+    <img id="Img25" src="http://img.imageresizing.net/tulip-leaf.jpg?quality=50=100"/>
+    <img id="Img26" src="http://img.imageresizing.net/tulip-leaf.jpg?quality=60=100"/>
+    <img id="Img27" src="http://img.imageresizing.net/tulip-leaf.jpg?quality=70=100"/>
+    <img id="Img28" src="http://img.imageresizing.net/tulip-leaf.jpg?quality=80=100"/>
+    <img id="Img29" src="http://img.imageresizing.net/tulip-leaf.jpg?quality=90=100"/>
+    <img id="Img30" src="http://img.imageresizing.net/tulip-leaf.jpg?quality=100=100"/>
     <h2>Quantization (8-bit PNG and GIFs)</h2>
     <p>The default GDI quantization is terrible, and produces lousy GIFs. Using the Octree quantizer, you can 
     control the number of colors (and therefore the size and quality) of an image using <strong>colors=2-255</strong></p>
     <h3>GIFs, in 4,8,16,32,64,128, and 256 colors</h3>
-    <img id="Img32" src="tractor.jpg?=100=gif=4"/>
-    <img id="Img33" src="tractor.jpg?=100=gif=8"/>
-    <img id="Img34" src="tractor.jpg?=100=gif=16"/>
-    <img id="Img35" src="tractor.jpg?=100=gif=32"/>
-    <img id="Img36" src="tractor.jpg?=100=gif=64"/>
-    <img id="Img37" src="tractor.jpg?=100=gif=128"/>
-    <img id="Img38" src="tractor.jpg?=100=gif=256"/>
+    <img id="Img32" src="http://img.imageresizing.net/tractor.jpg?=100=gif=4"/>
+    <img id="Img33" src="http://img.imageresizing.net/tractor.jpg?=100=gif=8"/>
+    <img id="Img34" src="http://img.imageresizing.net/tractor.jpg?=100=gif=16"/>
+    <img id="Img35" src="http://img.imageresizing.net/tractor.jpg?=100=gif=32"/>
+    <img id="Img36" src="http://img.imageresizing.net/tractor.jpg?=100=gif=64"/>
+    <img id="Img37" src="http://img.imageresizing.net/tractor.jpg?=100=gif=128"/>
+    <img id="Img38" src="http://img.imageresizing.net/tractor.jpg?=100=gif=256"/>
     <h3>PNGs, in 4,8,16,32,64,128, 256, and 16 million colors</h3>
-        <img id="Img39" src="tractor.jpg?=100=png=4"/>
-    <img id="Img40" src="tractor.jpg?=100=png=8"/>
-    <img id="Img41" src="tractor.jpg?=100=png=16"/>
-    <img id="Img42" src="tractor.jpg?=100=png=32"/>
-    <img id="Img43" src="tractor.jpg?=100=png=64"/>
-    <img id="Img44" src="tractor.jpg?=100=png=128"/>
-    <img id="Img45" src="tractor.jpg?=100=png=256"/>
-    <img id="Img46" src="tractor.jpg?=100=png"/>
+        <img id="Img39" src="http://img.imageresizing.net/tractor.jpg?=100=png=4"/>
+    <img id="Img40" src="http://img.imageresizing.net/tractor.jpg?=100=png=8"/>
+    <img id="Img41" src="http://img.imageresizing.net/tractor.jpg?=100=png=16"/>
+    <img id="Img42" src="http://img.imageresizing.net/tractor.jpg?=100=png=32"/>
+    <img id="Img43" src="http://img.imageresizing.net/tractor.jpg?=100=png=64"/>
+    <img id="Img44" src="http://img.imageresizing.net/tractor.jpg?=100=png=128"/>
+    <img id="Img45" src="http://img.imageresizing.net/tractor.jpg?=100=png=256"/>
+    <img id="Img46" src="http://img.imageresizing.net/tractor.jpg?=100=png"/>
     <h2>Transparent GIFs and PNGs</h2>
     <h3>Transparency is maintained when resizing PNGs</h3>
-    <img id="Img49" src="/wp-content/uploads/2009/10/sun_256.png"/>
-    <img id="Img47" src="/wp-content/uploads/2009/10/sun_256.png?maxwidth=100"/>
-    <img id="Img48" style="background-color:black" src="/wp-content/uploads/2009/10/sun_256.png?=200"/>
+    <img id="Img49" src="http://img.imageresizing.net/sun_256.png"/>
+    <img id="Img47" src="http://img.imageresizing.net/sun_256.png?maxwidth=100"/>
+    <img id="Img48" style="background-color:black" src="http://img.imageresizing.net/sun_256.png?=200"/>
     <h3>Matte backgrounds can be applied with bgcolor. </h3>
-    <img id="Img50" src="/wp-content/uploads/2009/10/moon_256.png?maxwidth=100=red"/>
-    <img id="Img51" src="/wp-content/uploads/2009/10/moon_256.png?maxwidth=100=blue"/>
-    <img id="Img52" src="/wp-content/uploads/2009/10/moon_256.png?maxwidth=100=green"/>
+    <img id="Img50" src="http://img.imageresizing.net/moon_256.png?maxwidth=100=red"/>
+    <img id="Img51" src="http://img.imageresizing.net/moon_256.png?maxwidth=100=blue"/>
+    <img id="Img52" src="http://img.imageresizing.net/moon_256.png?maxwidth=100=green"/>
     <h3>Transparent PNGs can be converted to transparent GIFs</h3>
     <p>It's ugly, but GIFs only get 1 bit for transparency.</p>
-    <img id="Img1" src="/wp-content/uploads/2009/10/saturn_256.png?format=gif"/>
+    <img id="Img1" src="http://img.imageresizing.net/saturn_256.png?format=gif"/>
    <h2>Single frames can be extracted from animated GIFs with frame=x</h2>
-    <img id="Img2" src="/wp-content/uploads/2009/11/2_computers.gif"/>
-    <img id="Img3" src="/wp-content/uploads/2009/11/2_computers.gif?frame=5"/>
-    <img id="Img4" src="/wp-content/uploads/2009/11/2_computers.gif?frame=8"/>
-    <img id="Img53" src="/wp-content/uploads/2009/11/2_computers.gif?frame=10"/>
+    <img id="Img2" src="http://img.imageresizing.net/2_computers.gif"/>
+    <img id="Img3" src="http://img.imageresizing.net/2_computers.gif?frame=5"/>
+    <img id="Img4" src="http://img.imageresizing.net/2_computers.gif?frame=8"/>
+    <img id="Img53" src="http://img.imageresizing.net/2_computers.gif?frame=10"/>
      
      
      
