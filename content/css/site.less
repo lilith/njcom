@@ -1,12 +1,31 @@
 
+
+
+
+@import url('http://fonts.googleapis.com/css?family=PT+Serif:400,700,400italic');
+
 @import "bootstrap/bootstrap.less";
 
 @import "bootstrap/responsive.less";
 
 @import "bootswatch.less";
 
+   
+pre, pre code {
+  background:transparent;
+}
 
-/* Footer
+pre code {
+  color: #4d4d4c;
+  font-family: Menlo, Monaco, Consolas, monospace;
+  line-height: 1.5;
+  border: none;
+  padding: none;
+}
+
+
+
+/* Footer 2
 -------------------------------------------------- */
 
 .footer {
@@ -30,25 +49,21 @@
   margin: 0;
   padding: 0;
   overflow-y: hidden;
-}
-  
-.tweet_list li {
+ li {
   overflow-y: auto;
   overflow-x: hidden;
   margin-bottom: 0.5em;
   list-style-type: none;
-}
-    
-.tweet_list li a {
+  a {
   color: #0C717A;
 }
-
-    
-.tweet_list .tweet_avatar {
-  padding-right: .5em; float: left;
 }
-    
-.tweet_list .tweet_avatar img {
-vertical-align: middle;
+
+.tweet_avatar {
+  padding-right: .5em; float: left;
+    img {
+    vertical-align: middle;
+  }
+}
 }
 
