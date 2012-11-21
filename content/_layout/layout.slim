@@ -18,59 +18,35 @@ html(lang="en" class="no-js")
       = page.title
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
       
+
+    <link rel="stylesheet" href="/js/highlight/styles/tomorrow.css" />
     <link href="/css/site#{dev? ? ".css" : ".min.css"}" rel="stylesheet" />
 
-    <link rel="stylesheet" href="/js/highlight/styles/vs.css" />
+
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     - if page and page.lib("jqueryui")
-      <link rel="stylesheet" href="/css/smoothness/jquery-ui-1.8.16.custom.css"/>
-    - if page and page.lib("jqueryui")
       <link rel="stylesheet" href="/css/jquery.Jcrop.css" />
 
-    link(href="/articles.xml" rel="alternate" type="application/atom+xml")
+    link(href="/rss.xml" rel="alternate" type="application/atom+xml")
+
     == slim :analytics, :layout => false
   body
     == slim :header, :layout => false
     .container
-
       == yield
-
     footer.footer
       .container
-        p.pull-right
-          a href="#" Back to top
-
-        p Copyright 2012 Nathanael Jones
-
-        ul.footer-links
-          li 
-            a href="http://imageresizing.net" ImageResizer, a poorly named panacea for website images
-          li
-            a href="http://imazen.io" Imazen, my company
-          li
-            a href="http://hardwiredcms.com" Hardwired, the micro-CMS that powers this site
-
+        == slim :footer, :layout => false 
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     javascript:
       !window.jQuery && document.write(unescape('%3Cscript src="/js/jquery-1.8.2.min.js"%3E%3C/script%3E'))//'
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/highlight/highlight.pack.js"></script>
-    - if page and page.lib("bxSlider")
-      <script src="/js/jquery.bxSlider.min.js"></script>
-    - if page and page.lib("jtools")
-      <script src="http://cdn.jquerytools.org/1.2.6/tiny/jquery.tools.min.js"></script>
-    - if page and page.lib("jqueryui")
-      <script src="/js/jquery-ui-1.8.16.custom.min.js"></script>
-    - if page and page.lib("jcrop")
-      <script src="/js/jquery.Jcrop.min.js"></script>
-    - if page and page.lib("tinybox")
-      <script src="/js/tinybox.js"></script>
-    - if page and page.lib("demo")
-      <script src="/js/demo.js"></script>
+
 
     -if page and page.lib("search")
       <script src="http://www.google.com/jsapi" type="text/javascript"></script>

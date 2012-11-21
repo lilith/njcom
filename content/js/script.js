@@ -1,18 +1,18 @@
 
-     jQuery(function($){
-        $(".tweets").tweet({
-          join_text: "auto",
-          username: "nathanaeljones",
-          avatar_size: 32,
-          count: 4,
-          auto_join_text_default: "",
-          auto_join_text_ed: "",
-          auto_join_text_ing: "",
-          auto_join_text_reply: " I replied ",
-          auto_join_text_url: "",
-          loading_text: "loading tweets..."
-        });
-      });
+jQuery(function($){
+  $(".tweets").tweet({
+    join_text: "auto",
+    username: "nathanaeljones",
+    avatar_size: 32,
+    count: 4,
+    auto_join_text_default: "",
+    auto_join_text_ed: "",
+    auto_join_text_ing: "",
+    auto_join_text_reply: " I replied ",
+    auto_join_text_url: "",
+    loading_text: "loading tweets..."
+  });
+});
 
 
 
@@ -26,62 +26,34 @@ window.log = function(){
 
 
 
-hljs.tabReplace = '  '; 
-hljs.initHighlightingOnLoad();
 
-$(function(){
-	if (!$(".banners").bxSlider) return;
-	$(".banners").bxSlider({
-    auto: true,
-    pager: true,
-		controls:false,
-    pause: 6000
+$(function() {
+  $('pre[class*="brush:"], pre[name="code"]').each(function(i, e) {
+    e = $(e);
+    e.prop('name',null);
+    var code = e.children('code');
+    if (code.length < 1) e.wrapInner('<code/>');
+    code = e.children('code');
+
+    var cls = e.prop('class');
+    if (cls){
+      var match = (/brush\:([a-zA-Z-0-9]+)/i).exec(cls);
+      var rename = {'jscript':'javascript'}
+      if (match) {
+          code.addClass(rename[match[1]] || match[1]);
+      }
+    }
+
   });
-	/*$('pre code').not('code[class]').each(function(i, e) {$(e).addClass('csharp c-sharp'); hljs.highlightBlock(e, '  ')});*/
+    
+  $('pre code').each(function(i,e){ hljs.highlightBlock(e, '    ');});
+
+
 });
 
-
-$('a[href*="Resizer3"]').click(function(){
-	_gaq.push(['_trackEvent', 'Downloads', 'Releases', $(this).attr('href')]);
-	_gaq.push(['_trackPageview', $(this).attr('href') ]);
-});
-
-$('a[href*="Resizer2"]').click(function(){
-	_gaq.push(['_trackEvent', 'Downloads', 'Releases-v2', $(this).attr('href')]);
-	_gaq.push(['_trackPageview', $(this).attr('href') ]);
-});
-
+$('a[rel="tooltip"], .with-tooltips a').tooltip();
 
 if (typeof(loadq) !== 'undefined'){
 	for (var i = 0; i < loadq.length; i++)
 		$(loadq[i]);
 }
-//So e-junkie falls back gracefully.
-if (typeof(EJEJC_lc) !== undefined) var EJEJC_lc = function (th) { return false; };
-
-/* Handles signup forms */
-
-var icpForm2612 = document.getElementById('icpsignup2612');
-
-if (document.location.protocol === "https:")
-	icpForm2612.action = "https://app.icontact.com/icp/signup.php";
-	
-function verifyRequired2612() {
-  if (icpForm2612["fields_email"].value == "") {
-    icpForm2612["fields_email"].focus();
-    alert("The Email field is required.");
-    return false;
-  }
-	return true;
-}
-
-
-/*function EJEJC_config() {
-EJEJC_BEACON = "https://www.googleadservices.com/pagead/conversion/0062225003/?value=1&label=purchase&script=0";
-}
-
-
-$(function(){
-  ejGATracker = _gat._getTracker("UA-XXXXX-X");
-});
-	*/

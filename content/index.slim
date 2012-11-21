@@ -2,15 +2,18 @@ Title: Nathanael Jones - Ramblings of a computer linguist
 Libs: uservoice, bxSlider, -comments
 
 
-h1.page-header What I do
-markdown:
-	I run [Imazen](http://imazen.io), a tiny software company that specializes in web-based image processing and other difficult engineering problems.
+- for post in index.posts[0..2] do
+  article 
+    h1.page-header
+      a href=post.path #{post.heading} 
+      small #{post.date.strftime("%A, %B %e %Y")}
+    == post.body(self)
+    a href="#{post.path}#disqus_thread" View comments on original page...
 
-	I spend most of my time writing image-processing code in C#, web apps in Ruby, and documentation in Markdown.
-
-	My [GitHub profile](http://github.com/nathanaeljones) is the best place to see which open-source projects I'm working on, and [LinkedIn](http://linkedin.com/in/nathanaeljones) has additonal information.
 
 
-h1 Recent ramblings
+h3
+ a href="/blog" Browse archives...
+
 
 

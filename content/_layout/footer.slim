@@ -1,0 +1,41 @@
+.row
+
+  .span6
+    ul.nav.nav-list
+      li.nav-header My other websites
+      li 
+        a href="http://imageresizing.net" ImageResizer, a poorly named panacea for website images
+      li
+        a href="http://imazen.io" Imazen, my company
+      li
+        a href="http://hardwiredcms.com" Hardwired, the micro-CMS that powers this site
+      li
+        a href="http://windowsgit.com" WindowsGit - Set up a git server on windows with less hair-pulling
+      li
+        a href="http://cropimage.net" Simple image cropping for ASP.NET
+      li.nav-header Greatest hits
+      - for post in index.posts.select { |p| p.flag?('hits') }
+        li
+          a href="#{post.path}"=post.heading
+
+  .span2
+    ul.nav.nav-list
+      li.nav-header Articles by Year
+      - for year in index.posts.map { |p| p.date.year }.uniq
+        li
+          a href="/blog/#{year}" #{year}
+  .span2
+    ul.nav.nav-list
+      li.nav-header Articles by Tag
+      - for tag in index.all_tags
+        li
+          a href="/blog/tags/#{tag}" class={@t==tag && 'active'} #{tag}
+  .span2
+    ul.nav.nav-list
+      li.nav-header Legal Information
+      li 
+        a href="/privacy" Privacy & Cookies
+      li 
+        a href="/contact" Contact
+      li.muted
+        | &copy; 2012 Nathanael Jones
