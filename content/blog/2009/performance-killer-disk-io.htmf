@@ -4,6 +4,7 @@ Summary: Many people think of "performance tuning" as optimizing loops, algorith
 Categories: asp-net, general-programming
 Tags: computerlinguist-com
 Date: Feb 16 2009
+Flags: hits
 
 <h1>Performance killer: Disk I/O</h1>
 

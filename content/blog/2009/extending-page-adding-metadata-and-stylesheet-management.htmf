@@ -4,6 +4,7 @@ Summary: Adding simple metadata and stylesheet management to the Page class.
 Categories: asp-net
 Tags: asp-net, pageclass
 Date: Feb 5 2009
+Flags: hits
 
 <h1>Extending Page: Adding Metadata and Stylesheet management</h1>
 
