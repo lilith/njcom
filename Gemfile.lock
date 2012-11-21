@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/nathanaeljones/hardwired.git
-  revision: 39835d68f14d42a9e72f37468ef36517f7d9abb1
+  revision: 3e429c29f3cccb4a616efe03c9a080436859a3e3
   specs:
     hardwired (0.1)
       nokogiri
@@ -45,6 +45,7 @@ GEM
       listen
     ruby_parser (3.0.1)
       sexp_processor (~> 4.1)
+    sass (3.2.3)
     sexp_processor (4.1.2)
     sinatra (1.3.3)
       rack (~> 1.3, >= 1.3.6)
@@ -81,6 +82,7 @@ DEPENDENCIES
   rack-cache
   rdiscount
   rerun
+  sass
   slim
   therubyracer
   thin

@@ -1,10 +1,13 @@
 source 'http://rubygems.org'
 
 gem 'slim'
-gem 'therubyracer' # jS V8 engine - Required for 'less'
-gem 'less'
 gem 'rdiscount'
 gem 'rack-cache'
+
+gem 'therubyracer' # jS V8 engine - Required for 'less'
+gem 'less'
+
+gem 'sass'
 gem 'haml'
 
 
