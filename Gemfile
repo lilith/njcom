@@ -5,6 +5,8 @@ gem 'therubyracer' # jS V8 engine - Required for 'less'
 gem 'less'
 gem 'rdiscount'
 gem 'rack-cache'
+gem 'haml'
+
 
 #gem 'hardwired', :path => "../hardwired"
 gem 'hardwired', :git => "git://github.com/nathanaeljones/hardwired.git"

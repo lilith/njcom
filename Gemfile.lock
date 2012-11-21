@@ -74,6 +74,7 @@ PLATFORMS
 
 DEPENDENCIES
   debugger
+  haml
   haml2slim
   hardwired!
   less
