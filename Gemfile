@@ -10,8 +10,8 @@ gem 'rdiscount'
 gem 'RedCloth'
 gem 'rack-cache'
 
-gem 'hardwired', :path => "../hardwired"
-#gem 'hardwired', :git => "git://github.com/nathanaeljones/hardwired.git"
+#gem 'hardwired', :path => "../hardwired"
+gem 'hardwired', :git => "git://github.com/nathanaeljones/hardwired.git"
 #gem 'hardwired'
 
 gem 'haml2slim', group: :development 
