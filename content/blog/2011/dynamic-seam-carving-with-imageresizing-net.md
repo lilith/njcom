@@ -3,14 +3,14 @@ Atom ID: http://nathanaeljones.com/?p=596
 Date: Aug 2 2011
 Tags: image-resizing
 
-<h1>Dynamic seam carving with ImageResizing.net</h1>
+# Dynamic seam carving with ImageResizer
 
-The <a href="http://imageresizing.net/releases/3-0-11">latest</a> version of <a href="http://imageresizing.net">ImageResizing.Net</a> supports dynamic <a href="http://en.wikipedia.org/wiki/Seam_carving">seam carving</a> (content-aware image resizing) and <a href="http://imageresizing.net/plugins/remotereader">remote image resizing</a>.
+[Version 3.0.11](http://imageresizing.net/releases/3-0-11) version of [ImageResizer](http://imageresizing.net) supports dynamic [seam carving](http://en.wikipedia.org/wiki/Seam_carving) (content-aware image resizing) and [remote image resizing](http://imageresizing.net/plugins/remotereader).
 
 
 Seam carving allows low-energy (unimportant) parts of the image to be removed in order to shrink an image.
 
-<strong>Original image</strong>
+**Original image**
 
 <p>
   <img src="http://img.imageresizing.net/mountain.jpg;width=300"/>
