@@ -24,6 +24,11 @@ class Site < Hardwired::Bootstrap
       end
     end
 
+    before do
+      redirect request.url.sub(/nathanaeljones\.com/, 'www.nathanaeljones.com'), 301 if not request.host =~ /^www/
+    end
+
+
 
     get '/blog/:year' do |year|
       request[:year] = year

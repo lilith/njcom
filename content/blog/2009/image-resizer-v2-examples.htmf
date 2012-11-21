@@ -3,6 +3,7 @@ Atom ID: http://66.29.219.39/?p=155
 Summary: Here are some examples of what can be done with Version 2.0.
 Tags: image-resizing
 Date: May 8 2009
+Redirect to: http://imageresizing.net/docs/basics
 
 <h1>Image Resizer v2 Examples</h1>
 
@@ -21,7 +22,7 @@ Date: May 8 2009
     <p>Specifying both width and height will force the image to those exact dimensions, unless the 
     image is already smaller (see scale). This is done by adding whitespace to the image. To center and crop instead, use
     <strong>&amp;crop=auto</strong>. To lose aspect ratio and fill the specified rectangle, use <strong>&amp;stretch=fill</strong>.</p>
-    <img style="border:1px solid gray;" src="http://img.imageresizing.net/grass.jpg?width=200=200" title="Shown with a border so you can see the added whitespace. ?width=200=200"/>
+    <img style="border:1px solid gray;" src="http://img.imageresizing.net/grass.jpg?width=200&height=200" title="Shown with a border so you can see the added whitespace. ?width=200=200"/>
      <img src="http://img.imageresizing.net/grass.jpg?width=200=200=black" title="With ?width=200=200=black"/>
     <img src="http://img.imageresizing.net/red-leaf.jpg?width=100=200=fill" title="Distorted to 100x200. ?width=100=200=fill"/>
     <img src="http://img.imageresizing.net/red-leaf.jpg?width=100=200=auto" title="Cropped to 100x200. ?width=100=200=auto"/>
