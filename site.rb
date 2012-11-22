@@ -25,7 +25,7 @@ class Site < Hardwired::Bootstrap
     end
 
     before do
-      redirect request.url.sub(/nathanaeljones\.com/, 'www.nathanaeljones.com'), 301 if not request.host =~ /^www/
+      redirect request.url.sub(/\/nathanaeljones\.com/, '/www.nathanaeljones.com'), 301 if request.host.start_with?("nathanaeljones.com")
     end
 
 
