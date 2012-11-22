@@ -27,6 +27,7 @@ content: content
 #google_analytics_code: "UA-5218175-1"
 production: 
   google_analytics_code: "UA-5218175-1"
+  google_analytics_domain: "nathanaeljones.com" #Override domain for multiple subdomain support
 
 # Google Webmaster and Analytics usually require a 'google[code].html' file be placed on the domain
 # Use this feature to do this without polluting your directory structure
