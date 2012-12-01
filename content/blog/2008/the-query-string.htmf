@@ -1,4 +1,4 @@
-Aliases: /118/the-query-string/ /?p=118 /10971_The_Query_String
+Aliases: /118/the-query-string/ /?p=118 /10971_The_Query_String /10971
 Atom ID: http://66.29.219.39/?p=118
 Summary: The query string is handled differently from the rest of the virtual path. It is neither URL decoded or case-normalized before it reaches ASP.NET, although each name-value pair is URL decoded before being stored in the Request.QueryString collection.
 Tags: asp.net, general-programming

@@ -1,4 +1,4 @@
-Aliases: /129/types-of-asp-net-paths/ /?p=129 /10981_Types_of_ASP_NET_paths
+Aliases: /129/types-of-asp-net-paths/ /?p=129 /10981_Types_of_ASP_NET_paths /10981
 Atom ID: http://66.29.219.39/?p=129
 Summary: ASP.NET is primarily concerned with "virtual paths", the portion of the path following the hostname or port number. When working with ASP.NET, you must understand the following types of URIs thoroughly, and know how they are handled by ASP.NET and the browser.
 Tags: asp.net

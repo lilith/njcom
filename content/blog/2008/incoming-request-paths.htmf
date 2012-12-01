@@ -1,4 +1,4 @@
-Aliases: /113/incoming-request-paths/ /?p=113 /10951_Incoming_request_paths
+Aliases: /113/incoming-request-paths/ /?p=113 /10951_Incoming_request_paths /10951
 Atom ID: http://66.29.219.39/?p=113
 Summary: Casing and URL encoding add significant complexity to the jobs IIS and ASP.NET must perform. ASP.NET automatically decodes and lowercases the scheme, host, and port. The Path (and PathInfo) portions are decoded, but case is not changed.
 Tags: asp.net
