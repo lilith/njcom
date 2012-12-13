@@ -1,8 +1,6 @@
 Aliases: /?p=122 /10931_NullReferenceException_in_RewritePath
 Atom ID: http://66.29.219.39/?p=122
 Summary: If you are getting a NullReferenceException from RewritePath at ~/, or if image references break when your URLs end in /, you need hotfix 911300.
-wp_status: pending
-Flags: draft
 Date: Jun 2 2008
 
 <h1>NullReferenceException in RewritePath</h1>
@@ -25,7 +23,7 @@ at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, 
 </div>
 
 <p>
-This happened when trying to rewrite http://youngfoundations.org/ to page http://youngfoundations.org/default.aspx. It's a pretty common scenario. Now, while subfolders such as http://youngfoundations.org/blog/ didn't throw an error, ASP.NET translated all of the image and hyperlink references incorrectly. But URLs ending in a non-slash character behaved fine.</p>
+This happened when trying to rewrite http://domain.org/ to page http://domain.org/default.aspx. It's a pretty common scenario. Now, while subfolders such as http://domain.org/blog/ didn't throw an error, ASP.NET translated all of the image and hyperlink references incorrectly. But URLs ending in a non-slash character behaved fine.</p>
 <p>There's a bit <a href="http://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=276542">more information</a> on the issue on Microsoft Connect, although I don't mention the subfolder issue.</p>
 <p>Bottom line: If you see different behavior between dev and production, ask your hosting provider to update the ASP.NET runtime. I know mine (and others) test .NET patches for quite a while before installing them, since they often cause as many problems as they fix. Don't believe them if they say it's up-to-date. Get the *full* version number on System.Web.dll and compare it to yours. </p>
 
@@ -39,5 +37,3 @@ This happened when trying to rewrite http://youngfoundations.org/ to page http:/
 <a href="https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=103229">https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=103229</a>
 <a href="https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=104436">https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=104436</a>
 <a href="https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=104429">https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=104429</a>
-
-<!--url: 10931_NullReferenceException_in_RewritePath-->
