@@ -11,9 +11,9 @@ The ability to reference style sheets and scripts from within content pages is g
 
 Because the parsing logic for 'link', 'meta', and 'title' is only inside the HtmlHead class (in the HtmlHeadBuilder class), link and meta tags don't work in content pages. If you put a &lt;asp:ContentPlaceHolder&gt; tag in the <a href="http://aspnetresources.com/blog/linking_stylesheets_from_master_pages.aspx">head section of the master page</a>, and a matching &lt;asp:Content&gt; tag in the content page, you've created a barrier the special parsing logic can't cross.
 
-I wrote a <a href="/aspnet/LiveTests/ContentPlaceHolder/">series of tests</a> to determine exactly when &lt;script&gt;, &lt;link&gt;, and &lt;meta&gt; parsing stop working. It's kind of like an 'acid test' for this issue. It also includes 8 tests for a 2nd bug with ContentPlaceHolder. While 2 of those always fail, the rest turn green when you hit 'Enable patch". Only Microsoft can fix the last two, since the methods are marked 'internal'.
+I wrote a <a href="https://github.com/nathanaeljones/ContentPlaceHolderTests">series of tests</a> to determine exactly when &lt;script&gt;, &lt;link&gt;, and &lt;meta&gt; parsing stop working. It's kind of like an 'acid test' for this issue. It also includes 8 tests for a 2nd bug with ContentPlaceHolder. While 2 of those always fail, the rest turn green when you hit 'Enable patch". Only Microsoft can fix the last two, since the methods are marked 'internal'.
 
-If you haven't tried using <a href="~/10981">application-relative</a> paths, you might not have noticed the issue yet. Relative paths will appear to work if the physical path of the page matches the browser path, i.e, no nested master pages, no URL rewriting or Server.Transfer. Root-relative paths will work, but <a href="~/11071">using them is a short-sighted mistake.</a>.
+If you haven't tried using <a href="/10981">application-relative</a> paths, you might not have noticed the issue yet. Relative paths will appear to work if the physical path of the page matches the browser path, i.e, no nested master pages, no URL rewriting or Server.Transfer. Root-relative paths will work, but <a href="/11071">using them is a short-sighted mistake.</a>.
 
 So, what <em>
   <strong>does</strong>
@@ -26,7 +26,7 @@ I wrote an algorithm that does a 2nd parsing pass to make everything act like it
 	<li><strong>Recursively loops through all HtmlGeneric control instances</strong> in Page.Header and turns &lt;link&gt;, &lt;meta&gt;, and &lt;script&gt; tags into HtmlMeta, HtmlLink or ScriptReference instances (This catches the ones that twere parsed by the generic parser because they had <em>runat="server"</em> specified.)</li>
 </ol>
 When dynamically creating controls directly inside a ContentPlaceHolder, it's critical that you assign the TemplateControl property correctly if you want URL rebasing to work. If you don't, the control will ask it's parent (the CPH), what the TemplateControl is, and the CPH will return the master page. Then everything will get rebased relative to the master page instead.
-In my algorithm, I use the <a href="~/11021">GetAdjustedParentTemplateControl() method</a> to adjust for the CPH issue when setting the TemplateControl property.
+In my algorithm, I use the <a href="/11021">GetAdjustedParentTemplateControl() method</a> to adjust for the CPH issue when setting the TemplateControl property.
 <h2>What if it's fixed?</h2>
 The patch just looks at the leftovers. If Microsoft fixes this behavior, there won't be any leftovers.
 <h2>What about performance?</h2>
@@ -60,10 +60,10 @@ To use this base class, tell your code-behind file to inherit from PageBase inst
 <h2>Tests</h2>
 The project includes a "Test" folder and a Test.aspx file. Run it to compare results with and without the patch. It contains about 26 tests, which exercise the patch under different conditions: nested master pages, runat="server", visible="false". etc. Test.aspx uses Server.Transfer to simulate URL rewriting.
 
-I'll be very happy when those <a href="~/tests/contentplaceholder/">26 tests</a> succeed without needing the patch, and I'm sure everyone else will also. If you're interested in monitoring the progress of the issue, you can check out the <a href="https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=273683">Micrsoft Connect ticket</a>.
+I'll be very happy when those <a href="https://github.com/nathanaeljones/ContentPlaceHolderTests">26 tests</a> succeed without needing the patch, and I'm sure everyone else will also. If you're interested in monitoring the progress of the issue, you can check out the <a href="https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=273683">Micrsoft Connect ticket</a>.
 
-<a href="/aspnet/ContentPlaceHolderFix.zip">Download Code</a>
-<a href="~/tests/contentplaceholder/">Run live test</a>
+<a href="https://github.com/nathanaeljones/WebFormsFixes">Get WebFormFixes</a>
+<a href="http://cph-tests.apphb.com">Run live test</a>
 <h2 style="margin-top: 8em;">Alternative solutions and their issues</h2>
 Here are some alternative solutions I've tried and read about. I wasn't really satisfied with any of them.
 <ol class="normallist">
@@ -76,5 +76,3 @@ These alternatives all require markup changes, and will prevent WYSIWYG editors 
 <h2><script src="/scripts/syntaxhighlighter/shCore.js" type="text/javascript"/>See Also</h2>
 <a href="http://nathanaeljones.com/152/extending-page-adding-metadata-and-stylesheet-management/">A more comprehensive subclass</a> that allows runtime management of stylesheets and metadata.
 
-<!--url: 11011_Referencing_stylesheets_scripts_from_content_pages-->
-<!--articlebanner: <a href="~/products/asp&#45;net&#45;image&#45;resizer/" runat="server"><img src="~/ad2.jpg" runat="server" alt="Easy image resizing" /></a>-->

@@ -103,7 +103,7 @@ Tags: asp.net
 
 
 <h3 style="color:red;">Update 8/5/2008</h3>
-<p>I've figured out an algorithm that seems to do a good job of accounting for the ContentPlaceHolder bug. It's a little complicated, but seems to work better than the first hack. I've written a <a href="~/tests/contentplaceholder/" runat="server">live test</a> you can play with. It only tests the algorithm in a few situations, so your mileage may vary. </p>
+<p>I've figured out an algorithm that seems to do a good job of accounting for the ContentPlaceHolder bug. It's a little complicated, but seems to work better than the first hack. I've written a <a href="https://github.com/nathanaeljones/ContentPlaceHolderTests">live test</a> you can play with. It only tests the algorithm in a few situations, so your mileage may vary. </p>
 <p>Use: To resolve a path relative to the parent of your .ascx file, you could call
 GetAdjustedParentTemplateControl(this).ResolveUrl(path) to resolve it. Much less brittle than Page.ResolveUrl().
 However, that won't work if you have one .ascx file inside another - it only works one level deep.
@@ -220,5 +220,3 @@ public static TemplateControl GetAdjustedParentTemplateControl(Control c)
 
 
 
-<!--url: 11021_App_Code_vs_ascx_Differences_you_should_know-->
-<!--articlebanner: <a href="~/products/asp&#45;net&#45;image&#45;resizer/" runat="server"><img src="~/ad2.jpg" runat="server" alt="Easy image resizing" /></a>-->
