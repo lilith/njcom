@@ -16,8 +16,8 @@ Server-side image resizing is one of those tiny features that can have incredibl
 <p style="margin-bottom:0;padding-top:0;font-size:7.5pt; color:#909090;">v1.2 - Nov 23, 2008</p>
 <p style="margin-bottom:0;padding-top:0;font-size:7.5pt; color:#909090;">v2.0 alpha -Mar 1, 2009 (by request)</p>
 
-<a href="~/11151">View License</a>
-<a href="~/11141">Documentation</a>
+<a href="/11151">View License</a>
+<a href="/11141">Documentation</a>
 
 If you have any questions after reading the documentation, leave a comment or e-mail <strong>nathanael.jones@gmail.com</strong>.</div>
 I developed this image resizing system about a year and a half ago. I wanted something very intuitive, simple, secure, and efficient. We've been using this system heavily on a live, high-traffic site (<a href="http://youngfoundations.org">youngfoundations.org</a>) for over a year, and we have had zero stability problems, memory leaks, or other issues with it. It's very mature and stable.
@@ -66,9 +66,9 @@ Although I typically release my components for free, I decided to charge a 'down
 </ul>
 
 <!--url: 11131_Server_side_Image_Resizing_Module_for_ASP_NET_ASP_PHP_IIS-->
-<!--blogbanner: <a href="~/products/asp&#45;net&#45;image&#45;resizer/" runat="server"><img src="ad2.jpg" runat="server" alt="Easy image resizing" /></a>-->
+<!--blogbanner: <a href="/products/asp&#45;net&#45;image&#45;resizer/" ><img src="ad2.jpg" alt="Easy image resizing" /></a>-->
 <!--articlebanner: <div class="resizerDemo">
-<img class="product&#45;top&#45;image" src="product&#45;top.png" runat="server" alt="" />
+<img class="product&#45;top&#45;image" src="product&#45;top.png"  alt="" />
 <div class="imageSelection">
 
 <div id="imageList"></div>

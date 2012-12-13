@@ -13,7 +13,7 @@ Date: May 17 2009
 	<li>The CustomFolders.cs format has changed, and is now much, much more powerful. All querystring commands can be used, and URL rewriting can be performed. (AllowURLRewriting must be true).</li>
 </ul>
 <h2>New features</h2>
-Check out the <a href="~/11201">samples page</a> to see these features in action.
+Check out the <a href="/11201">samples page</a> to see these features in action.
 <ul class="normallist">
 	<li>Automatic cropping and centering can be performed with <strong>?crop=auto&amp;width=x&amp;height=y</strong>. You can also choose a crop rectangle from the source image manually with <strong>&amp;crop=(x1,y1,x2,y2)</strong>. Negative values indicate distances relative to the bottom-right corner. (10,10,-10,-10) would crop a 10-pixel border off the source image.</li>
 	<li>Support for 8-bit PNG file output with <strong>&amp;colors=2-255</strong>. Sets the palette size for both PNG and GIF images.</li>
@@ -36,6 +36,6 @@ Check out the <a href="~/11201">samples page</a> to see these features in action
 	<li>If you use both width and height to stretch any images, add <strong>&amp;stretch=fill</strong> to those URLs to maintain the same behavior.</li>
 	<li>Migrate CustomFolders.cs if you have modified it. The new file includes source comments explaining the process.</li>
 </ol>
-If you haven't upgraded to 1.2, follow <a href="~/11171"> these instructions first</a>
+If you haven't upgraded to 1.2, follow <a href="/11171"> these instructions first</a>
 
 <!--url: 11181_Image_Resizer_2_0_Upgrade_notes-->

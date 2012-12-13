@@ -614,7 +614,7 @@ namespace fbs
 
 <h2>Integrating script support</h2>
 
-<p>If you haven't already read <em><a href="~/11011" runat="server">Referencing stylesheets and scripts from content pages</a></em>, give it a glance. Download the attached code files and combine them with this one. The only file you'll have to merge is PageBase.cs. </p>
+<p>If you haven't already read <em><a href="/11011">Referencing stylesheets and scripts from content pages</a></em>, give it a glance. Download the attached code files and combine them with this one. The only file you'll have to merge is PageBase.cs. </p>
 <p>Just add this code to the PageBase.cs included in the article, and make sure ContentPlaceHolderFixes.cs and the ScriptReference.cs files are included also.</p>
 
 <pre class="c-sharp" name="code">
@@ -649,5 +649,3 @@ protected override void OnLoad(EventArgs e)
 </p>
 </p></p>
 
-<!--url: 11101_Extending_Page_Adding_Metadata_and_Stylesheet_management-->
-<!--articlebanner: <a href="~/products/asp&#45;net&#45;image&#45;resizer/" runat="server"><img src="~/ad2.jpg" runat="server" alt="Easy image resizing" /></a>-->

@@ -13,7 +13,7 @@ For the query string to be parsed correctly, the delimiters ?, &amp;, and = <em>
 Also, any strings that aren't parsed correctly are added to Request.QueryString[null] in comma-delimited format. (You can also access them as a string[] array using Request.QueryString.GetValues(null)). The NameValueCollection class isn't a string-to-string dictionary. It's more like an informal string-to-string[] dictionary. When you set a value like nvc["thiskey"]="thisvalue" , you are in overwrite mode. When you use nvc.add("thiskey","thisvalue"), you are in append mode. Calling nvc.add("thiskey","firstvalue"), then nvc.add("thiskey","lastvalue") will leave nvc["thiskey"] == "firstvalue,lastvalue".
 <h3>Related links</h3>
 <ul class="list">
-	<li><a href="~/10941">URI Design</a></li>
+	<li><a href="/10941">URI Design</a></li>
 	<li><a href="http://en.wikipedia.org/wiki/Uniform_Resource_Identifier">Wikipedia: Uniform Resource Identifier</a></li>
 	<li><a href="http://en.wikipedia.org/wiki/URL_normalization">Wikipedia: URL Normalization</a></li>
 	<li><a href="http://en.wikipedia.org/wiki/Percent-encoding ">Wikipedia: Percent encoding</a></li>

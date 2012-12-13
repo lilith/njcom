@@ -8,13 +8,13 @@ Installation is quick and simple, provided you follow the steps carefully. 99% o
 
 1) <strong>Copy and paste</strong> ImageResizer.dll and ImageResizer.pdb into the /bin directory of your app. Alternatively, you can copy the inner ImageResizer folder (which contains .cs files) into App_Code. The second approach allows modification of CustomFolders.cs and Watermark.cs.
 
-2) <a href="~/11161">Copy and paste these settings</a> into web.config to configure the module.
+2) <a href="/11161">Copy and paste these settings</a> into web.config to configure the module.
 
 Users of 2.1+ who are using the "image.jpg.ashx?width=500" syntax can stop here. You're done!
 
 For versions prior to 2.1, or for users wanting the cleaner "image.jpg?width=500" syntax, some additional IIS configuration is needed.
 
-You will need to <a href="~/11111">configure IIS to pass image requests to ASP.NET</a>. This is default behavior for Cassini and IIS7 integrated mode, but not for IIS5, 6, and 7 classic pipeline.
+You will need to <a href="/11111">configure IIS to pass image requests to ASP.NET</a>. This is default behavior for Cassini and IIS7 integrated mode, but not for IIS5, 6, and 7 classic pipeline.
 <h2>Upgrading?</h2>
 Follow the upgrade instructions instead.
 

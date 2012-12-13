@@ -13,7 +13,7 @@ Date: May 16 2008
 <p>There is a lot more to URL rewriting than simply creating a series of if...then statements during OnBeginRequest and firing off the correct page with HttpContext.RewritePath.
 </p>
 
-<p><a href="http://msdn.microsoft.com/en-us/library/system.web.httpcontext.rewritepath.aspx">HttpContext.RewritePath</a> has undergone many patches and hotfixes - make sure you have the latest version of System.Web.dll, or you will regret it! If you get a NullReferenceExcecption from RewritePath or images aren't showing up, <a href="~/10931" runat="server">read this</a>.
+<p><a href="http://msdn.microsoft.com/en-us/library/system.web.httpcontext.rewritepath.aspx">HttpContext.RewritePath</a> has undergone many patches and hotfixes - make sure you have the latest version of System.Web.dll, or you will regret it! If you get a NullReferenceExcecption from RewritePath or images aren't showing up, <a href="/10931">read this</a>.
 
 
 

@@ -10,9 +10,9 @@ Version 1.2 includes several new features, a simplified URL syntax, and easier i
 
 Query string syntax has changed (old links will still work, though). thumbnail has been renamed to format, and is no longer needed to force resizing. You can now simply use <strong>image.jpg?width=200</strong> instead of <strong>image.jpg?thumbnail=jpg&amp;width=200</strong>. I've also added a <strong>quality</strong> setting to adjust jpeg compression.
 <h2>Upgrade instructions</h2>
-The resizer is now implemented as an HttpModule instead of an HttpHandler. Because of this, you will need to <a href="~/11121"> undo these changes to web.config</a> and <a href="~/11161">make these much simpler changes instead.</a>
+The resizer is now implemented as an HttpModule instead of an HttpHandler. Because of this, you will need to <a href="/11121"> undo these changes to web.config</a> and <a href="/11161">make these much simpler changes instead.</a>
 
-There are also 2 new settings you can <a href="~/11141">take advantage of</a>. Using ImageResizerClientCacheMinutes, you can now control how long an image will sit in the browser cache before being updated. If you don't use ASP.NET's URL authorization system to protect your images, you may want to enable AllowFolderResizeNotation. You will then be able to <strong>/resize(40,40)/image.jpg</strong> instead of <strong>image.jpg?maxwidth=40&amp;maxheight=40</strong>.
+There are also 2 new settings you can <a href="/11141">take advantage of</a>. Using ImageResizerClientCacheMinutes, you can now control how long an image will sit in the browser cache before being updated. If you don't use ASP.NET's URL authorization system to protect your images, you may want to enable AllowFolderResizeNotation. You will then be able to <strong>/resize(40,40)/image.jpg</strong> instead of <strong>image.jpg?maxwidth=40&amp;maxheight=40</strong>.
 
 Last, delete the /imagecache folder. It will automatically be re-created and populated as images are requested.
 <h2>Additional changes</h2>

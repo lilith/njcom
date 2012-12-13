@@ -1,4 +1,4 @@
-Aliases: /quickkey/keystrokes /quickkey/keystrokes.html /products/quickkey/keystroke-emulation-in-quick-key/ /quickkey/keystroke-emulation-in-quick-key/ /?page_id=190 /?p=190 /quickkey/keystroke-emulation-in-quick-key.html
+Aliases: /quickkey/keystrokes /quickkey/keystrokes.html /products/quickkey/keystroke-emulation-in-quick-key/ /quickkey/keystroke-emulation-in-quick-key/ /?page_id=190 /?p=190 /quickkey/keystroke-emulation-in-quick-key.html /products/quickkey/keystroke.html /quickkey/keystroke.html 
 Atom ID: http://66.29.219.39/?page_id=190
 wp_template: page-full.php
 
@@ -31,7 +31,7 @@ allows you to target specific applications like MS Word or Excel.</p>
                 Key takes an unusual approach to determining which window to bring to the front
                 by using <strong>Keywords</strong>. The <strong>keyword</strong> for an application
                 is determined by its internal class name. Most applications will already have their
-                keywords listed in the <a href="/producst/quickkey/charsets#toolbar">Toolbar</a>, but more can be added in
+                keywords listed in the <a href="/products/quickkey/charsets#toolbar">Toolbar</a>, but more can be added in
                 <a href="#options">Options</a>.
             </p>
             <strong>Default Keywords</strong>

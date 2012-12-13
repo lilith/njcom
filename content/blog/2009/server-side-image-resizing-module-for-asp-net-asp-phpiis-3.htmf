@@ -53,21 +53,21 @@ line-height:1em; font-size:8pt;
 <p class="rightbox">The difference between the actual size and wanted size  of an uploaded image is inversely proportional to the quantiy of time available and the sluggishness of Photoshop.</p>
 
 
-<p>Server-side image resizing is one of those little features that can have incredible ROI. It can save webmasters several hours each day, and gives you the ability to change the resolution of an image without having to hunt up the original. %--However, many of the approaches currently on the web don't take security or performance into account.--%&gt;</p>
+<p>Server-side image resizing is one of those little features that can have incredible ROI. It can save webmasters several hours each day, and gives you the ability to change the resolution of an image without having to hunt up the original.</p>
 
 
 <p>I developed this image resizing system around two years ago. I needed something very intuitive, simple, secure, and efficient. We've been using this system heavily on a live, high-traffic site (<a href="http://youngfoundations.org">youngfoundations.org</a>) for two years, and we have had zero stability problems, memory leaks, or reliability issues with it. It's very mature and stable. Version 2.0 is even faster and more scalable than the previous versions, and includes dozens of new features.</p>
 
-<p>Check out the <a href="~/11201" runat="server">samples page</a> to see what it can do. The <a href="~/11151" runat="server">license</a> is much like the GPL, and allows you to redistribute the source code as part of a larger project. You'll find the source code very clean, organized, and well commented. </p>
+<p>Check out the <a href="/11201">samples page</a> to see what it can do. The <a href="/11151">license</a> is much like the GPL, and allows you to redistribute the source code as part of a larger project. You'll find the source code very clean, organized, and well commented. </p>
 
 
 <div class="rightbox">
 <a class="download" href="https://www.e-junkie.com/ecom/gb.php?i=254264=single=41912">Download Source ($69)</a>
 <p style="margin-bottom:0;padding-top:0;font-size:7.5pt; color:#909090;">Includes v2.0b - May 16, 2009</p>
 
-<a href="~/11151" runat="server">License</a>
-<a href="~/11201" runat="server">Samples</a>
-<a href="~/11141" runat="server">Installation</a>
+<a href="/11151">License</a>
+<a href="/11201">Samples</a>
+<a href="/11141">Installation</a>
 <p>If you have any questions after reading the documentation, leave a comment or e-mail <strong>nathanael.jones@gmail.com</strong>. </p>
 </div>
 <p>Although I typically release my components for free, I decided to charge a 'download fee' for this one to help support my other open-source projects. Don't worry, this component is still open-source, and the license permits source redistribution as part of a larger system. However, I'm asking that people who want to integrate this component purchase the download instead of ripping it out of another open-source project. My free to non-free LOC (lines of code) ratio is still over 40 to 1, and I plan on keeping it that way.  I trust this will keep everybody happy.</p>
@@ -126,7 +126,7 @@ just like to say, since using the code (and getting working and donating in next
 
 <p>Not just for thumbnails - useful for resizing entire slideshows in real-time as the user changes the window size.</p>
 
-<p>Check out the <a href="~/11201" runat="server">samples page</a> to see the features in action.</p>
+<p>Check out the <a href="/11201">samples page</a> to see the features in action.</p>
 
 <ul class="normallist">
 <li>Supported input formats: BMP, GIF, JPG, PNG and TIFF</li>
@@ -215,10 +215,10 @@ cannot be purchased, then you may extract the code.</li>
 <h2>Releases</h2>
 <ol class="normallist">
 <li>1.0 - August 6, 2008 (Initial release to the public.) </li>
-<li>1.2 - Nov 23, 2008 (<a href="~/11171" runat="server">Upgrade Notes from 1.0 to 1.2</a>) (<a href="~/11131" runat="server">Original product page</a>) </li>
+<li>1.2 - Nov 23, 2008 (<a href="/11171">Upgrade Notes from 1.0 to 1.2</a>) (<a href="/11131">Original product page</a>) </li>
 <li>2.0a Jan 30, 2009 (E-mail distribution)</li>
 <li>2.0a Mar 4, 2009 (E-mail distribution)</li>
-<li>2.0b May 16, 2009  (<a href="~/11181" runat="server">Upgrade notes from 1.2 to 2.0</a>)
+<li>2.0b May 16, 2009  (<a href="/11181">Upgrade notes from 1.2 to 2.0</a>)
 
 </li>
 
@@ -236,7 +236,7 @@ cannot be purchased, then you may extract the code.</li>
 
 <!--url: 11211_Server_side_Image_Resizing_Module_for_ASP_NET_ASP_PHP_IIS-->
 <!--articlebanner: <div class="resizerDemo">
-<img class="product&#45;top&#45;image" src="product&#45;top.png" runat="server" alt="" />
+<img class="product&#45;top&#45;image" src="product&#45;top.png"  alt="" />
 <div class="imageSelection">
 
 <div id="imageList"></div>
@@ -423,6 +423,3 @@ padding&#45;right:15px;
 background: url(<%= ResolveUrl(Page.AppRelativeTemplateSourceDirectory) %>download.png) no&#45;repeat top left;
 }
 </style>-->
-<!--blogbanner: 	
-
-<a href="~/products/asp&#45;net&#45;image&#45;resizer/" runat="server"><img src="ad2.jpg" runat="server" alt="Easy image resizing" /></a>-->

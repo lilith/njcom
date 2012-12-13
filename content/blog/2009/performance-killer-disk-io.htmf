@@ -1,4 +1,4 @@
-Aliases: /153/performance-killer-disk-io/ /?p=153 /11061_Performance_killer_Disk_I_O /11061
+Aliases: /153/performance-killer-disk-io/ /?p=153 /11061_Performance_killer_Disk_I_O /11061 /11061_Performance_killer /153/performance-killer-disk-io/%3E
 Atom ID: http://66.29.219.39/?p=153
 Summary: Many people think of "performance tuning" as optimizing loops, algorithms, and memory use. In truth, however, you don't get the huge performance gains from optimizing CPU and memory use (which is good), but from eliminating I/O calls.
 Tags: asp.net, general-programming
@@ -87,5 +87,3 @@ Think carefully before you use System.IO, and make sure there aren't any alterna
 
 Say NO to IO
 
-<!--url: 11061_Performance_killer_Disk_I_O-->
-<!--articlebanner: <a href="~/products/asp&#45;net&#45;image&#45;resizer/" runat="server"><img src="~/ad2.jpg" runat="server" alt="Easy image resizing" /></a>-->

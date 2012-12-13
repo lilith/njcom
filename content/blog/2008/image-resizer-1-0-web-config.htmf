@@ -71,12 +71,6 @@ Since we only want some .jpg requests to go to the handler, we need to do some l
       &lt;add path="*" verb="GET,HEAD,POST" type="fbs.Handlers.CustomDefaultHandler" validate="true"/&gt;
       &lt;add path="*" verb="*" type="System.Web.HttpMethodNotAllowedHandler" validate="true"/&gt;
     &lt;/httpHandlers&gt;</pre>
-<script src="/scripts/syntaxhighlighter/shCore.js" type="text/javascript"/>
- <script src="/scripts/syntaxhighlighter/shBrushCSharp.js" type="text/javascript"/>
-<script src="/scripts/syntaxhighlighter/shBrushXml.js" type="text/javascript"/>
- <script type="text/javascript">// <![CDATA[
-dp.SyntaxHighlighter.ClipboardSwf = '/scripts/syntaxhighlighter/clipboard.swf';
-dp.SyntaxHighlighter.HighlightAll('code');
-// ]]></script>
+    
 
 <!--url: 11121_Image_Resizer_1_0_Web_config-->

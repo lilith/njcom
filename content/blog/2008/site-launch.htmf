@@ -21,6 +21,3 @@ You've got to start sometime. After launching a certain number of websites, laun
 is controlled at two levels - the filesystem (permissions for Network Service), and the asp.net trust level (machine.config)</li>
 </ul>
 
-<!--url: 10882_Site_Launch-->
-<!--articlebanner: <img runat="server" src="banner.jpg" alt="Into the horizon" />-->
-<!--blogbanner: <img runat="server" src="banner.jpg" alt="Into the horizon" />-->

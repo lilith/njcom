@@ -1,4 +1,4 @@
-Aliases: /117/pathinfo-woes/ /?p=117 /10961_PathInfo_Woes /10961
+Aliases: /117/pathinfo-woes/ /?p=117 /10961_PathInfo_Woes /10961 /10961_PathInfo
 Atom ID: http://66.29.219.39/?p=117
 Summary: "ASP.NET introduces a new URI component to the equation: PathInfo. It's not very well known, possibly due to poor implementation and consequent lack of usefulness. However, it is important that you understand how it can affect you."
 Tags: asp.net
@@ -101,4 +101,4 @@ Here are a few sites which break when accessed in this manner
 </ul>
 
 <!--url: 10961_PathInfo_Woes-->
-<!--articlebanner: <a href="~/products/asp&#45;net&#45;image&#45;resizer/" runat="server"><img src="/content/00011131_ServersideImageResizingModuleforASPNET/ad2.jpg" runat="server" alt="Easy image resizing" /></a>-->
+<!--articlebanner: <a href="/products/asp&#45;net&#45;image&#45;resizer/"><img src="/content/00011131_ServersideImageResizingModuleforASPNET/ad2.jpg" alt="Easy image resizing" /></a>-->
