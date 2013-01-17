@@ -1,4 +1,4 @@
-Aliases: /?p=122 /10931_NullReferenceException_in_RewritePath
+Aliases: /?p=122 /10931*
 Atom ID: http://66.29.219.39/?p=122
 Summary: If you are getting a NullReferenceException from RewritePath at ~/, or if image references break when your URLs end in /, you need hotfix 911300.
 Date: Jun 2 2008

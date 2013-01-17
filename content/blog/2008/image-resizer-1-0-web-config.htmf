@@ -1,4 +1,4 @@
-Aliases: /135/image-resizer-1-0-web-config/ /?p=135 /11121_Image_Resizer_1_0_Web_config /11121
+Aliases: /135/image-resizer-1-0-web-config/ /?p=135 /11121*
 Atom ID: http://66.29.219.39/?p=135
 Summary: Making required changes in web.config
 Tags: image-resizing
@@ -71,6 +71,6 @@ Since we only want some .jpg requests to go to the handler, we need to do some l
       &lt;add path="*" verb="GET,HEAD,POST" type="fbs.Handlers.CustomDefaultHandler" validate="true"/&gt;
       &lt;add path="*" verb="*" type="System.Web.HttpMethodNotAllowedHandler" validate="true"/&gt;
     &lt;/httpHandlers&gt;</pre>
-    
+
 
 <!--url: 11121_Image_Resizer_1_0_Web_config-->
