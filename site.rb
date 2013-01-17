@@ -1,5 +1,4 @@
 # This file is responsible for starting the application
-require 'hardwired/compat/nesta'
 require 'hardwired/compat/wordpress'
 
 #Set the root directory
@@ -13,9 +12,7 @@ class Site < Hardwired::Bootstrap
 
 		#Load config.yml from the root
 		config_file 'config.yml'
-
-		register Hardwired::Nesta
-
+    
     register Hardwired::Wordpress
 
     helpers do

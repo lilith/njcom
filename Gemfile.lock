@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/nathanaeljones/hardwired.git
-  revision: 469718b6f3acccc4b9f96d3d2d651b580907898b
+  revision: 9ee871cbcba8bc2bedd55163deb5999388ddd0db
   specs:
     hardwired (0.2)
       nokogiri

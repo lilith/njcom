@@ -28,7 +28,7 @@ html(lang="en" class="no-js")
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    - if page and page.lib("jqueryui")
+    - if page and page.lib?("jqueryui")
       <link rel="stylesheet" href="/css/jquery.Jcrop.css" />
 
     link(href="/rss.xml" rel="alternate" type="application/atom+xml")
@@ -49,7 +49,7 @@ html(lang="en" class="no-js")
     <script src="/js/highlight/highlight.pack.js"></script>
 
 
-    -if page and page.lib("search")
+    -if page and page.lib?("search")
       <script src="http://www.google.com/jsapi" type="text/javascript"></script>
       javascript:
         google.load('search', '1', {language : 'en', style : google.loader.themes.SHINY});
@@ -74,7 +74,7 @@ html(lang="en" class="no-js")
           customSearchControl.setSearchStartingCallback(null, _trackQuery);
           customSearchControl.draw('cse');
         }, true);
-    -if page and page.lib("plusone")
+    -if page and page.lib?("plusone")
       <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
     <script src="/js/jquery.tweet.js"></script>
     <script src="/js/script.js"></script>
