@@ -23,6 +23,6 @@ Layout: layout_with_sidebar
       strong
         | Published on 
         time datetime=page.date.to_s pubdate=true
-          = format_date(page.date)
+          = page.date.strftime("%d %B %Y")
 - if !page.lib?('-comments')
   == slim :comments, :layout => false

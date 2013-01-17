@@ -1,6 +1,6 @@
 - if config.disqus_short_name and not page.lib?('-comments')
 	#disqus_thread
-	- if Sinatra::Application.environment == :development
+	- if dev?
 		javascript:
 			var disqus_developer = true;
 	javascript:
