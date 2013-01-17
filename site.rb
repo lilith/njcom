@@ -1,7 +1,5 @@
 # This file is responsible for starting the application
 require 'hardwired/compat/nesta'
-require 'hardwired/compat/wordpress'
-
 
 #Set the root directory
 Hardwired::Paths.root = ::File.expand_path('.', ::File.dirname(__FILE__))
@@ -16,7 +14,6 @@ class Site < Hardwired::Bootstrap
 		config_file 'config.yml'
 
 		register Hardwired::Nesta
-		register Hardwired::Wordpress
 
     helpers do
       def cache_for(time)
@@ -49,6 +46,20 @@ class Site < Hardwired::Bootstrap
       cache_for(dev? ? 30 : 60 * 60 * 24) #1 day
     end  
 
+    before '/wp-content/*' do
+      request.path_info = "/attachments" + request.path_info
+    end
+
+    get '/feed/' do
+       redirect '/rss.xml', 301
+    end
+    
+    get '/comments/feed/' do
+      if config.disqus_short_name
+        redirect "#{config.disqus_short_name}.disqus.com/latest.rss", 301
+      end
+    end
+
 
 		#debugger
 end
@@ -56,7 +67,7 @@ end
 module Hardwired
   class Template
     def hidden?
-      flag?('hidden') or draft? #(!Base.development? and draft?)
+      flag?('hidden') or draft?
     end
   end
 end
