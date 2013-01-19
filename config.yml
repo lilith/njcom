@@ -21,8 +21,6 @@ author:
 disqus_short_name: ndj7
 
 
-content: content
-
 # google_analytics_code
 #     Set this if you want Google Analytics to track traffic on your site.
 #     Probably best not to set a default value, but to set it in production.

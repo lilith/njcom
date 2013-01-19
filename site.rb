@@ -46,6 +46,12 @@ class Site < Hardwired::Bootstrap
       request.path_info = "/attachments" + request.path_info
     end
 
+    index.add_common_file('atom.xml.slim', '/atom.xml')
+    add_alias('/articles.xml','/atom.xml')
+
+
+    index.add_common_file('sitemap.xml.slim', '/sitemap.xml')
+
 		#debugger
 end
 
