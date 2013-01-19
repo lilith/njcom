@@ -70,7 +70,7 @@ html lang="en" class="no-js"
           _gaq.push(["_trackPageview", url]);
         }
         google.setOnLoadCallback(function() {
-          var customSearchControl = new google.search.CustomSearchControl('005556834036073640702:ds3gmqyjham');
+          var customSearchControl = new google.search.CustomSearchControl('#{config.google_custom_search}');
           customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
           customSearchControl.setSearchStartingCallback(null, _trackQuery);
           customSearchControl.draw('cse');
