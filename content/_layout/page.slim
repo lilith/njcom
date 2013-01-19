@@ -3,18 +3,21 @@ Layout: layout_with_sidebar
 -if page.meta.banner
   .banners-wrap.t
     .banners
-      == auto_render page.meta.banner.to_sym
+      == partial page.meta.banner.to_sym
 
 .page-content.no-banner
   div class="#{page.meta.textclass || 't'}"
     - if page.lib?("plusone")
-      <div style="width:70px;padding-top:25px;float:right"><div class="g-plusone"></div></div>
+      div style="width:70px;padding-top:25px;float:right"
+        .g-plusone
     - if page.heading
       h1.page-header
         == page.heading
+
     == yield
-    -if page.lib?("plusone")
-      <div class="g-plusone"></div>
+
+    - if page.lib?("plusone")
+      .g-plusone
 
 
 - if page.date
@@ -24,5 +27,6 @@ Layout: layout_with_sidebar
         | Published on 
         time datetime=page.date.to_s pubdate=true
           = page.date.strftime("%d %B %Y")
+          
 - if !page.lib?('-comments')
-  == slim :comments, :layout => false
+  == partial :comments

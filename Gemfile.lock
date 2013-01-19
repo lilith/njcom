@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/nathanaeljones/hardwired.git
-  revision: 9ee871cbcba8bc2bedd55163deb5999388ddd0db
+  revision: bb6e7e381187cc93291b5b04e1143181f4bc820c
   specs:
-    hardwired (0.2)
+    hardwired (0.3.0)
       nokogiri
       sinatra (>= 1.3.3)
       sinatra-contrib
@@ -11,17 +11,17 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
-    backports (2.6.7)
+    backports (2.7.0)
     columnize (0.3.6)
     commonjs (0.2.6)
     daemons (1.1.9)
-    debugger (1.2.3)
+    debugger (1.2.4)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.1.1)
-      debugger-ruby_core_source (~> 1.1.5)
+      debugger-ruby_core_source (~> 1.1.7)
     debugger-linecache (1.1.2)
       debugger-ruby_core_source (>= 1.1.1)
-    debugger-ruby_core_source (1.1.6)
+    debugger-ruby_core_source (1.1.7)
     eventmachine (1.0.0)
     less (2.2.2)
       commonjs (~> 0.2.6)

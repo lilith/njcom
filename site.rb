@@ -12,7 +12,7 @@ class Site < Hardwired::Bootstrap
 
 		#Load config.yml from the root
 		config_file 'config.yml'
-    
+
     register Hardwired::Wordpress
 
     helpers do
@@ -36,10 +36,6 @@ class Site < Hardwired::Bootstrap
       request[:tag] = tag
       select_menu = '/blog'
       render_file('/blog')
-    end
-
-    get %r{/google([0-9a-z]+).html?} do |code|
-      "google-site-verification: google#{code}.html" if config.google_verify.include?(code)
     end
 
     after '*' do 

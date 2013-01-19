@@ -1,9 +1,9 @@
 layout: false
 
 doctype html
-html(lang="en" class="no-js")
+html lang="en" class="no-js"
   head
-    meta(charset="utf-8")
+    meta charset="utf-8"
     
     - if page.meta.description
       meta name="description" content=page.meta.description
@@ -17,40 +17,41 @@ html(lang="en" class="no-js")
 
     title
       = page.title
-    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
       
 
-    <link rel="stylesheet" href="/js/highlight/styles/tomorrow.css" />
-    <link href="/css/site.css" rel="stylesheet" />
+    link rel="stylesheet" href="/js/highlight/styles/tomorrow.css" 
+    link href="/css/site.css" rel="stylesheet"
 
 
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    - if page and page.lib?("jqueryui")
-      <link rel="stylesheet" href="/css/jquery.Jcrop.css" />
+    / HTML5 shim, for IE6-8 support of HTML5 elements 
+    /[if lt IE 9]
+      script src="http://html5shim.googlecode.com/svn/trunk/html5.js"
 
-    link(href="/rss.xml" rel="alternate" type="application/atom+xml")
+    - if page.lib?("jqueryui")
+      link rel="stylesheet" href="/css/jquery.Jcrop.css" 
 
-    == slim :analytics, :layout => false
+    link href="/rss.xml" rel="alternate" type="application/atom+xml"
+
+    == partial :analytics
   body
-    == slim :header, :layout => false
+    == partial :header
     .container
       == yield
     footer.footer
       .container
-        == slim :footer, :layout => false 
+        == partial :footer
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"
     javascript:
       !window.jQuery && document.write(unescape('%3Cscript src="/js/jquery-1.8.2.min.js"%3E%3C/script%3E'))//'
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/highlight/highlight.pack.js"></script>
+    script src="/js/bootstrap.min.js"
+    script src="/js/highlight/highlight.pack.js"
 
 
-    -if page and page.lib?("search")
-      <script src="http://www.google.com/jsapi" type="text/javascript"></script>
+    - if page.lib?("search")
+      script src="http://www.google.com/jsapi" 
       javascript:
         google.load('search', '1', {language : 'en', style : google.loader.themes.SHINY});
         var _gaq = _gaq || [];
@@ -74,9 +75,10 @@ html(lang="en" class="no-js")
           customSearchControl.setSearchStartingCallback(null, _trackQuery);
           customSearchControl.draw('cse');
         }, true);
-    -if page and page.lib?("plusone")
-      <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
-    <script src="/js/jquery.tweet.js"></script>
-    <script src="/js/script.js"></script>
+    - if page.lib?("plusone")
+      script src="https://apis.google.com/js/plusone.js"
+
+    script src="/js/jquery.tweet.js"
+    script src="/js/script.js"
 
 

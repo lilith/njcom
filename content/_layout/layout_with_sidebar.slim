@@ -3,6 +3,7 @@ Layout: layout
 .row
   .span9
     ==yield 
+    
   .span3.about-me
     h4 About Nathanael
     markdown:
@@ -40,9 +41,14 @@ Layout: layout
 
     h4 
       a href="https://twitter.com/nathanaeljones" Recent Tweets
-    <a href="https://twitter.com/nathanaeljones" class="twitter-follow-button" data-show-count="false" data-dnt="true">Follow @nathanaeljones</a>
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    a href="https://twitter.com/nathanaeljones" class="twitter-follow-button" data-show-count="false" data-dnt="true" Follow @nathanaeljones
+
+    javascript:
+      !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+
     .tweets | Loading recent tweets...
+
     h4 
       a href="http://imazen.io/" Imazen
     markdown:
