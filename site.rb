@@ -27,11 +27,12 @@ class Site < Hardwired::Bootstrap
 
 
 
-    get '/blog/:year' do |year|
+    get %r{/blog/(\d\d\d\d)} do |year|
       request[:year] = year
       select_menu = '/blog'
       render_file('/blog')
     end
+    
     get '/blog/tags/:tag' do |tag|
       request[:tag] = tag
       select_menu = '/blog'
