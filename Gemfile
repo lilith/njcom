@@ -14,3 +14,4 @@ gem 'thin' #we use this for both development and production
 
 gem "debugger", :group => :development
 gem "rerun", :group => :development
+gem "rb-fsevent", :group => :development
