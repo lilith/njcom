@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'slim'
-gem 'rdiscount'
+gem 'kramdown'
 gem 'rack-cache'
 
 gem 'therubyracer' # jS V8 engine - Required for 'less'
