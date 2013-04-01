@@ -33,3 +33,6 @@ production:
 # Use this feature to do this without polluting your directory structure
 google_verify: [344a8f78fa8143f6, b4f699bd08907a51]
 google_custom_search: "005556834036073640702:ds3gmqyjham"
+
+less: 
+  compress: true
