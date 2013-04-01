@@ -7,6 +7,8 @@ Date: May 17 2009
 
 <h1>Server-side Image Resizing Module for ASP.NET, ASP, & PHP/IIS</h1>
 
+<div style="padding:10px; color:red; font-size:11pt; border:1px solid red; margin-bottom:1.5em;">This is regarding a deprecated version. <a href="http://imageresizing.net/">V3 can be downloaded free of charge</a>. <a href="http://imageresizing.net/docs/2to3/">Click here for the migration guide</a></div>
+
 	
 
 <p style="position: absolute; height: 5px; width: 5px; top: -3000px">
@@ -69,7 +71,7 @@ line-height:1em; font-size:8pt;
 <a href="/11151">License</a>
 <a href="/11201">Samples</a>
 <a href="/11141">Installation</a>
-<p>If you have any questions after reading the documentation, leave a comment or e-mail <strong>nathanael.jones@gmail.com</strong>. </p>
+<p>If you have any questions after reading the documentation, leave a comment or e-mail <strong>support@imageresizing.net</strong>. </p>
 </div>
 <p>Although I typically release my components for free, I decided to charge a 'download fee' for this one to help support my other open-source projects. Don't worry, this component is still open-source, and the license permits source redistribution as part of a larger system. However, I'm asking that people who want to integrate this component purchase the download instead of ripping it out of another open-source project. My free to non-free LOC (lines of code) ratio is still over 40 to 1, and I plan on keeping it that way.  I trust this will keep everybody happy.</p>
 
