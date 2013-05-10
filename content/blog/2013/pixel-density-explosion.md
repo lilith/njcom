@@ -49,7 +49,7 @@ If we de-duplicate those resolutions, we get 9 sizes, and we can even add '640' 
 
 ### Speaking in device pixels is good
 
-By describing 'true pixels' instead of virtual pixels, the browser can use the same image and declaration for a 480px 2ddpx viewport and a 960 1ddpx viewport.
+By describing 'true pixels' instead of virtual pixels, the browser can use the same image and declaration for a 480px 2dppx viewport and a 960 1dppx viewport.
 
 This allows us to reduce asset count by 60%, markup by ~75%, and lower our bandwidth waste tolerance from 60% to 20%.
 
@@ -74,7 +74,7 @@ This allows us to reduce asset count by 60%, markup by ~75%, and lower our bandw
 
 Because pinch-to-zoom is nearly ubiqitous, I feel that it's generally a waste of time to prepare 2 *photographs* of identical dimensions with different content, but there **is a use-case**.
 
-I am NOT advocating the removal of the `media` attribute from `source`, only that we permit a descriptive syntax as shown above, instead of an essentially imperative/declarative method. Images with text *need to be modified for 2dppx and 3dppx displays*; they'll be unreadable as-is. Either `media="(min-device-pixel-ratio:2ddpx)"` or `srcset` can be used, but I favor using `media` as it simplifies and flattens the evaluation logic for both the browser and the human mind. It's good to evaluation logic in a single dimension.
+I am NOT advocating the removal of the `media` attribute from `source`, only that we permit a descriptive syntax as shown above, instead of an essentially imperative/declarative method. Images with text *need to be modified for 2dppx and 3dppx displays*; they'll be unreadable as-is. Either `media="(min-device-pixel-ratio:2dppx)"` or `srcset` can be used, but I favor using `media` as it simplifies and flattens the evaluation logic for both the browser and the human mind. It's good to evaluation logic in a single dimension.
 
 ### srcset has the same problem.
 
