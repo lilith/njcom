@@ -4,7 +4,7 @@ Date: Apr 10 2013
 
 Back in [mid-2012, we didn't have *that* many unique pixel density values](http://www.quirksmode.org/blog/archives/2012/07/more_about_devi.html); just `1`, `1.5`, `2`, and `2.25`, plus variations based on zoom size. Since then, we've had an explosion of devices with high-resolution displays (adding 1.75, 2.5, 3, etc) and this continues to grow.
 
-I'm very concerned that the current `srcset` and `picture` elements are jumping on the `dppx`/ pixel density bandwagon without considering that they're introducing *exponential* complexity for authors. If `v` is viewport sizes in virtual pixels we optimize for and `d` is pixel densities we want to support crisply without waste, we must describe `v*n` number of images. This is untenable.
+I'm very concerned that the current `srcset` and `picture` elements are jumping on the `dppx`/ pixel density bandwagon without considering that they're introducing *exponential* complexity for authors. If `v` is viewport sizes in virtual pixels we optimize for and `d` is pixel densities we want to support crisply without waste, we must describe `v*d` number of images. This is untenable.
 
 Photographs **don't care about dppx**. Photos are crisp if there's a 1-1 mapping between physical and bitmap pixels. If the browser has decent scaling, additional bitmap pixels are acceptable too. It's generally a *good* thing if your eyes can't make out the individual pixels of a photo. 
 
