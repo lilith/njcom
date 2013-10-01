@@ -9,7 +9,7 @@ Today, I'm going to show you how to combine <a href="http://jquery.com/">jQuery<
 
 This technique works with .NET 2.0, 3.0, 3.5, 4.0, both MVC and WebForms.
 
-If you're one of those people who reads books backwards, you can skip to the <a href="http://images.imageresizing.net/JCropSample/Basic.htm">basic demo</a>, the <a href="http://images.imageresizing.net/JCropSample/Advanced.aspx">advanced demo</a>, or just <a href="http://downloads.imageresizing.net/examples/JCropExample2.zip">ruin everything and download the sample project :)</a> 
+If you're one of those people who reads books backwards, you can skip to the <a href="http://resizer.apphb.com/JCropSample/Basic.htm">basic demo</a>, the <a href="http://resizer.apphb.com/JCropSample/Advanced.aspx">advanced demo</a>, or just <a href="http://downloads.imageresizing.net/examples/JCropExample2.zip">ruin everything and download the sample project :)</a> 
 <p>If you're using NuGet, you can just install the <a href="http://www.nuget.org/List/Packages/ImageResizer.Samples.Jcrop">ImageResizer.Samples.Jcrop package</a> into a Web Application project.</p>
 <h2>Ingredients</h2>
 <ul>
