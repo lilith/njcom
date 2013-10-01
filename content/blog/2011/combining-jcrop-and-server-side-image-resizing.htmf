@@ -97,7 +97,7 @@ The secret is in the ?crop=(x1,y1,x2,y2) querystring that is appended to the ima
 <p>You can <a href="http://downloads.imageresizing.net/examples/JCropExample2.zip">download the complete sample project here.</a> 
 </p>
 <p>
-Click <a href="http://images.imageresizing.net/JCropSample/Basic.htm">here to view the live demo of what we just did</a>, and <a href="http://images.imageresizing.net/JCropSample/Advanced.aspx">here to see an advanced demo with live preview, width/height resizing, and aspect locking.</a> The advanced demo also contains an example of how to send cropped images URLs to the server for storage in SQL, saving to disk, etc. Perhaps I'll cover building that in a later post. In the meantime, code fun!
+Click <a href="http://resizer.apphb.com/JCropSample/Basic.htm">here to view the live demo of what we just did</a>, and <a href="http://resizer.apphb.com/JCropSample/Advanced.aspx">here to see an advanced demo with live preview, width/height resizing, and aspect locking.</a> The advanced demo also contains an example of how to send cropped images URLs to the server for storage in SQL, saving to disk, etc. Perhaps I'll cover building that in a later post. In the meantime, code fun!
 </p>
 <p> Oh, and dont forget to <a href="http://www.dzone.com/links/combine_jcrop_and_serverside_image_resizing_in_11.html?ref=rs">vote this post up on DZone!</a></p>
 
