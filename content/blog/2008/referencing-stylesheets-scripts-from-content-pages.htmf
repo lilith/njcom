@@ -65,7 +65,7 @@ I'll be very happy when those <a href="https://github.com/nathanaeljones/Content
 
 <a href="https://github.com/nathanaeljones/WebFormsFixes">Get WebFormFixes</a>
 <a href="http://cph-tests.apphb.com">Run live test</a>
-<h2 style="margin-top: 8em;">Alternative solutions and their issues</h2>
+<h2>Alternative solutions and their issues</h2>
 Here are some alternative solutions I've tried and read about. I wasn't really satisfied with any of them.
 <ol class="normallist">
 	<li>Create an <a href="http://www.edream.org/BlogArticle.aspx?RecordID=112">HtmlLink instance, assign the properties, and add it to Page.Header</a> from a code-behind file. Adding a code-behind file isn't something designers typically feel comfortable with, and it adds clutter.</li>
@@ -74,6 +74,6 @@ Here are some alternative solutions I've tried and read about. I wasn't really s
 	<li>Create a <a href="http://blog.btburnett.com/2008/04/linking-stylesheets-from-content-pages_02.html">custom control</a> for embedding stylesheets to replace the 'link' tag. This sounds the best of the alternatives, assuming you reference the control globally in Web.config. I haven't tried this one, though, so YMMV.</li>
 </ol>
 These alternatives all require markup changes, and will prevent WYSIWYG editors from reading the stylesheet references properly. I'm adverse to making things any more non-standard than they have to be. I like to implement a patch such that I can forget it exists.
-<h2><script src="/scripts/syntaxhighlighter/shCore.js" type="text/javascript"/>See Also</h2>
+<h2><script src="/scripts/syntaxhighlighter/shCore.js" type="text/javascript"></script>See Also</h2>
 <a href="http://nathanaeljones.com/152/extending-page-adding-metadata-and-stylesheet-management/">A more comprehensive subclass</a> that allows runtime management of stylesheets and metadata.
 
