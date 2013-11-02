@@ -21,7 +21,7 @@ As developers, we tend to pour our mental energy and health into our work, leavi
 
 I admire and envy those who balance work and life easily, who can leave problem-solving at work. **I've never been able to.** I shower thinking of algorithms. I shave while trying to simplify interfaces or APIs. To expel a problem from my brain, I have to read an extremely absorbing book &mdash; or replace it with a better problem.
 
-Based those I've met, *I don't think a healthy balance is the norm for software engineers*.
+Based on those I've met, *I don't think a healthy balance is the norm for software engineers*.
 
 Software has a human cost, but that cost is different for everyone. 
 
