@@ -1,16 +1,8 @@
 Aliases: /about-2/ /?page_id=89 /?p=89
 Atom ID: http://66.29.219.39/?page_id=89
 
+# What I'm About
 
+In the decade following my "technology loyalist" phase, I used a different programming language and framework for *every major project I undertook*. I continue to seek out better tools every day. When they don't exist, I create them. Read [War On Waste](/blog/2013/war-on-waste) for more insight into why I'm focused on developer libraries and tools.
 
-# About Me
-
-I've been writing software for nearly a decade. This doesn't make me anything special - there are far, far more experienced people out there.
-
-However, I'm a little obsessed with ROI. Return on investment of *my time.* So I'm perpetually looking for better tools, better languages, and better frameworks.  Most importantly, I search for better *concepts*, approaches, and practices.
-
-Along the way, I've learned to question classic 'wisdom' about software, and develop different viewpoints by trying to be a detached observer. 
-
-All software sucks, but some software sucks less.
-
-I try to build software that sucks less.
+Given limited resources, thinking 'small' can let you have a greater effect on the world. There is great value in preserving developer flow and eliminating leaky abstractions.
