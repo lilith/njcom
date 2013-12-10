@@ -15,7 +15,7 @@ I've decided to document my steps for setting up a new OS X development environm
 
 ### 2. Install Homebrew. Package managers are required!
 
-	ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
+	ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go/install)"
 	brew doctor
 
 If `brew doctor` gives you a clean bill of health, you can continue.
@@ -44,17 +44,17 @@ Now let's see what versions of ruby are available. As I write this, 2.0.0-p0 and
 
 	rbenv install -l
 
-	rbenv install 1.9.3-p392
-	rbenv install 2.0.0-p0
+	rbenv install 1.9.3-p484
+	rbenv install 2.0.0-p353
 	rbenv rehash
 
 
 Now you can install bunder for both versions of ruby
 
-	rbenv shell 1.9.3-p392
+	rbenv shell 1.9.3-p484
 	gem install bundler
 
-	rbenv shell 2.0.0-p0
+	rbenv shell 2.0.0-p353
 	gem install bundler
 	rbenv rehash
 
@@ -65,7 +65,7 @@ To set a certain project to use a certain ruby version, change to that directory
 
 	rbenv versions # Show installed and active versions
 
-	rbenv local 1.9.3-p327 # Set the ruby verson for this folder by creating a `.ruby-version` file.
+	rbenv local 1.9.3-p484 # Set the ruby verson for this folder by creating a `.ruby-version` file.
 
 
 Now you can run `bundle install` on your projects. Just remember to run `rbenv rehash` after any new package installation which includes binaries. Running `rbenv rehash` tells it to ensure binstubs are configured for all currently installed ruby versions.
