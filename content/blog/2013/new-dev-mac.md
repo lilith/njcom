@@ -10,6 +10,8 @@ I've decided to document my steps for setting up a new OS X development environm
 
 ### 1. Make OS X capable of building software from source code
 
+*On Mavericks, just run `xcode-select --install` instead.*
+
 1. Install XCode from the App Store
 2. Open XCode, go to `Preferences -> Downloads -> Components` and install "Command Line Tools". Now you can build from source.
 
