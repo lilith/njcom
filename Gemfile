@@ -5,7 +5,7 @@ gem 'slim'
 gem 'kramdown'
 gem 'rack-cache'
 
-gem 'therubyracer', :group => :development # jS V8 engine - Required for 'less'
+gem 'therubyracer'  # jS V8 engine - Required for 'less'
 gem 'less', '2.3.1'
 
 #gem 'hardwired', :path => "../hardwired"
