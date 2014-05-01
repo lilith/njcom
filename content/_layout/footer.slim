@@ -25,7 +25,7 @@
       li.nav-header Articles by Tag
       - for tag in index.post_tags
         li
-          a href="/blog/tags/#{tag}" class={@t==tag && 'active'} #{tag}
+          a href="/blog/tags/#{tag}" class=(@t==tag && 'active') #{tag}
   .span2
     ul.nav.nav-list
       li.nav-header Legal Information
