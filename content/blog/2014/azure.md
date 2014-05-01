@@ -150,7 +150,7 @@ Don't assume I have perfect faith in AWS, Heroku, or even AppHarbor. The only de
 ## What Azure needs to improve on
 
 * Use a different merchant description for Azure charges.
-* Consider rounding fractional cents down instead of up. Floating point math is hard, we know.
+* Consider rounding fractional amounts down instead of up. Floating point math is hard, we know.
 * Notifiy customers before (not after!) deleting their stuff. 
 * Perhaps, if there is a billing issue, give customers a time window to resolve it.
 * Add a "Reset" button to websites that recycles the VM and ephemeral storage, so when code fails, users can rescue bad situations.
