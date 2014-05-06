@@ -109,7 +109,7 @@ Our intended launch date was over a year ago, but [due to severe issues with Azu
 
 If you're paying exorbiant fees for an ancient, closed-source licensing system, this is a great time to consider an exit. KeyHub is designed to support multiple vendors per application, and lends itself to a hosted scenario. Using shared infrastructure (CI, SQL, load balancing, fault tolerance, etc), we can make KeyHub both practical and reliable. 
 
-KeyHub offers a streamlined user and vendor experience that will reduce your pain. Join us in making **keyhub.org** a reality. [Contact me](http://localhost:3000/contact), or send a pull request. 
+KeyHub offers a streamlined user and vendor experience that will reduce your pain. Join us in making **keyhub.org** a reality. [Contact me](/contact), or send a pull request. 
 
 [![KeyHub screenshot](/attachments/keyhub.png)](http://github.com/imazen/keyhub)
 
