@@ -38,8 +38,8 @@ h1 Archives
       li.nav-header Articles by Year
       - for year in index.posts.map { |p| p.date.year }.uniq
         li
-          a href="/blog/#{year}" class={@y==year && 'active'} #{year}
+          a href="/blog/#{year}" class=(@y==year && 'active') #{year}
       li.nav-header Articles by Tag
       - for tag in index.post_tags
         li
-          a href="/blog/tags/#{tag}" class={@t==tag && 'active'} #{tag}
+          a href="/blog/tags/#{tag}" class=(@t==tag && 'active') #{tag}
