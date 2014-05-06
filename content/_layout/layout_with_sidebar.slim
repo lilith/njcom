@@ -7,7 +7,7 @@ Layout: layout
   .span3.about-me
     h4 About Nathanael
     markdown:
-      **Nathanael Jones** is a software engineer, husband, consultant, and computer linguist with unreasonably high expectations of inanimate objects.
+      **Nathanael Jones** is a software engineer, father, consultant, and computer linguist with unreasonably high expectations of inanimate objects.
       He refines .NET, ruby, and javascript libraries full-time at [Imazen](http://imazen.io), but can often be found on [stack overflow](http://stackoverflow.com/users/166893/computer-linguist) or participating in [W3C community groups](http://www.w3.org/community/).
 
     ul.nav.nav-pills.with-tooltips
@@ -42,6 +42,15 @@ Layout: layout
       I run [Imazen](http://imazen.io), a tiny software company that specializes in web-based image processing and other difficult engineering problems.
       I spend most of my time writing image-processing code in C#, web apps in Ruby, and documentation in Markdown.
       Check out some of my [current projects](/projects).
+    h4
+      a href="/blog" More articles
+
+    - @more = index.posts.each_slice(20).to_a[0]
+    ul
+      - for post in @more do
+        li 
+          a href=post.path #{post.heading}
+
 
 
 
