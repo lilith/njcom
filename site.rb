@@ -7,8 +7,6 @@ Hardwired::Paths.content_subfolder = 'content'
 
 ##The location of the current file is used for calculating the default 'root' setting
 class Site < Hardwired::Bootstrap
-		require 'debugger' if development?
-		#Debugger.start(:post_mortem => true) if development?
 
 		#Load config.yml from the root
 		config_file 'config.yml'
