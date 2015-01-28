@@ -32,7 +32,7 @@ class TestAllPages < Test::Unit::TestCase
     define_method(("test_" + page.path).to_sym) do 
       visit page.path
       assert_contain "Nathanael" 
-    end unless (page.flag?(:hidden) || page.path.end_with?("sitemap.xml"))
+    end unless (page.flag?(:hidden) || page.path.end_with?("sitemap.xml") || page.meta.redirect_to)
   end 
 
 end
