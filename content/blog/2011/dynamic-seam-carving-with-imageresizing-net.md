@@ -2,6 +2,7 @@ WP ID: 596
 Atom ID: http://nathanaeljones.com/?p=596
 Date: Aug 2 2011
 Tags: image-resizing
+Flags: hidden
 
 # Dynamic seam carving with ImageResizer
 
