@@ -24,14 +24,14 @@ class TestAllPages < Test::Unit::TestCase
 
   def test_home_page
     visit '/'
-    assert_contain('Nathanael')
+    assert_contain('Lilith')
   end
 
   puts "Building #{Hardwired::Index.pages.length} test methods"
   Hardwired::Index.pages.each do |page|
     define_method(("test_" + page.path).to_sym) do 
       visit page.path
-      assert_contain "Nathanael" 
+      assert_contain "Lilith" 
     end unless (page.flag?(:hidden) || page.path.end_with?("sitemap.xml") || page.meta.redirect_to)
   end 
 

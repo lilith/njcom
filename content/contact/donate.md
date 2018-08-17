@@ -14,7 +14,7 @@ Please note - **a paypal account is NOT required for any of the buttons or links
 
 
 
-### Donate to Nathanael Jones
+### Donate to Lilith
 
 For a personal gift, not associated with a particular project, use [this link](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G9ZZQFAJQTFYU) or this button:
 

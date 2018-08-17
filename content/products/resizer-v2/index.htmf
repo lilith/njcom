@@ -163,7 +163,7 @@ you cannot extract it (by itself) for use in another project without purchasing 
 from http://nathanaeljones.com/. If nathanaeljones.com is no longer running, and a download
 cannot be purchased, then you may extract the code.</li>
 </ol>
-This is basically a developer license - if you aren't a developer (i.e., a hosting company wanting a site or server license), please e-mail me (nathanael.jones@gmail.com).
+This is basically a developer license - if you aren't a developer (i.e., a hosting company wanting a site or server license), please e-mail me (support@imageresizing.net).
 
 </div>
 <div id="faq"><dl class="faq"> <dt>Q: Is it possible to specify the width and height, and have your resize and crop to fit the aspect ratio, losing as little image area as possible? </dt> <dd>A: Yes, and it is easy. Use ?width=x&amp;height=y&amp;crop=auto.
